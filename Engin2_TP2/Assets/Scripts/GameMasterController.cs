@@ -14,13 +14,11 @@ public class GameMasterController : MonoBehaviour
 	Ray ray;
 	RaycastHit hit;
 
-	// Start is called before the first frame update
 	void Start()
     {
         m_trackedDolly = m_currentCamera.GetCinemachineComponent<CinemachineTrackedDolly>();
 	}
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -39,12 +37,13 @@ public class GameMasterController : MonoBehaviour
         {
             if(Input.GetMouseButtonDown(0))
             {
-               if(hit.collider.name == "TerrainRotator")
+               if(hit.collider.transform.parent.name == "ArenaRotationManager")        //To Replace by if Interactable
                 {
-                    m_lastSelectedObject = hit.collider.gameObject;
-
-					m_lastSelectedObject.GetComponent<ArenaRotation>().m_isSelected = true;
-
+                    if (hit.collider.gameObject.GetComponent<ArenaRotation>().IsActivated)
+                    {
+						m_lastSelectedObject = hit.collider.gameObject;
+						m_lastSelectedObject.GetComponent<ArenaRotation>().IsSelected = true;
+					}
 				}
             }
         }
@@ -53,7 +52,7 @@ public class GameMasterController : MonoBehaviour
         {
             if(m_lastSelectedObject != null)
             {
-				m_lastSelectedObject.GetComponent<ArenaRotation>().m_isSelected = false;
+				m_lastSelectedObject.GetComponent<ArenaRotation>().IsSelected = false;
 
 			}
         }
