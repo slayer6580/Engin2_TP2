@@ -11,14 +11,13 @@ public class StartPointManager : MonoBehaviour
         return s_instance;
     }
 
-    private void Awake()
+    private void Awake() // TODO changer le singleton pour voir si régler probleme position start spawn sans délai.
     {
         if (s_instance == null)
             s_instance = this;
 
         for (int i = 0; i < m_startPoint.Length; i++)        
-            m_startPoint[i].SetActivation(false);
-        
+            m_startPoint[i].SetActivation(false);       
     }
 
     public Vector3 GetStartPointAndSetColor(GameObject _character)

@@ -187,6 +187,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5893716960676152377, guid: 2d9ee5cbb5bf87c41ac677455a8d44d4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -201,10 +206,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 61801081}
+  - component: {fileID: 61801077}
   - component: {fileID: 61801080}
   - component: {fileID: 61801079}
   - component: {fileID: 61801078}
-  - component: {fileID: 61801077}
   - component: {fileID: 61801082}
   m_Layer: 0
   m_Name: FinishLine
@@ -305,7 +310,7 @@ Transform:
   m_GameObject: {fileID: 61801076}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.26671082, z: -0, w: 0.96377665}
-  m_LocalPosition: {x: -14.852655, y: 14.03, z: -30.355917}
+  m_LocalPosition: {x: -14.852655, y: 13.98, z: -30.355917}
   m_LocalScale: {x: 0.18758002, y: 12.548, z: 24.764002}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2561,11 +2566,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23c3fecd949dfdd4bbb441aafe098c7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  m_rotationManager: {fileID: 0}
   m_arena: {fileID: 1701523942}
   m_rotationPoint: 3
-  m_isSelected: 0
   m_maxX: 15
   m_minX: -15
+  <IsActivated>k__BackingField: 1
 --- !u!65 &678048763
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10857,11 +10866,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23c3fecd949dfdd4bbb441aafe098c7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  m_rotationManager: {fileID: 0}
   m_arena: {fileID: 1701523942}
   m_rotationPoint: 0
-  m_isSelected: 0
   m_maxX: 15
   m_minX: -15
+  <IsActivated>k__BackingField: 1
 --- !u!65 &1097401459
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11010,6 +11023,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Character (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5893716960676152377, guid: 2d9ee5cbb5bf87c41ac677455a8d44d4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11503,7 +11521,7 @@ Transform:
   m_GameObject: {fileID: 1708647416}
   serializedVersion: 2
   m_LocalRotation: {x: 0.12064951, y: -0, z: -0, w: 0.9926952}
-  m_LocalPosition: {x: 3.82, y: 11, z: -41.81}
+  m_LocalPosition: {x: 0, y: 11, z: -41.81}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11575,11 +11593,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23c3fecd949dfdd4bbb441aafe098c7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  m_rotationManager: {fileID: 0}
   m_arena: {fileID: 1701523942}
   m_rotationPoint: 1
-  m_isSelected: 0
   m_maxX: 15
   m_minX: -15
+  <IsActivated>k__BackingField: 1
 --- !u!65 &1773938245
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14090,11 +14112,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23c3fecd949dfdd4bbb441aafe098c7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  m_rotationManager: {fileID: 0}
   m_arena: {fileID: 1701523942}
   m_rotationPoint: 2
-  m_isSelected: 0
   m_maxX: 15
   m_minX: -15
+  <IsActivated>k__BackingField: 1
 --- !u!65 &2139909199
 BoxCollider:
   m_ObjectHideFlags: 0
