@@ -1,141 +1,155 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
-public class ArenaRotation : MonoBehaviour
+public class ArenaRotation : NetworkBehaviour
 {
 	enum Point { North, East, South, West };
-
+	[SerializeField] private ArenaRotationManager m_rotationManager; 
 	[SerializeField] GameObject m_arena;
     [SerializeField] Point m_rotationPoint;
-
-	public bool m_isSelected = false;
-
 	[SerializeField] private float m_maxX;
 	[SerializeField] private float m_minX;
-
 	private Vector3 m_currentRotation = Vector3.zero;
-
-
-
-	public void PlaceAtLimit(float toCheck, Vector3 replaceBy, float limitA, float limitB, float replaceValue)
+	[field: SerializeField] public bool IsActivated { get; set; } = true;
+	private bool m_isSelected;
+	public bool IsSelected
 	{
-		if (toCheck > limitA && toCheck < limitB)
+		get
 		{
-			m_arena.transform.eulerAngles = new Vector3(replaceValue * replaceBy.x, 0, replaceValue * replaceBy.z);
-		}	
+			return m_isSelected;
+		}
+		set
+		{
+			m_isSelected = value;
+			if (value)
+			{
+				m_rotationManager.ManageRotatorsCommand(false);
+			}
+			else
+			{
+				m_rotationManager.ManageRotatorsCommand(true);
+			}
+		}
 	}
 
+	public void ManageRotator(bool _value)
+	{
+		IsActivated = _value;
+	}
 
-	// Update is called once per frame
 	void Update()
     {
-		
-		if (m_isSelected)
+		if (IsSelected)
 		{
-
-			switch(m_rotationPoint)
+			switch (m_rotationPoint)
 			{
 				case Point.North:
-					m_currentRotation = new Vector3(1,0,0);
-					MoveOnXAxis();
+					MoveArena(-Input.GetAxis("Mouse Y"), Mathf.Round(m_arena.transform.eulerAngles.x), new Vector3(1, 0, 0), true);
 					break;
 
 				case Point.South:
-					m_currentRotation = new Vector3(-1, 0, 0);
-					MoveOnXAxis();
+					MoveArena(Input.GetAxis("Mouse Y"), Mathf.Round(m_arena.transform.eulerAngles.x), new Vector3(1, 0, 0), true);
 					break;
 
 				case Point.East:
-					m_currentRotation = new Vector3(0, 0, 1);
-					MoveOnZAxis();
+					MoveArena(Input.GetAxis("Mouse Y"), Mathf.Round(m_arena.transform.eulerAngles.z), new Vector3(0, 0, 1), false);
 					break;
 
 				case Point.West:
-					m_currentRotation = new Vector3(0, 0, -1);
-					MoveOnZAxis();
+					MoveArena(-Input.GetAxis("Mouse Y"), Mathf.Round(m_arena.transform.eulerAngles.z), new Vector3(0, 0, 1), false);
 					break;
-
 			}
 		}
-    }
 
-	public void MoveOnXAxis()
-	{
-		if (Input.GetAxis("Mouse Y") > 0)
+		if (isServer)
 		{
-
-			if (Mathf.Round(m_arena.transform.eulerAngles.x) <= m_maxX || Mathf.Round(m_arena.transform.eulerAngles.x) >= 360 - m_maxX)
-			{
-				m_arena.transform.eulerAngles -= m_currentRotation;
-			}
-
-			ResetZ();
-		}
-		else if (Input.GetAxis("Mouse Y") < 0)
-		{
-
-			if (Mathf.Round(m_arena.transform.eulerAngles.x) >= 360 + m_minX || (Mathf.Round(m_arena.transform.eulerAngles.x) <= m_maxX))
-			{
-				m_arena.transform.eulerAngles += m_currentRotation; // -1,0,0 SOUTH
-			}
-
-			ResetZ();
-		}
-
-		//Replace if too far
-		PlaceAtLimit(m_arena.transform.eulerAngles.x, new Vector3(1, 0, 0), m_maxX, 300, m_maxX);
-		PlaceAtLimit(m_arena.transform.eulerAngles.x, new Vector3(1, 0, 0), 300, 360 + m_minX, m_minX);
+			ReplaceIfOverCommand();
+		}	
 	}
 
-	public void MoveOnZAxis()
+	[Command(requiresAuthority = false)]
+	public void MoveArena(float mouseYAxis, float angleToCheck, Vector3 rotateBy, bool isX)
 	{
-		if (Input.GetAxis("Mouse Y") > 0)
+		if (mouseYAxis > 0)
 		{
-			if (Mathf.Round(m_arena.transform.eulerAngles.z) >= 360 + m_minX || Mathf.Round(m_arena.transform.eulerAngles.z) <= m_maxX)
+			if (angleToCheck < (45 + m_maxX))
 			{
-				m_arena.transform.eulerAngles += m_currentRotation;
+				ClientRotate(rotateBy);
 			}
-			//If we move on Z, we slowly reset the X so the balance don't become too weird
-			ResetX();
-		}
-		else if (Input.GetAxis("Mouse Y") < 0)
-		{
-			if (Mathf.Round(m_arena.transform.eulerAngles.z) <= m_maxX || Mathf.Round(m_arena.transform.eulerAngles.z) >= 360 - m_maxX)
-			{
-				m_arena.transform.eulerAngles -= m_currentRotation;
-			}
-			ResetX();
-		}
 
-		//Replace if too far
-		PlaceAtLimit(m_arena.transform.eulerAngles.z, new Vector3(0, 0, 1), m_maxX, 300, m_maxX);
-		PlaceAtLimit(m_arena.transform.eulerAngles.z, new Vector3(0, 0, 1), 300, 360 + m_minX, m_minX);
+		}
+		else if (mouseYAxis < 0)
+		{
+			if (angleToCheck > (45 + m_minX))
+			{
+				ClientRotate(-rotateBy);
+			}			
+		}
+	
+		if(mouseYAxis != 0)
+		{
+			if (isX)
+			{
+				ResetAngle_Rpc(Mathf.Round(m_arena.transform.eulerAngles.z), new Vector3(0, 0, 1));
+			}
+			else
+			{
+				ResetAngle_Rpc(Mathf.Round(m_arena.transform.eulerAngles.x), new Vector3(1, 0, 0));				
+			}
+		}
+	}
+	
+	[ClientRpc]
+	public void ClientRotate(Vector3 currentRotation)
+	{
+		m_arena.transform.eulerAngles += currentRotation;
 	}
 
-	public void ResetX()
+	[ClientRpc]
+	public void ResetAngle_Rpc(float angleToCheck, Vector3 resetPosition)
 	{
-		if (m_arena.transform.eulerAngles.x > 0 && m_arena.transform.eulerAngles.x < 300)
+		if (angleToCheck > 45)
 		{
-			m_arena.transform.eulerAngles += new Vector3(-1, 0, 0);
+			m_arena.transform.eulerAngles += new Vector3(-1 * resetPosition.x, 0, -1 * resetPosition.z);
 		}
 
-		if (m_arena.transform.eulerAngles.x < 0 || m_arena.transform.eulerAngles.x > 300)
+		if (angleToCheck < 45)
 		{
-			m_arena.transform.eulerAngles += new Vector3(1, 0, 0);
+			m_arena.transform.eulerAngles += new Vector3(1 * resetPosition.x, 0, 1 * resetPosition.z);
 		}
 	}
 
-	public void ResetZ()
+	[Command(requiresAuthority = false)]
+	public void ReplaceIfOverCommand()
 	{
-		if (m_arena.transform.eulerAngles.z > 0 && m_arena.transform.eulerAngles.z < 300)
+		ReplaceIfOver();
+	}
+
+	[ClientRpc]
+	public void ReplaceIfOver()
+	{
+		float xAngle = Mathf.Round(m_arena.transform.eulerAngles.x);
+		if (xAngle > 45 + m_maxX)
 		{
-			m_arena.transform.eulerAngles += new Vector3(0, 0, -1);
+			m_arena.transform.eulerAngles = new Vector3(45 + m_maxX, 0, 45);
+		}
+		else if (xAngle < 45 + m_minX)
+		{
+			m_arena.transform.eulerAngles = new Vector3(45 + m_minX, 0, 45);
 		}
 
-		if (m_arena.transform.eulerAngles.z < 0 || m_arena.transform.eulerAngles.z > 300)
+
+		float zAngle = Mathf.Round(m_arena.transform.eulerAngles.z);
+		if (zAngle > 45 + m_maxX)
 		{
-			m_arena.transform.eulerAngles += new Vector3(0, 0, 1);
+			m_arena.transform.eulerAngles = new Vector3(45, 0, 45 + m_maxX);
+		}
+		else if (zAngle < 45 + m_minX)
+		{
+			m_arena.transform.eulerAngles = new Vector3(45, 0, 45 + m_minX);
 		}
 	}
 }
