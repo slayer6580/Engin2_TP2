@@ -6,6 +6,7 @@ public class Bumper : MonoBehaviour, IInteractable
 {
     [SerializeField] private float pushForce = 10f; // Adjustable force of the push
     private Rigidbody bumperRigidbody;
+    public ParticleSystem touchEffect;
     public void Awake()
     {
          bumperRigidbody = this.GetComponent<Rigidbody>();
@@ -14,6 +15,7 @@ public class Bumper : MonoBehaviour, IInteractable
     public void OnPlayerCollision(Player player)
     {
         PushPlayer(player);
+        PlayParticleEffect();
     }
 
     void PushPlayer(Player player)
@@ -62,5 +64,13 @@ public class Bumper : MonoBehaviour, IInteractable
             bumperRigidbody.AddForce(pushDirection * pushForce/10.0f, ForceMode.Impulse);
         }
 
+    }
+
+    void PlayParticleEffect()
+    {
+        if (touchEffect != null)
+        {
+            touchEffect.Play();
+        }
     }
 }
