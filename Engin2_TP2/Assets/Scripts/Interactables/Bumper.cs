@@ -73,4 +73,19 @@ public class Bumper : MonoBehaviour, IInteractable
             touchEffect.Play();
         }
     }
+
+	public void OnPlayerClicked(GameMasterController player)
+	{
+		throw new System.NotImplementedException();
+	}
+
+	public void OnPlayerClickUp(GameMasterController player)
+	{
+		throw new System.NotImplementedException();
+	}
+
+	public void UpdateInteractableObject(GameMasterController player)
+	{
+		throw new System.NotImplementedException();
+	}
 }

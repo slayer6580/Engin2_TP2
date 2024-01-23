@@ -159,18 +159,19 @@ public class ArenaRotation : NetworkBehaviour, IInteractable
 		throw new System.NotImplementedException();
 	}
 
-	public void OnPlayerClicked(Player player)
+	public void OnPlayerClicked(GameMasterController player)
 	{
 		IsSelected = true;
 	}
-	public void OnPlayerClickUp(Player player)
+	public void OnPlayerClickUp(GameMasterController player)
 	{
 		IsSelected = false;
 	}
 
-	public void UpdateInteractableObject(Player player)
+	public void UpdateInteractableObject(GameMasterController player)
 	{
 		throw new System.NotImplementedException();
 	}
-	
+
+
 }
