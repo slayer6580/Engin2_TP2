@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -376,11 +376,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23c3fecd949dfdd4bbb441aafe098c7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  m_rotationManager: {fileID: 0}
   m_arena: {fileID: 1701523942}
   m_rotationPoint: 3
-  m_isSelected: 0
   m_maxX: 15
   m_minX: -15
+  <IsActivated>k__BackingField: 1
 --- !u!65 &678048763
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8403,11 +8407,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23c3fecd949dfdd4bbb441aafe098c7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  m_rotationManager: {fileID: 0}
   m_arena: {fileID: 1701523942}
   m_rotationPoint: 0
-  m_isSelected: 0
   m_maxX: 15
   m_minX: -15
+  <IsActivated>k__BackingField: 1
 --- !u!65 &1097401459
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8975,11 +8983,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23c3fecd949dfdd4bbb441aafe098c7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  m_rotationManager: {fileID: 0}
   m_arena: {fileID: 1701523942}
   m_rotationPoint: 1
-  m_isSelected: 0
   m_maxX: 15
   m_minX: -15
+  <IsActivated>k__BackingField: 1
 --- !u!65 &1773938245
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9293,11 +9305,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23c3fecd949dfdd4bbb441aafe098c7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  m_rotationManager: {fileID: 0}
   m_arena: {fileID: 1701523942}
   m_rotationPoint: 2
-  m_isSelected: 0
   m_maxX: 15
   m_minX: -15
+  <IsActivated>k__BackingField: 1
 --- !u!65 &2139909199
 BoxCollider:
   m_ObjectHideFlags: 0
