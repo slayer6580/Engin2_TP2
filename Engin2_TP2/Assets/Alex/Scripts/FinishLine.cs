@@ -7,7 +7,7 @@ public class FinishLine : MonoBehaviour
         CharacterSpawnPoint character = other.GetComponent<CharacterSpawnPoint>();
 
         if (character)
-            character.GoToStartPoint();
+            character.GoToSpawnPoint();
 
     }
 }

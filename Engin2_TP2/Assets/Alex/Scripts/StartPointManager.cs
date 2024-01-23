@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class StartPointManager : MonoBehaviour
 {
-    [SerializeField] private StartPoint[] m_startPoint;
+    [SerializeField] private Transform[] m_startPoint;
+    [SerializeField] private Transform m_playerParent;
 
     private static StartPointManager s_instance = null;
 
@@ -11,44 +12,32 @@ public class StartPointManager : MonoBehaviour
         return s_instance;
     }
 
-    private void Awake() // TODO changer le singleton pour voir si régler probleme position start spawn sans délai.
+    private void Awake()
     {
         if (s_instance == null)
-            s_instance = this;
-
-        for (int i = 0; i < m_startPoint.Length; i++)        
-            m_startPoint[i].SetActivation(false);       
+            s_instance = this; 
     }
 
-    public Vector3 GetStartPointAndSetColor(GameObject _character)
+    public int SetParentAndColor(GameObject _character)
     {
+        float distance = Mathf.Infinity;
+        int index = 0;
+    
         for (int i = 0; i < m_startPoint.Length; i++)
         {
-            if (m_startPoint[i].GetIsActivated() == false)
+            float tempDistance = Vector2.Distance(_character.transform.position, m_startPoint[i].position);
+
+            if (tempDistance < distance)
             {
-                m_startPoint[i].SetActivation(true);
-                _character.GetComponent<CharacterColor>().SetCharacterColor(i);      
-                return m_startPoint[i].startPointTransform.position;
+                index = i;
+                distance = tempDistance;
             }
         }
-        return Vector3.zero;
+
+        _character.transform.SetParent(m_playerParent);
+        return index;
     }
 
-    [System.Serializable]
-    public struct StartPoint
-    {
-        public Transform startPointTransform;
-        private bool m_isActivated;
-
-        public bool GetIsActivated()
-        {
-            return m_isActivated;
-        }
-
-        public void SetActivation(bool value)
-        {
-            m_isActivated = value;
-        }
-    }
+ 
 
 }

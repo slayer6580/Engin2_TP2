@@ -1,27 +1,21 @@
+using Mirror;
 using UnityEngine;
 
-[RequireComponent (typeof(CharacterColor))]
+[RequireComponent(typeof(Rigidbody))]
 public class CharacterSpawnPoint : MonoBehaviour
 {
-    private Vector3 spawnPosition = Vector3.zero;
+    private Vector3 m_spawnPoint;
+    private Rigidbody m_rb;
 
-    void Start()
+    private void Awake()
     {
-        spawnPosition = StartPointManager.GetInstance().GetStartPointAndSetColor(this.gameObject);
-        Invoke("SetInitialPosition", 0.001f);
+        m_spawnPoint = transform.position;
+        m_rb = GetComponent<Rigidbody>();
     }
 
-    private void SetInitialPosition()
+    public void GoToSpawnPoint()
     {
-        transform.position = spawnPosition;
+        transform.position = m_spawnPoint;
+        m_rb.velocity = Vector3.zero;
     }
-
-    public void GoToStartPoint()
-    {
-        transform.position = spawnPosition;
-        GetComponent<Rigidbody>().velocity = Vector3.zero;
-        // On va devoir rajouter des choses au besoin
-    }
-
- 
 }

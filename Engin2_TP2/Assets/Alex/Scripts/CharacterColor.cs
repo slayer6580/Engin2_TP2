@@ -1,12 +1,20 @@
+using Mirror;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterSpawnPoint))]
-public class CharacterColor : MonoBehaviour
+public class CharacterColor : NetworkBehaviour
 {
     private enum EColor { Red, Blue, Green }
 
+    [Header("Mettre toute les parties du corps dans cette array")] 
     [SerializeField] private SkinnedMeshRenderer[] m_bodyParts;
 
+    private void Start()
+    {
+       int index = StartPointManager.GetInstance().SetParentAndColor(this.gameObject);
+       SetCharacterColor(index);
+    }
+
+    [Client] // only runs code on the client
     public void SetCharacterColor(int index)
     {
        EColor color;
@@ -27,6 +35,5 @@ public class CharacterColor : MonoBehaviour
             m_bodyParts[i].material = _material;
         }
     }
-
 
 }
