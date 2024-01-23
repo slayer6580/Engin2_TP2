@@ -7,6 +7,7 @@ public class StartPointManager : MonoBehaviour
 
     private static StartPointManager s_instance = null;
 
+
     public static StartPointManager GetInstance()
     {
         return s_instance;
@@ -15,13 +16,21 @@ public class StartPointManager : MonoBehaviour
     private void Awake()
     {
         if (s_instance == null)
-            s_instance = this; 
+        {
+            s_instance = this;
+        }         
+        else
+        {
+            Debug.LogError("Il y avait plus qu'une instance de StartPointManager dans la scène, FIX IT!");
+            Destroy(this);
+        }
+                    
     }
 
     public int SetParentAndColor(GameObject _character)
     {
         float distance = Mathf.Infinity;
-        int index = 0;
+        int startPointIndex = 0;
     
         for (int i = 0; i < m_startPoint.Length; i++)
         {
@@ -29,13 +38,13 @@ public class StartPointManager : MonoBehaviour
 
             if (tempDistance < distance)
             {
-                index = i;
+                startPointIndex = i;
                 distance = tempDistance;
             }
         }
 
         _character.transform.SetParent(m_playerParent);
-        return index;
+        return startPointIndex;
     }
 
  
