@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class ArenaRotation : NetworkBehaviour
+public class ArenaRotation : NetworkBehaviour, IInteractable
 {
 	enum Point { North, East, South, West };
 	[SerializeField] private ArenaRotationManager m_rotationManager; 
@@ -152,4 +152,25 @@ public class ArenaRotation : NetworkBehaviour
 			m_arena.transform.eulerAngles = new Vector3(45, 0, 45 + m_minX);
 		}
 	}
+
+
+	public void OnPlayerCollision(Player player)
+	{
+		throw new System.NotImplementedException();
+	}
+
+	public void OnPlayerClicked(Player player)
+	{
+		IsSelected = true;
+	}
+	public void OnPlayerClickUp(Player player)
+	{
+		IsSelected = false;
+	}
+
+	public void UpdateInteractableObject(Player player)
+	{
+		throw new System.NotImplementedException();
+	}
+	
 }

@@ -5,7 +5,7 @@ using Cinemachine;
 
 public class GameMasterController : MonoBehaviour
 {
-
+    private Player m_parent;
 	[SerializeField] private CinemachineVirtualCamera m_currentCamera;
     [SerializeField][Range (0.5f,5)] private float m_camMovementSpeed;
     private CinemachineTrackedDolly m_trackedDolly;
@@ -37,12 +37,12 @@ public class GameMasterController : MonoBehaviour
         {
             if(Input.GetMouseButtonDown(0))
             {
-               if(hit.collider.transform.parent.name == "ArenaRotationManager")        //To Replace by if Interactable
+               if(hit.collider.gameObject.GetComponent<IInteractable>() != null)        //To Replace by if Interactable
                 {
                     if (hit.collider.gameObject.GetComponent<ArenaRotation>().IsActivated)
                     {
 						m_lastSelectedObject = hit.collider.gameObject;
-						m_lastSelectedObject.GetComponent<ArenaRotation>().IsSelected = true;
+						m_lastSelectedObject.GetComponent<IInteractable>().OnPlayerClicked(this);
 					}
 				}
             }
@@ -52,7 +52,7 @@ public class GameMasterController : MonoBehaviour
         {
             if(m_lastSelectedObject != null)
             {
-				m_lastSelectedObject.GetComponent<ArenaRotation>().IsSelected = false;
+				m_lastSelectedObject.GetComponent<IInteractable>().OnPlayerClickUp(this);
 
 			}
         }

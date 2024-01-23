@@ -11,16 +11,14 @@ public interface IInteractable
 
 
     // Pour les maîtres du jeu
-    void OnPlayerClicked(Player player); // seuls les maîtres du jeu peuvent clicker
+    void OnPlayerClicked(GameMasterController player); // seuls les maîtres du jeu peuvent clicker
+	void OnPlayerClickUp(GameMasterController player);
+
+	// Ce qui se passe quand on clic à l'objet (bouge, tourne, particules...)
+	void UpdateInteractableObject(GameMasterController player);
 
 
-    // Ce qui se passe quand on clic à l'objet (bouge, tourne, particules...)
-    void UpdateInteractableObject(Player player);
-
-
-    // Nécessaire?
-    // void OnPlayerNearby(Player player);
-
-
+	// Nécessaire?
+	// void OnPlayerNearby(Player player);
 
 }
