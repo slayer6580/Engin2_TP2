@@ -4,6 +4,8 @@ using Mirror;
 public class PlayerSetup : NetworkBehaviour
 {
     [SerializeField] Behaviour[] componentsToDisable;
+    [SyncVar] [HideInInspector] public string m_name = "";
+
     void Start()
     {
         if (!isLocalPlayer)
@@ -12,8 +14,17 @@ public class PlayerSetup : NetworkBehaviour
             return;
         }
 
-        SetPlayerName();
+        PlayersManager.GetInstance().Cmd_AddPlayer(this.gameObject);
+        PlayersManager.GetInstance().SetParent(this.gameObject);
     }
+
+
+    [ClientRpc]
+    public void Rpc_SetNameOnConnect()
+    {
+        gameObject.name = m_name;     
+    }
+
 
     private void DisableComponents()
     {
@@ -21,11 +32,6 @@ public class PlayerSetup : NetworkBehaviour
         {
             componentsToDisable[i].enabled = false;
         }
-    }
-
-    private void SetPlayerName()
-    {
-        this.gameObject.name = "Player" + GetComponent<NetworkIdentity>().netId;
     }
 
 }
