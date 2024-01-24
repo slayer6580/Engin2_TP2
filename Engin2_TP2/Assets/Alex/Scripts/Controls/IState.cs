@@ -1,3 +1,4 @@
+
 public interface IState
 {
     public void OnStart();
@@ -5,7 +6,6 @@ public interface IState
     public void OnUpdate();
     public void OnFixedUpdate();
     public void OnExit();
-
     public bool CanEnter(IState currentState);
     public bool CanExit();
 }

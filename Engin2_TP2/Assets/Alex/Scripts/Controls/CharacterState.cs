@@ -1,15 +1,10 @@
 public abstract class CharacterState : IState
 {
-    protected CharacterControllerStateMachine m_stateMachine;
+    protected PlayerStateMachine m_stateMachine;
 
-    public void OnStart()
+    public void OnStart(PlayerStateMachine stateMachine)
     {
-
-    }
-
-    public virtual void OnStart(CharacterControllerStateMachine stateMachineRef)
-    {
-        m_stateMachine = stateMachineRef;
+        m_stateMachine = stateMachine;
     }
 
     public virtual void OnEnter()
@@ -18,6 +13,7 @@ public abstract class CharacterState : IState
 
     public virtual void OnExit()
     {
+
     }
 
     public virtual void OnFixedUpdate()
@@ -37,4 +33,11 @@ public abstract class CharacterState : IState
     {
         throw new System.NotImplementedException();
     }
+
+    public void OnStart()
+    {
+        throw new System.NotImplementedException();
+    }
+
+ 
 }
