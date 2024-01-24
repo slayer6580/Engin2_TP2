@@ -3,14 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomManager : MonoBehaviour
+public class RoomManager : NetworkBehaviour
 {
     public NetworkRoomManager m_currentRoomManager;
     public List<GameObject> m_spawnPoints = new List<GameObject>();
+    public List<GameObject> m_clientReadyText = new List<GameObject>();
+
 
     public int m_nbOfPlayer;
-
     private int m_placedPlayers;
+
 	void Awake()
 	{
 		m_currentRoomManager = FindObjectOfType<NetworkRoomManager>();
@@ -21,8 +23,35 @@ public class RoomManager : MonoBehaviour
 	}
 
 
-    // Update is called once per frame
-    void Update()
+	[Command(requiresAuthority = false)]
+	public void PlaceReadyTextCommand()
+    {
+        print("COMMAND CALLED");
+        PlaceReadyText();
+
+	}
+
+	[ClientRpc] 
+    public void PlaceReadyText()
+	{
+        int i = 0;
+        foreach(NetworkRoomPlayer client in m_currentRoomManager.roomSlots)
+        {
+			print("PLACEMENT");
+			if (client != NetworkClient.localPlayer)
+            {	
+				m_clientReadyText[i].transform.position = client.transform.position;				
+			}
+			i++;
+		}
+	}
+
+	public void ToggleReady()
+    {
+		NetworkClient.localPlayer.gameObject.GetComponent<NetworkRoomPlayer>().CmdChangeReadyState(true);
+	}
+	// Update is called once per frame
+	void Update()
     {
      if(m_currentRoomManager != null)
         {

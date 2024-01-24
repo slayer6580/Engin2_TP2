@@ -19,7 +19,7 @@ public class MenuButton : MonoBehaviour
 	{
 		manager = GetComponent<NetworkManager>();
 		m_adress.text = manager.networkAddress;
-		manager.networkAddress = GUILayout.TextField(manager.networkAddress);
+		//manager.networkAddress = GUILayout.TextField(manager.networkAddress);
 
 		m_adress.text = "TEST";	//Pourquoi ça marche pas??
 
