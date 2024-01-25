@@ -14,8 +14,13 @@ public class InAirState : CharacterState
 
     public override void OnExit()
     {
-         Debug.Log("Exit state: InAirState\n");
-        m_stateMachine.DefaultPhysic();
+        Debug.Log("Exit state: InAirState\n");
+        m_stateMachine.GroundPhysic();
+    }
+
+    public override void OnUpdate()
+    {
+        SetMaxVelocityInAir();
     }
 
     public override void OnFixedUpdate()
@@ -33,7 +38,7 @@ public class InAirState : CharacterState
         {
             totalVector += Vector3.ProjectOnPlane(m_stateMachine.Camera.transform.forward, Vector3.up);
             inputsNumber++;
-            totalSpeed += m_stateMachine.AccelerationValue;
+            totalSpeed += m_stateMachine.GroundSpeed;
         }
         if (Input.GetKey(KeyCode.A))
         {
@@ -59,23 +64,16 @@ public class InAirState : CharacterState
 
         if (inputsNumber != 0)
         {
-            finalSpeed = (totalSpeed / inputsNumber) * m_stateMachine.AccelerationAirMultiplier;
+            finalSpeed = (totalSpeed / inputsNumber) * m_stateMachine.AirMoveSpeed_Multiplier;
             normalizedVector = totalVector.normalized;
         }
 
         m_stateMachine.RB.AddForce(normalizedVector * finalSpeed, ForceMode.Acceleration);
 
-        if (m_stateMachine.RB.velocity.magnitude > m_stateMachine.MaxVelocity)
-        {
-            m_stateMachine.RB.velocity = m_stateMachine.RB.velocity.normalized;
-            m_stateMachine.RB.velocity *= m_stateMachine.MaxVelocity;
-        }
+       
     }
 
-    public override void OnUpdate()
-    {
 
-    }
 
     public override bool CanEnter(IState currentState)
     {
@@ -102,6 +100,14 @@ public class InAirState : CharacterState
 
     }
 
+    // pour avoir une vitesse dans les airàrs maximal
+    private void SetMaxVelocityInAir()
+    {
+        if (m_stateMachine.RB.velocity.magnitude > m_stateMachine.MaxVelocityOnGround)
+        {
+            m_stateMachine.RB.velocity = m_stateMachine.RB.velocity.normalized * m_stateMachine.MaxVelocityInAir;
+        }
+    }
 
 }
 

@@ -1055,6 +1055,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4066430377661887801}
+  - component: {fileID: -8461691068733855158}
   - component: {fileID: 7629952169162205861}
   - component: {fileID: 6995509101826970643}
   - component: {fileID: 3844316312260002768}
@@ -1095,6 +1096,25 @@ Transform:
   - {fileID: 4002297160753125236}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-8461691068733855158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5893716960676152377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6911063b9528c354f855718a3f7a935d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_speedPowerDuration: 4
+  m_speedDuringPower: 300
+  m_invisibilityPowerDuration: 0
+  m_jumpPowerDuration: 4
+  m_jumpForceDuringPower: 400
+  m_staminaPowerDuration: 0
+  m_blockerPowerDuration: 0
 --- !u!114 &7629952169162205861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1120,16 +1140,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Camera>k__BackingField: {fileID: 6585508796173872766}
-  m_floorTrigger: {fileID: 7612770571215720951}
-  <AccelerationValue>k__BackingField: 10
-  <MaxVelocity>k__BackingField: 30
-  <AccelerationSideMultiplier>k__BackingField: 0.75
-  <AccelerationBackMultiplier>k__BackingField: 0.5
-  <DragOnGround>k__BackingField: 1
-  <JumpIntensity>k__BackingField: 100
-  <AccelerationAirMultiplier>k__BackingField: 0.3
+  <GroundSpeed>k__BackingField: 150
+  <MaxVelocityOnGround>k__BackingField: 40
+  <SideSpeed_Multiplier>k__BackingField: 0.75
+  <BackSpeed_Multiplier>k__BackingField: 0.5
+  <DragOnGround>k__BackingField: 2
+  <JumpIntensity>k__BackingField: 200
+  <AirMoveSpeed_Multiplier>k__BackingField: 0
+  <MaxVelocityInAir>k__BackingField: 50
   <DragOnAir>k__BackingField: 0
-  m_defaultPhysicMaterial: {fileID: 13400000, guid: 84c51717a3cf9b149881455e9547c6a1,
+  <LandingDelay>k__BackingField: 1.25
+  m_floorTrigger: {fileID: 7612770571215720951}
+  m_groundPhysicMaterial: {fileID: 13400000, guid: 84c51717a3cf9b149881455e9547c6a1,
     type: 2}
   m_inAirPhysicMaterial: {fileID: 13400000, guid: aeba517184d429e488cb17e63468d0a8,
     type: 2}
