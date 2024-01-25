@@ -133,7 +133,16 @@ public class PlayerStateMachine : MonoBehaviour
     public void GroundPhysic()
     {
         PlayerCollider.material = m_groundPhysicMaterial;
+    }
 
+    public void SetGroundSpeed(float newSpeed)
+    {
+        GroundSpeed = newSpeed;
+    }
+
+    public void SetJumpForce(float newIntensity)
+    {
+        JumpIntensity = newIntensity;
     }
 
 }
