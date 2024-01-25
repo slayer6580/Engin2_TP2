@@ -1120,16 +1120,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Camera>k__BackingField: {fileID: 6585508796173872766}
-  m_floorTrigger: {fileID: 7612770571215720951}
-  <AccelerationValue>k__BackingField: 10
-  <MaxVelocity>k__BackingField: 30
-  <AccelerationSideMultiplier>k__BackingField: 0.75
-  <AccelerationBackMultiplier>k__BackingField: 0.5
-  <DragOnGround>k__BackingField: 1
-  <JumpIntensity>k__BackingField: 100
-  <AccelerationAirMultiplier>k__BackingField: 0.3
+  <GroundSpeed>k__BackingField: 150
+  <MaxVelocityOnGround>k__BackingField: 40
+  <SideSpeed_Multiplier>k__BackingField: 0.75
+  <BackSpeed_Multiplier>k__BackingField: 0.5
+  <DragOnGround>k__BackingField: 2
+  <JumpIntensity>k__BackingField: 200
+  <AirMoveSpeed_Multiplier>k__BackingField: 0
+  <MaxVelocityInAir>k__BackingField: 50
   <DragOnAir>k__BackingField: 0
-  m_defaultPhysicMaterial: {fileID: 13400000, guid: 84c51717a3cf9b149881455e9547c6a1,
+  <LandingDelay>k__BackingField: 1.25
+  m_floorTrigger: {fileID: 7612770571215720951}
+  m_groundPhysicMaterial: {fileID: 13400000, guid: 84c51717a3cf9b149881455e9547c6a1,
     type: 2}
   m_inAirPhysicMaterial: {fileID: 13400000, guid: aeba517184d429e488cb17e63468d0a8,
     type: 2}

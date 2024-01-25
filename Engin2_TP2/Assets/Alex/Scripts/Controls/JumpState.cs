@@ -9,8 +9,13 @@ public class JumpState : CharacterState
     {
         m_stateMachine.m_InAir = true;
         m_stateMachine.RB.drag = m_stateMachine.DragOnAir;
+
+        // Force du saut
         m_stateMachine.RB.AddForce(Vector3.up * m_stateMachine.JumpIntensity, ForceMode.Acceleration);
+        // pour le la durée du state jump
+
         m_currentStateTimer = STATE_EXIT_TIMER;
+
         Debug.Log("Enter state: JumpState\n");
 
     }
