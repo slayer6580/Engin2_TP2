@@ -38,7 +38,7 @@ public class RoomManager : NetworkBehaviour
         foreach(NetworkRoomPlayer client in m_currentRoomManager.roomSlots)
         {
 			print("PLACEMENT");
-			if (client != NetworkClient.localPlayer)
+			if (client.isLocalPlayer == false)
             {	
 				m_clientReadyText[i].transform.position = client.transform.position;				
 			}
@@ -46,10 +46,8 @@ public class RoomManager : NetworkBehaviour
 		}
 	}
 
-	public void ToggleReady()
-    {
-		NetworkClient.localPlayer.gameObject.GetComponent<NetworkRoomPlayer>().CmdChangeReadyState(true);
-	}
+	
+
 	// Update is called once per frame
 	void Update()
     {

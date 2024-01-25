@@ -1375,6 +1375,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0729ed699620706408e3d85654d73365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
   m_slotSelected: -1
 --- !u!114 &-8667108271256922107
 MonoBehaviour:

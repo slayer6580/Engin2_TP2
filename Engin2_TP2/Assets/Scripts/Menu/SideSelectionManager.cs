@@ -1,7 +1,9 @@
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SideSelectionManager : NetworkBehaviour
 {
@@ -9,12 +11,14 @@ public class SideSelectionManager : NetworkBehaviour
 	[SerializeField] private List<GameObject> m_selectionSlots = new List<GameObject>();
 	[SerializeField] private List<Transform> m_selectionPos = new List<Transform>();
 	[SyncVar][SerializeField] private List<bool> m_isSlotFree = new List<bool>();
+	[SerializeField] private List<GameObject> m_isReadyText = new List<GameObject>();
 	[SerializeField] private GameObject m_readyButton;
 	[SerializeField] private float m_readyButtonSpacing;
 
 	private RoomPlayer m_roomPlayer;
 	[SerializeField] private RoomManager m_roomManager;
-
+	[SerializeField] private GameObject m_readyButtonText;
+	private NetworkRoomPlayer m_networkRoomPlayer;
 	public void Start()
 	{
 		int i = 0;
@@ -30,6 +34,15 @@ public class SideSelectionManager : NetworkBehaviour
 	public bool GetFreeSlot(int slot)
 	{
 		return m_isSlotFree[slot];
+	}
+
+	public NetworkRoomPlayer GetNewWorkRoomPlayer()
+	{
+		if (m_networkRoomPlayer == null)
+		{
+			m_networkRoomPlayer = NetworkClient.localPlayer.gameObject.GetComponent<NetworkRoomPlayer>();
+		}
+		return m_networkRoomPlayer;
 	}
 
 	public void SelectSlot(int slot)
@@ -65,12 +78,79 @@ public class SideSelectionManager : NetworkBehaviour
 			}
 
 			ToggleButtonCommand(slot, false);
+			ManageIsReadyTextCommand(m_roomPlayer.m_slotSelected, false, false);
+
 			m_roomPlayer.m_slotSelected = slot;
-			m_roomManager.PlaceReadyTextCommand();
+			ManageIsReadyTextCommand(slot, true, false);
+
+			if (GetNewWorkRoomPlayer().readyToBegin)
+			{
+				ToggleReady();
+			}
 		}
 		
 
 	}
+
+	
+
+	public void ToggleReady()
+	{	
+        //Check if already Ready
+		if (GetNewWorkRoomPlayer().readyToBegin)
+        {
+			m_readyButtonText.GetComponent<TMP_Text>().text = "Ready";
+			GetNewWorkRoomPlayer().CmdChangeReadyState(false);
+			ManageIsReadyTextCommand(m_roomPlayer.m_slotSelected, true, false);
+		}
+		else
+		{
+			m_readyButtonText.GetComponent<TMP_Text>().text = "Cancel";
+			GetNewWorkRoomPlayer().CmdChangeReadyState(true);
+			ManageIsReadyTextCommand(m_roomPlayer.m_slotSelected, true, true);
+		}
+	}
+
+
+
+	[Command(requiresAuthority = false)]
+	public void ManageIsReadyTextCommand(int toChange, bool newState, bool isReady)
+	{
+		ManageIsReadyText(toChange, newState, isReady);
+	}
+	[ClientRpc]
+	public void ManageIsReadyText(int toChange, bool newState, bool isReady)
+	{
+		
+		if (toChange >= 0)
+		{
+			TMP_Text textMesh;
+			m_isReadyText[toChange].SetActive(newState);
+			if (isReady)
+			{
+				textMesh = m_isReadyText[toChange].GetComponent<TMP_Text>();
+				if(textMesh != null)
+				{
+					textMesh.text= "Ready";
+				}
+
+			}
+			else
+			{
+				textMesh = m_isReadyText[toChange].GetComponent<TMP_Text>();
+				if (textMesh != null)
+				{
+					textMesh.text = "Not Ready";
+				}
+
+			}
+			
+		}
+		
+	}
+
+
+
 
 	[Command(requiresAuthority = false)]
 	public void ToggleButtonCommand(int slot, bool state)
