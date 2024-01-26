@@ -7,7 +7,6 @@ public class StaminaPlayer : MonoBehaviour
     {
         recover,
         waitToRecover,
-        running
     }
 
     [SerializeField] private float m_maxStamina;
@@ -49,7 +48,6 @@ public class StaminaPlayer : MonoBehaviour
     // Fonction a mettre dans le code du PlayerStateMachine quand CanRun es a true; 
     public void RunCost()
     {
-        m_currentState = EStaminaState.running;
         m_currentStamina -= m_runCostOverTime * Time.deltaTime;
         ResetTimer();
         StaminaCheck();
