@@ -46,14 +46,12 @@ public class PlayerPowers : MonoBehaviour
             return false;
         }
         return true;
-
     }
 
     public void GetPower(EPowers power)
     {
         m_currentPower = power;
         PowerEffects();
-
     }
 
     private void PowerEffects()

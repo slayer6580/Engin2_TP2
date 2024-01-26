@@ -144,7 +144,7 @@ PrefabInstance:
     - target: {fileID: 708084870432651787, guid: f77aabaeedec26e48948e30dd6f6595e,
         type: 3}
       propertyPath: m_Name
-      value: PowerUp (1)
+      value: jumpPowerUp
       objectReference: {fileID: 0}
     - target: {fileID: 1436235557400141661, guid: f77aabaeedec26e48948e30dd6f6595e,
         type: 3}
@@ -683,6 +683,95 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1001 &458752276
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -6541621883681443239, guid: 2d9ee5cbb5bf87c41ac677455a8d44d4,
+        type: 3}
+      propertyPath: sceneId
+      value: 1312944339
+      objectReference: {fileID: 0}
+    - target: {fileID: 3844316312260002768, guid: 2d9ee5cbb5bf87c41ac677455a8d44d4,
+        type: 3}
+      propertyPath: componentsToDisable.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3844316312260002768, guid: 2d9ee5cbb5bf87c41ac677455a8d44d4,
+        type: 3}
+      propertyPath: componentsToDisable.Array.data[3]
+      value: 
+      objectReference: {fileID: 458752277}
+    - target: {fileID: 4066430377661887801, guid: 2d9ee5cbb5bf87c41ac677455a8d44d4,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4066430377661887801, guid: 2d9ee5cbb5bf87c41ac677455a8d44d4,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8.93
+      objectReference: {fileID: 0}
+    - target: {fileID: 4066430377661887801, guid: 2d9ee5cbb5bf87c41ac677455a8d44d4,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -38
+      objectReference: {fileID: 0}
+    - target: {fileID: 4066430377661887801, guid: 2d9ee5cbb5bf87c41ac677455a8d44d4,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4066430377661887801, guid: 2d9ee5cbb5bf87c41ac677455a8d44d4,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4066430377661887801, guid: 2d9ee5cbb5bf87c41ac677455a8d44d4,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4066430377661887801, guid: 2d9ee5cbb5bf87c41ac677455a8d44d4,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4066430377661887801, guid: 2d9ee5cbb5bf87c41ac677455a8d44d4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4066430377661887801, guid: 2d9ee5cbb5bf87c41ac677455a8d44d4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4066430377661887801, guid: 2d9ee5cbb5bf87c41ac677455a8d44d4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5893716960676152377, guid: 2d9ee5cbb5bf87c41ac677455a8d44d4,
+        type: 3}
+      propertyPath: m_Name
+      value: Character
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2d9ee5cbb5bf87c41ac677455a8d44d4, type: 3}
+--- !u!223 &458752277 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 7871281097366212548, guid: 2d9ee5cbb5bf87c41ac677455a8d44d4,
+    type: 3}
+  m_PrefabInstance: {fileID: 458752276}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &647093166
 GameObject:
   m_ObjectHideFlags: 0
@@ -1785,7 +1874,7 @@ PrefabInstance:
     - target: {fileID: 708084870432651787, guid: f77aabaeedec26e48948e30dd6f6595e,
         type: 3}
       propertyPath: m_Name
-      value: PowerUp
+      value: speedPowerUp
       objectReference: {fileID: 0}
     - target: {fileID: 1436235557400141661, guid: f77aabaeedec26e48948e30dd6f6595e,
         type: 3}
@@ -1858,3 +1947,4 @@ SceneRoots:
   - {fileID: 306354402}
   - {fileID: 2856543615676266716}
   - {fileID: 49532890}
+  - {fileID: 458752276}

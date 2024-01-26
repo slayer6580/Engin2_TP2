@@ -25,7 +25,6 @@ public class PowerUp : MonoBehaviour
                 DisablePowerUp();
                 StartCoroutine(DelayBeforeRespawn(m_respawnTime));
             }
-
         }
     }
 
@@ -47,8 +46,14 @@ public class PowerUp : MonoBehaviour
         m_sphereCollider.enabled = true;
     }
 
+    private void SetName()
+    {
+        gameObject.name = power.ToString() + "PowerUp";
+    }
+
     private void OnValidate()
     {
         m_renderer.material = Resources.Load<Material>("Power/" + power.ToString());
+        SetName();
     }
 }
