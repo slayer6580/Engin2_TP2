@@ -4,34 +4,28 @@ using Mirror;
 public class PlayerSetup : NetworkBehaviour
 {
     [SerializeField] Behaviour[] componentsToDisable;
-    [SyncVar] [HideInInspector] public string m_name = "";
+    [SerializeField] GameObject m_canvas;
 
     void Start()
     {
         if (!isLocalPlayer)
         {
-            DisableComponents();
-            return;
+            DisableComponents();          
         }
 
-        PlayersManager.GetInstance().Cmd_AddPlayer(this.gameObject);
         PlayersManager.GetInstance().SetParent(this.gameObject);
+        gameObject.name = "Player" + GetComponent<NetworkIdentity>().netId.ToString();
     }
 
-
-    [ClientRpc]
-    public void Rpc_SetNameOnConnect()
-    {
-        gameObject.name = m_name;     
-    }
-
-
+    /// <summary> Désactive tout les composantes qu'on veut pas répliquer sur les autres client sur son local </summary>  
     private void DisableComponents()
     {
         for (int i = 0; i < componentsToDisable.Length; i++)
         {
             componentsToDisable[i].enabled = false;
         }
+
+        m_canvas.SetActive(false);
     }
 
 }

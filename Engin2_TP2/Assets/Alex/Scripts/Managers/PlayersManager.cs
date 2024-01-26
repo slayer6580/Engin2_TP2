@@ -4,14 +4,9 @@ using UnityEngine;
 
 public class PlayersManager : NetworkBehaviour
 {
-    [SerializeField] private Transform[] m_startPoint;
     [SerializeField] private Transform m_playerParent;
 
     private static PlayersManager s_instance = null;
-    public readonly SyncDictionary<string, GameObject> m_players = new SyncDictionary<string, GameObject>();
-
-    [Header("Read Only")]
-    [SyncVar][SerializeField] private int m_playersCount = 0;
 
     public static PlayersManager GetInstance()
     {
@@ -31,36 +26,10 @@ public class PlayersManager : NetworkBehaviour
         }
     }
 
-    [Command(requiresAuthority = false)]
-    public void Cmd_AddPlayer(GameObject player)
-    {
-        string playerId = "Player" + player.GetComponent<NetworkIdentity>().netId.ToString();
-        player.GetComponent<PlayerSetup>().m_name = playerId;
-        m_players.Add(playerId, player);
-        m_playersCount = m_players.Count;
-        Debug.Log("Added Player: " + playerId);
-        SetNamesOnConnect(player);
-    }
-
-    public void SetNamesOnConnect(GameObject player)
-    {
-        player.GetComponent<PlayerSetup>().Rpc_SetNameOnConnect();
-    }
-
-    [Command(requiresAuthority = false)]
-    public void Cmd_RemovePlayer(GameObject player)
-    {
-        m_players.Remove(player.name);
-        m_playersCount = m_players.Count;
-    }
-
+    /// <summary> Place le joueur dans la hierachie dans la catégorie ----- Players -----  </summary>
     public void SetParent(GameObject _character)
     {
         _character.transform.SetParent(m_playerParent);
     }
-
-
-
-
 
 }

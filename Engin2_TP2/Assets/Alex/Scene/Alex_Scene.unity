@@ -144,7 +144,7 @@ PrefabInstance:
     - target: {fileID: 708084870432651787, guid: f77aabaeedec26e48948e30dd6f6595e,
         type: 3}
       propertyPath: m_Name
-      value: PowerUp (1)
+      value: jumpPowerUp
       objectReference: {fileID: 0}
     - target: {fileID: 1436235557400141661, guid: f77aabaeedec26e48948e30dd6f6595e,
         type: 3}
@@ -1483,12 +1483,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  m_startPoint:
-  - {fileID: 665516778}
-  - {fileID: 800190308}
-  - {fileID: 1923842741}
   m_playerParent: {fileID: 1810879709}
-  m_playersCount: 0
 --- !u!114 &1372608002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1785,7 +1780,7 @@ PrefabInstance:
     - target: {fileID: 708084870432651787, guid: f77aabaeedec26e48948e30dd6f6595e,
         type: 3}
       propertyPath: m_Name
-      value: PowerUp
+      value: speedPowerUp
       objectReference: {fileID: 0}
     - target: {fileID: 1436235557400141661, guid: f77aabaeedec26e48948e30dd6f6595e,
         type: 3}

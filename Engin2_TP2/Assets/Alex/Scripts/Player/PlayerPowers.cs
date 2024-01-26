@@ -39,6 +39,7 @@ public class PlayerPowers : MonoBehaviour
         m_playerFSM = GetComponent<PlayerStateMachine>();
     }
 
+    /// <summary> Retourne vrai si le joueur na pas de pouvoir actuel </summary>
     public bool CanHavePower()
     {
         if (m_currentPower != EPowers.none)
@@ -46,16 +47,16 @@ public class PlayerPowers : MonoBehaviour
             return false;
         }
         return true;
-
     }
 
+    /// <summary> Prendre un pouvoir </summary>
     public void GetPower(EPowers power)
     {
         m_currentPower = power;
         PowerEffects();
-
     }
 
+    /// <summary> Faire l'effet du pouvoir actuel </summary>
     private void PowerEffects()
     {
         switch (m_currentPower)
@@ -92,6 +93,7 @@ public class PlayerPowers : MonoBehaviour
         }
     }
 
+    /// <summary> Attend la durée du pouvoir pour tout réinitialiser </summary>
     IEnumerator WaitAndBackToNormal(float time)
     {
         yield return new WaitForSeconds(time);

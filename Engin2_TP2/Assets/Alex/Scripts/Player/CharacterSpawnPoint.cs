@@ -1,4 +1,3 @@
-using Mirror;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -13,6 +12,7 @@ public class CharacterSpawnPoint : MonoBehaviour
         m_rb = GetComponent<Rigidbody>();
     }
 
+    /// <summary> Pour la réapparition du joueur à son point de départ </summary>
     public void GoToSpawnPoint()
     {
         transform.position = m_spawnPoint;
