@@ -6,13 +6,22 @@ public class StaminaPlayer : MonoBehaviour
     public enum EStaminaState
     {
         recover,
-        waitToRecover,
+        waitToRecover
     }
 
+    [Header("Stamina Maximal")]
     [SerializeField] private float m_maxStamina;
+
+    [Header("Le nombre de stamina par seconde récupérer")]
     [SerializeField] private float m_staminaRecoverOverTime;
+
+    [Header("Le délai avant de récupérer de la stamina")]
     [SerializeField] private float m_recoverDelay;
+
+    [Header("Le cout en stamina de courir par seconde")]
     [SerializeField] private float m_runCostOverTime;
+
+    [Header("Le cout en stamina de sauter")]
     [SerializeField] private float m_jumpCost;
 
     [SerializeField] private Image m_frontBarStaminaUI;
@@ -34,18 +43,19 @@ public class StaminaPlayer : MonoBehaviour
             WaitToRecover();
     }
 
-    // si tu appuis shift dans PlayerStateMachine et que ca aussi c'est vrai, tu peux rouler la fonction RunCost()
+    /// <summary> si tu appuis shift dans PlayerStateMachine et que ca aussi c'est vrai, tu peux rouler la fonction RunCost() </summary>
     public bool CanRun()
     {
         return (m_currentStamina - (m_runCostOverTime * Time.deltaTime) >= 0);
     }
-    // si tu appuis sur sauter dans PlayerStateMachine et que ca aussi c'est vrai, tu peux rouler la fonction JumpCost()
+ 
+    /// <summary> si tu appuis sur sauter dans PlayerStateMachine et que ca aussi c'est vrai, tu peux rouler la fonction JumpCost() </summary>
     public bool CanJump()
     {
         return (m_currentStamina - m_jumpCost >= 0);
     }
 
-    // Fonction a mettre dans le code du PlayerStateMachine quand CanRun es a true; 
+    /// <summary> Fonction a mettre dans le code du PlayerStateMachine quand CanRun es a true </summary>
     public void RunCost()
     {
         m_currentStamina -= m_runCostOverTime * Time.deltaTime;
@@ -53,8 +63,8 @@ public class StaminaPlayer : MonoBehaviour
         StaminaCheck();
         SetStaminaUI();
     }
-
-    // Fonction a mettre dans le code du PlayerStateMachine quand CanJump es a true;
+  
+    /// <summary> Fonction a mettre dans le code du PlayerStateMachine quand CanJump es a true </summary>
     public void JumpCost()
     {
         m_currentStamina -= m_jumpCost;
@@ -62,8 +72,8 @@ public class StaminaPlayer : MonoBehaviour
         StaminaCheck();
         SetStaminaUI();
     }
-
-    // Dans update, pour récupérer de la stamina
+     
+    /// <summary> Dans update, pour récupérer de la stamina  </summary>
     private void RecoverStamina()
     {
         if (m_currentStamina == m_maxStamina)
@@ -73,8 +83,8 @@ public class StaminaPlayer : MonoBehaviour
         StaminaCheck();
         SetStaminaUI();
     }
-
-    // Pour récupérer une fois le cooldown finit
+   
+    /// <summary> Un Décompte du coolDown pour récupérer de la stamina </summary>
     private void WaitToRecover()
     {
         m_currentRecoverCooldown -= m_recoverDelay * Time.deltaTime;
@@ -85,20 +95,20 @@ public class StaminaPlayer : MonoBehaviour
         }
     }
 
-    // S'assure de nos pas aller plus bas ou plus haut que le min/max
+    /// <summary> S'assure de nos pas aller plus bas ou plus haut que le min/max </summary>
     private void StaminaCheck()
     {
         m_currentStamina = Mathf.Clamp(m_currentStamina, 0, m_maxStamina);
     }
 
-    // recommence le timer pour la récupération de stamina
+    /// <summary> recommence le timer pour la récupération de stamina </summary>
     private void ResetTimer()
     {
         m_currentRecoverCooldown = m_recoverDelay;
         m_currentState = EStaminaState.waitToRecover;
     }
 
-    // Ca update le StaminaBar sur le UI;
+    /// <summary> Update le StaminaBar sur le UI </summary>
     private void SetStaminaUI()
     {
         float currentStamina = (m_currentStamina / m_maxStamina);

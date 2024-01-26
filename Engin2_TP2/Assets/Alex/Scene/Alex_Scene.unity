@@ -1483,12 +1483,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  m_startPoint:
-  - {fileID: 665516778}
-  - {fileID: 800190308}
-  - {fileID: 1923842741}
   m_playerParent: {fileID: 1810879709}
-  m_playersCount: 0
 --- !u!114 &1372608002
 MonoBehaviour:
   m_ObjectHideFlags: 0
