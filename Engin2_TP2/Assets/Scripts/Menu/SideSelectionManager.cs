@@ -7,104 +7,154 @@ using UnityEngine.UI;
 
 public class SideSelectionManager : NetworkBehaviour
 {
-	[SerializeField] private int m_maxNumberOfGameMaster;
-	[SerializeField] private RoomManager m_roomManager;
+	[Header("Base Setting")]
+	[SerializeField] private List<GameObject> m_enterRoomSpawnPoints = new List<GameObject>();
+	[SerializeField] private int m_maxGameMaster;
 
 	[Header ("Set all slots")]
-	[SerializeField] private List<GameObject> m_selectionSlots = new List<GameObject>();
-	[SerializeField] private List<Transform> m_selectionPos = new List<Transform>();
+	[SerializeField] private List<GameObject> m_selectSlotButtons = new List<GameObject>();
+	[SerializeField] private List<Transform> m_slotCharacterPosition = new List<Transform>();
 	[SyncVar][SerializeField] private List<bool> m_isSlotFree = new List<bool>();
-	[SerializeField] private List<GameObject> m_isReadyText = new List<GameObject>();
+	[SyncVar] private List<bool> m_isSlotReady = new List<bool>();
+	[SerializeField] private List<GameObject> m_playerInThisSlotReadyText = new List<GameObject>();
 
 	[Header("UI")]
 	[SerializeField] private GameObject m_readyButton;
 	[SerializeField] private float m_readyButtonSpacing;
 	[SerializeField] private GameObject m_readyButtonText;
 
+	//Misc..
+	private int m_nbOfPlayer;
+	private NetworkRoomManager m_networkRoomManager;		//NotDestroyOnLoad, give access to list of players, use to pass value to gameSscene
+	private NetworkRoomPlayer m_localNetworkRoomPlayer;     //For network setting: Player is ready to start or not
+	private int m_slotSelected = -1;
 
-	private RoomPlayer m_roomPlayer;					//Custom script to record player choice: master/Runners, position in lobby
-	private NetworkRoomPlayer m_networkRoomPlayer;		//For network setting: PLayer is ready to start or not
 
+	void Awake()
+	{
+		m_networkRoomManager = FindObjectOfType<NetworkRoomManager>();
+
+		//Set m_isSlotReady the same as the number of slot available
+		foreach (var slot in m_isSlotFree)
+		{
+			m_isSlotReady.Add(false);
+		}
+		
+	}
 
 	public void Start()
 	{
-		//When entering room, if a slot is already taken, deactivate the visual of the slot
+		//When entering room,manage active and inactive slot.	
 		int i = 0;
 		foreach(bool slot in m_isSlotFree)
 		{
+			//If a slot is taken
 			if (!slot)
 			{
-				m_selectionSlots[i].SetActive(false);
+				m_selectSlotButtons[i].SetActive(false);
+				m_playerInThisSlotReadyText[i].SetActive(true);
+				if (m_isSlotReady[i])
+				{
+					//The player in this slot is ready so change the text
+					m_playerInThisSlotReadyText[i].GetComponent<TMP_Text>().text = "Ready";
+				}
+
+			}
+			else
+			{
+				m_playerInThisSlotReadyText[i].SetActive(false);
 			}
 			i++;
 		}
 	}
 
-
-	public void SelectSlot(int slot)
+	public void Update()
 	{
-		//If the selected slot is available
-		if(GetFreeSlot(slot))
+		//Place a character at a spawn point in the center of the screen when a new player enter the room
+		if (m_nbOfPlayer != m_networkRoomManager.roomSlots.Count)
 		{
-			if (m_roomPlayer == null)
+			m_nbOfPlayer = m_networkRoomManager.roomSlots.Count;
+
+			//If the character is in the middle the "m_slotSelected" will be -1
+			if (m_slotSelected < 0)
 			{
-				m_roomPlayer = NetworkClient.localPlayer.gameObject.GetComponent<RoomPlayer>();
+				m_networkRoomManager.roomSlots[m_nbOfPlayer - 1].transform.position = m_enterRoomSpawnPoints[m_nbOfPlayer - 1].transform.position;
+				m_networkRoomManager.roomSlots[m_nbOfPlayer - 1].transform.localScale = m_enterRoomSpawnPoints[m_nbOfPlayer - 1].transform.localScale;
+				m_networkRoomManager.roomSlots[m_nbOfPlayer - 1].transform.eulerAngles = m_enterRoomSpawnPoints[m_nbOfPlayer - 1].transform.eulerAngles;
 			}
-		
+		}
+	}
+
+	public void SelectSlot(int wantedSlot)
+	{	
+		//If the selected slot is available
+		if (GetFreeSlot(wantedSlot))
+		{
+
 			//Place the character into the chosen slot
-			m_roomPlayer.transform.position = m_selectionPos[slot].position;
+			GetLocalNetworkRoomPlayer().transform.position = m_slotCharacterPosition[wantedSlot].position;
 			m_readyButton.SetActive(true);
-			m_readyButton.transform.position = new Vector3(m_selectionPos[slot].position.x, m_selectionPos[slot].position.y - m_readyButtonSpacing, m_selectionPos[slot].position.z);
-			
+			m_readyButton.transform.position = new Vector3(m_slotCharacterPosition[wantedSlot].position.x, m_slotCharacterPosition[wantedSlot].position.y - m_readyButtonSpacing, m_slotCharacterPosition[wantedSlot].position.z);
+			ManageIsReadyTextCommand(wantedSlot, true, false);
 
 			//Set which side has been choosen
-			if (slot >= m_maxNumberOfGameMaster)
+			if (wantedSlot >= m_maxGameMaster)
 			{
-				m_roomPlayer.SetIfGameMaster(false);
+				m_networkRoomManager.GetComponent<SaveLocalPlayer>().m_isGameMaster = false;
 			}
 			else
 			{
-				m_roomPlayer.SetIfGameMaster(true);
+				m_networkRoomManager.GetComponent<SaveLocalPlayer>().m_isGameMaster = true;
 			}
 
-			//Player has selected a new slot so reset old values (Ready button, reactivate old slot, etc..)
-			if (m_roomPlayer.m_slotSelected >= 0)
-			{
-				// >0 means players was already in a slot. -1 = was in the center of the screen
-				ToggleButtonCommand(m_roomPlayer.m_slotSelected, true);
-			}
-			ToggleButtonCommand(slot, false);
-			ManageIsReadyTextCommand(m_roomPlayer.m_slotSelected, false, false);
 			
-			//If the player was ready, set it has not ready
-			if (GetNewWorkRoomPlayer().readyToBegin)
+			///Reset some values		
+			//If already had a slot selected, reactivate it
+			if (m_slotSelected >= 0)
 			{
-				ToggleReady();
+				SwitchSlotStateCommand(m_slotSelected, true);
+				//Set the local Ready button to the "not ready" values
+				SetAsReady(false, "Ready");
 			}
 
-			//Set everything for the new slot
-			m_roomPlayer.m_slotSelected = slot;
-			ManageIsReadyTextCommand(slot, true, false);			
+			//Deactivate the new selected slot
+			SwitchSlotStateCommand(wantedSlot, false);
+
+			//The players has change his position so he's not ready anymore
+			ManageIsReadyTextCommand(m_slotSelected, false, false);
+			
+			m_slotSelected = wantedSlot;	
+			
 		}
 	}
 
 	
-	//The ready button under the local player to set If ready or not to start le match
-	public void ToggleReady()
+	//Toggle the ready button under the local player to set If ready or not to start le match
+	public void ToggleReadyButton()
 	{	
         //Check if already Ready
-		if (GetNewWorkRoomPlayer().readyToBegin)
+		if (GetLocalNetworkRoomPlayer().readyToBegin)
         {
-			m_readyButtonText.GetComponent<TMP_Text>().text = "Ready";
-			GetNewWorkRoomPlayer().CmdChangeReadyState(false);
-			ManageIsReadyTextCommand(m_roomPlayer.m_slotSelected, true, false);
+			SetAsReady(false, "Ready");
 		}
 		else
 		{
-			m_readyButtonText.GetComponent<TMP_Text>().text = "Cancel";
-			GetNewWorkRoomPlayer().CmdChangeReadyState(true);
-			ManageIsReadyTextCommand(m_roomPlayer.m_slotSelected, true, true);
+			SetAsReady(true, "Cancel");
 		}
+	}
+
+	public void SetAsReady(bool setToReady, string textInReadyButton)
+	{
+		//Change text from the local Ready/Cancel button
+		m_readyButtonText.GetComponent<TMP_Text>().text = textInReadyButton;
+
+		//Tell the server if player is ready or not
+		GetLocalNetworkRoomPlayer().CmdChangeReadyState(setToReady);
+
+		SetIfSlotIsReadyCommand(m_slotSelected, setToReady);
+
+		//Change the Ready/Not Ready text over the player
+		ManageIsReadyTextCommand(m_slotSelected, true, setToReady);
 	}
 
 
@@ -120,8 +170,8 @@ public class SideSelectionManager : NetworkBehaviour
 	{
 		if (slotPosition >= 0)
 		{
-			TMP_Text textMesh = m_isReadyText[slotPosition].GetComponent<TMP_Text>();
-			m_isReadyText[slotPosition].SetActive(newState);
+			TMP_Text textMesh = m_playerInThisSlotReadyText[slotPosition].GetComponent<TMP_Text>();
+			m_playerInThisSlotReadyText[slotPosition].SetActive(newState);
 
 			if (isReady)
 			{	
@@ -134,34 +184,45 @@ public class SideSelectionManager : NetworkBehaviour
 		}	
 	}
 
-
-
+	
 	//Toggle the grey area section to select the TEAM
 	[Command(requiresAuthority = false)]
-	public void ToggleButtonCommand(int slot, bool state)
+	public void SwitchSlotStateCommand(int slot, bool state)
 	{
-		ToggleButton(slot, state);
+		SwitchSlotState(slot, state);
 	}
 	[ClientRpc]
-	public void ToggleButton(int slot, bool state)
+	public void SwitchSlotState(int slot, bool state)
 	{
-		m_selectionSlots[slot].SetActive(state);
+		m_selectSlotButtons[slot].SetActive(state);
 		m_isSlotFree[slot] = state;
 	}
 
+
+	//Change if the player in a slot is ready or not
+	[Command(requiresAuthority = false)]
+	public void SetIfSlotIsReadyCommand(int slot, bool state)
+	{
+		SetIfSlotIsReady(slot, state);
+	}
+	[ClientRpc]
+	public void SetIfSlotIsReady(int slot, bool state)
+	{
+		m_isSlotReady[slot] = state;
+	}
 
 	public bool GetFreeSlot(int slot)
 	{
 		return m_isSlotFree[slot];
 	}
 
-	public NetworkRoomPlayer GetNewWorkRoomPlayer()
+	public NetworkRoomPlayer GetLocalNetworkRoomPlayer()
 	{
-		if (m_networkRoomPlayer == null)
+		if (m_localNetworkRoomPlayer == null)
 		{
-			m_networkRoomPlayer = NetworkClient.localPlayer.gameObject.GetComponent<NetworkRoomPlayer>();
+			m_localNetworkRoomPlayer = NetworkClient.localPlayer.gameObject.GetComponent<NetworkRoomPlayer>();
 		}
-		return m_networkRoomPlayer;
+		return m_localNetworkRoomPlayer;
 	}
 
 }
