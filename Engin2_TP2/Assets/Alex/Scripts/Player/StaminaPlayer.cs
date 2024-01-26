@@ -59,7 +59,6 @@ public class StaminaPlayer : MonoBehaviour
     // Fonction a mettre dans le code du PlayerStateMachine quand CanJump es a true;
     public void JumpCost()
     {
-        m_currentState = EStaminaState.waitToRecover;
         m_currentStamina -= m_jumpCost;
         ResetTimer();
         StaminaCheck();
@@ -98,6 +97,7 @@ public class StaminaPlayer : MonoBehaviour
     private void ResetTimer()
     {
         m_currentRecoverCooldown = m_recoverDelay;
+        m_currentState = EStaminaState.waitToRecover;
     }
 
     // Ca update le StaminaBar sur le UI;
