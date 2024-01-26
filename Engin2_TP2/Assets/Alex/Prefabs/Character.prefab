@@ -1582,6 +1582,7 @@ MonoBehaviour:
   - {fileID: 6995509101826970643}
   - {fileID: 6585508796173872766}
   - {fileID: 4107180073999301517}
+  m_canvas: {fileID: 5410057221153584681}
   m_name: 
 --- !u!136 &7572140525886331030
 CapsuleCollider:

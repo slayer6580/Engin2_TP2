@@ -4,6 +4,7 @@ using Mirror;
 public class PlayerSetup : NetworkBehaviour
 {
     [SerializeField] Behaviour[] componentsToDisable;
+    [SerializeField] GameObject m_canvas;
     [SyncVar] [HideInInspector] public string m_name = "";
 
     void Start()
@@ -11,6 +12,7 @@ public class PlayerSetup : NetworkBehaviour
         if (!isLocalPlayer)
         {
             DisableComponents();
+            m_canvas.SetActive(false);
             return;
         }
 
