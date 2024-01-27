@@ -1497,8 +1497,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_maxStamina: 100
-  m_staminaRecoverOverTime: 2
+  m_staminaRecoverOverTime: 3
+  m_exaustedStaminaRecoverOverTime: 4
+  m_notExaustedStamina: 15
   m_recoverDelay: 1
+  m_exaustedRecoverDelay: 3
   m_runCostOverTime: 3
   m_jumpCost: 15
   m_frontBarStaminaUI: {fileID: 2568737049241801753}
@@ -1550,7 +1553,7 @@ MonoBehaviour:
   <MaxVelocityOnGround>k__BackingField: 40
   <SideSpeed_Multiplier>k__BackingField: 0.75
   <BackSpeed_Multiplier>k__BackingField: 0.5
-  <DragOnGround>k__BackingField: 2
+  <DragOnGround>k__BackingField: 1
   <JumpIntensity>k__BackingField: 200
   <AirMoveSpeed_Multiplier>k__BackingField: 0
   <MaxVelocityInAir>k__BackingField: 50
@@ -1583,7 +1586,6 @@ MonoBehaviour:
   - {fileID: 6585508796173872766}
   - {fileID: 4107180073999301517}
   m_canvas: {fileID: 5410057221153584681}
-  m_name: 
 --- !u!136 &7572140525886331030
 CapsuleCollider:
   m_ObjectHideFlags: 0
