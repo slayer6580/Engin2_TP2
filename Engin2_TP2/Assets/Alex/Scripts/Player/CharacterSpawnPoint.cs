@@ -1,14 +1,15 @@
+using Mirror;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class CharacterSpawnPoint : MonoBehaviour
+public class CharacterSpawnPoint : NetworkBehaviour
 {
     private Vector3 m_spawnPoint;
     private Rigidbody m_rb;
 
     private void Awake()
     {
-        m_spawnPoint = transform.position;
+        SetSpawnPoint();
         m_rb = GetComponent<Rigidbody>();
     }
 
@@ -18,4 +19,11 @@ public class CharacterSpawnPoint : MonoBehaviour
         transform.position = m_spawnPoint;
         m_rb.velocity = Vector3.zero;
     }
+
+    [Client] 
+    private void SetSpawnPoint()
+    {
+        m_spawnPoint = transform.position;
+    }
+
 }
