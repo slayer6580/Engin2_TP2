@@ -26,6 +26,8 @@ public class InAirState : CharacterState
     public override void OnFixedUpdate()
     {
         InAirMovement();
+        Vector3 gravity = new Vector3( 0, -1, 0 );
+        m_stateMachine.RB.AddForce(gravity, ForceMode.Acceleration);
     }
 
     private void InAirMovement()
@@ -73,8 +75,6 @@ public class InAirState : CharacterState
        
     }
 
-
-
     public override bool CanEnter(IState currentState)
     {
         //This must be run in Update absolutely
@@ -91,8 +91,14 @@ public class InAirState : CharacterState
 
         if (m_stateMachine.IsInContactWithFloor())  
         {                           
-            m_stateMachine.m_CanJump = false;                                                   
+            //m_stateMachine.m_CanJump = false;                                                   
             m_stateMachine.m_InAir = false;  // IMPORTANT //
+            return true;
+        }
+
+        //double jump
+        if (!m_stateMachine.IsInContactWithFloor() && m_stateMachine.m_JumpLeft > 0) 
+        {
             return true;
         }
 

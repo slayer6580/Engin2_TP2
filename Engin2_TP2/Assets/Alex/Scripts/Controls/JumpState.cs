@@ -9,6 +9,10 @@ public class JumpState : CharacterState
     {
         m_stateMachine.m_InAir = true;
         m_stateMachine.RB.drag = m_stateMachine.DragOnAir;
+        m_stateMachine.Animator.SetBool("Jump", true);
+        m_stateMachine.StaminaPlayer.JumpCost();
+        m_stateMachine.m_JumpLeft--;
+        Debug.LogWarning("Jump Left: " + m_stateMachine.m_JumpLeft);
 
         // Force du saut
         m_stateMachine.RB.AddForce(Vector3.up * m_stateMachine.JumpIntensity, ForceMode.Acceleration);
@@ -40,19 +44,16 @@ public class JumpState : CharacterState
     public override bool CanEnter(IState currentState)
     {
         //This must be run in Update absolutely
-        if ((!m_stateMachine.m_InAir && m_stateMachine.m_CanJump))
+        if (m_stateMachine.m_JumpLeft > 0)
         {
-            return Input.GetKeyDown(KeyCode.Space);
+            return Input.GetKeyDown(KeyCode.Space) && m_stateMachine.StaminaPlayer.CanUseStamina();
         }
 
         return false;
- 
-
-
     }
 
     public override bool CanExit()
     {
-        return true;
+        return m_currentStateTimer <= 0;
     }
 }

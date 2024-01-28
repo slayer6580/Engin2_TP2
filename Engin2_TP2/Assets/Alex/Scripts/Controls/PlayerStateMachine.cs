@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     [field: Header("Jumping")]
     [field: SerializeField] public float JumpIntensity { get; private set; } = 1000.0f;
+    [field: SerializeField] public int MaxJump { get; private set; }
     [field: Range(0.0f, 1.0f)] [field: SerializeField] public float AirMoveSpeed_Multiplier { get; private set; }
     [field: SerializeField] public float MaxVelocityInAir { get; private set; }
     [field: Range(0.0f, 5.0f)] [field: SerializeField] public float DragOnAir { get; private set; }
@@ -26,6 +28,10 @@ public class PlayerStateMachine : MonoBehaviour
     public float SideSpeed { get; private set; }
     public float BackSpeed { get; private set; }
 
+    [field: Header("Stamina")]
+    public StaminaPlayer StaminaPlayer { get; set; }
+    [field: Range(1.0f, 3.0f)] [field: SerializeField] public float SprintSpeedMultiplier { get; private set; }
+
     [SerializeField] private CharacterFloorTrigger m_floorTrigger;
     [SerializeField] private PhysicMaterial m_groundPhysicMaterial;
     [SerializeField] private PhysicMaterial m_inAirPhysicMaterial;
@@ -35,6 +41,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     [HideInInspector] public bool m_InAir = false;
     [HideInInspector] public bool m_CanJump = true;
+    [HideInInspector] public int m_JumpLeft;
 
     private void CreatePossibleStates()
     {
@@ -52,6 +59,7 @@ public class PlayerStateMachine : MonoBehaviour
         RB = GetComponent<Rigidbody>();
         PlayerCollider = GetComponent<CapsuleCollider>();
         Animator = GetComponent<Animator>();
+        StaminaPlayer = GetComponent<StaminaPlayer>();
 
         // Code Review:
         // Ajouter des if (Animator != null) 
@@ -78,7 +86,9 @@ public class PlayerStateMachine : MonoBehaviour
     {
         m_currentState.OnUpdate();
         TryStateTransition();
+        UpdateAnimatorInAirBool();
     }
+
 
     private void FixedUpdate()
     {
@@ -155,7 +165,10 @@ public class PlayerStateMachine : MonoBehaviour
     {
         JumpIntensity = newIntensity;
     }
-
+    private void UpdateAnimatorInAirBool()
+    {
+        Animator.SetBool("InAir", !m_floorTrigger.IsOnFloor);
+    }
 }
 
 

@@ -5,14 +5,19 @@ public class FreeState : CharacterState
     Vector3 m_lastVectorDirection = Vector3.zero;
     private const float LANDING_DURATION = 0.7f;
     private float m_currentTimer = 0;
+    private bool m_isSprinting = false;
     public override void OnEnter()
     {
         m_stateMachine.RB.drag = m_stateMachine.DragOnGround;
+        m_stateMachine.m_JumpLeft = m_stateMachine.MaxJump;
+        Debug.LogWarning("JumpLeft: " + m_stateMachine.m_JumpLeft);
+        Debug.Log("Enter state: FreeState\n");
     }
 
     public override void OnUpdate()
     {
-        JumpDelay();
+        m_stateMachine.Animator.SetFloat("Speed", GetMovement());
+        Sprint();
     }
 
     public override void OnFixedUpdate()
@@ -31,6 +36,7 @@ public class FreeState : CharacterState
         //Je ne peux entrer dans le FreeState que si je touche le sol
         if (m_stateMachine.IsInContactWithFloor())
         {
+            Debug.LogWarning("JE TOUCHE LE SOL");
             return m_stateMachine.IsInContactWithFloor();
         }
         return false;
@@ -40,19 +46,6 @@ public class FreeState : CharacterState
     public override bool CanExit()
     {
         return true;
-    }
-
-    // Pour avoir un délai quand on touche le sol avant de pouvoir resauter.
-    private void JumpDelay()
-    {
-        if (!m_stateMachine.m_CanJump)
-        {
-            m_currentTimer += Time.deltaTime;
-            if (m_currentTimer > m_stateMachine.LandingDelay)
-            {
-                m_stateMachine.m_CanJump = true;
-            }
-        }
     }
 
     private void FreeStateMovement()
@@ -97,6 +90,13 @@ public class FreeState : CharacterState
         float normalizeSpeed = 0;
         Vector3 normalizedVector = Vector3.zero;
 
+        // Si on sprint, applique le multiplier
+        if (m_isSprinting == true && m_stateMachine.StaminaPlayer.CanUseStamina())
+        {
+            m_stateMachine.StaminaPlayer.RunCost();
+            totalSpeed *= m_stateMachine.SprintSpeedMultiplier;
+        }
+
         // Pour mélanger équalement les vitesses de toute les directions appuyés (exemple: haut et gauche)
         if (inputsNumber != 0)
         {
@@ -118,5 +118,29 @@ public class FreeState : CharacterState
         {
             m_stateMachine.RB.velocity = m_stateMachine.RB.velocity.normalized * m_stateMachine.MaxVelocityOnGround;
         }
+    }
+
+    private float GetMovement() 
+    {
+        float velocity = 0;
+        velocity += Mathf.Abs(m_stateMachine.RB.velocity.x);
+        velocity += Mathf.Abs(m_stateMachine.RB.velocity.y);
+        velocity += Mathf.Abs(m_stateMachine.RB.velocity.z);
+        velocity = velocity / m_stateMachine.MaxVelocityOnGround;
+        velocity *= 1.50f;
+        //Debug.LogWarning("Velocity: " + velocity);
+
+        return velocity;
+
+    }
+
+    private void Sprint()
+    {
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            m_isSprinting = true;
+            return;
+        }
+        m_isSprinting = false;
     }
 }
