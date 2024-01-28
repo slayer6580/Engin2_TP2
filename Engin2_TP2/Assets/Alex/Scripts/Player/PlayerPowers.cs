@@ -36,12 +36,24 @@ public class PlayerPowers : MonoBehaviour
 
     private void Awake()
     {
+        // Code Review:
+        // Je n'ai pas réussi à voir à quoi ce script est attaché?
+        // Il faudrait vraiment un PowerupManager (ou au moins un GameManager) sinon je vois quand ce awake() est appelé
+        // Aussi il faut rajouter quelque chose si le PlayerStateMachine n'est pas là
+        //
+
         m_playerFSM = GetComponent<PlayerStateMachine>();
     }
 
     /// <summary> Retourne vrai si le joueur na pas de pouvoir actuel </summary>
     public bool CanHavePower()
     {
+
+        // Code Review:
+        // Bonne place pour un opérateur terniaire
+        // m_currentPower !=EPowers.none ? false : true;
+        //
+
         if (m_currentPower != EPowers.none)
         {
             return false;
@@ -87,6 +99,11 @@ public class PlayerPowers : MonoBehaviour
 
             case EPowers.none:
 
+                // Code Review:
+                // En théorie, ça ne devrait jamais être appelé... 
+                // On pourrait faire du proofing en rajoutant une fonction qui clean tout
+                //
+
                 break;
             default:
                 break;
@@ -95,7 +112,14 @@ public class PlayerPowers : MonoBehaviour
 
     /// <summary> Attend la durée du pouvoir pour tout réinitialiser </summary>
     IEnumerator WaitAndBackToNormal(float time)
+
     {
+
+        // Code Review:
+        // On pourrait sauver potentiellement beaucoup de coroutines avec un PowerupManager qui gère les powerups sur le map.
+        // On aurait un seul timer et à chaque x frames, le manager check ce qu'il doit respawn
+        //
+
         yield return new WaitForSeconds(time);
 
         if (m_currentPower == EPowers.speed)
