@@ -1794,6 +1794,11 @@ PrefabInstance:
       propertyPath: sceneId
       value: 3571649298
       objectReference: {fileID: 0}
+    - target: {fileID: 2044966172365385452, guid: 164d2feea529d0a4aa8326a2afa3df32,
+        type: 3}
+      propertyPath: serverOnly
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2150264757100952341, guid: 164d2feea529d0a4aa8326a2afa3df32,
         type: 3}
       propertyPath: m_LocalPosition.x

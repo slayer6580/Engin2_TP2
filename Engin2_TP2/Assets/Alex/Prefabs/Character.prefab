@@ -1501,7 +1501,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  m_secondsToCompleteLevel: 6
+  m_secondsToCompleteLevel: 2
   m_timeText: {fileID: 3351727097363566068}
 --- !u!114 &5476485238661691150
 MonoBehaviour:
@@ -1558,7 +1558,6 @@ MonoBehaviour:
   syncDirection: 1
   syncMode: 0
   syncInterval: 0
-  m_readOnlySpawnPoint: {x: 0, y: 0, z: 0}
 --- !u!114 &6995509101826970643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1609,6 +1608,7 @@ MonoBehaviour:
   - {fileID: 6585508796173872766}
   - {fileID: 4107180073999301517}
   - {fileID: 5476485238661691150}
+  - {fileID: 2494672446451003947}
   m_canvas: {fileID: 5410057221153584681}
 --- !u!136 &7572140525886331030
 CapsuleCollider:
@@ -1657,7 +1657,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 2
+  m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &-6541621883681443239

@@ -16,11 +16,13 @@ public class CharacterSpawnPoint : NetworkBehaviour
     /// <summary> Pour la réapparition du joueur à son point de départ </summary>
     public void GoToSpawnPoint()
     {
-        transform.position = m_spawnPoint;
+        transform.SetPositionAndRotation(m_spawnPoint, Quaternion.identity);
         m_rb.velocity = Vector3.zero;
+        // deux fois client, hote toute les clients
+        Debug.LogError("RESPAWN:" + m_spawnPoint.ToString());
     }
 
-    [Client] 
+
     private void SetSpawnPoint()
     {
         m_spawnPoint = transform.position;
