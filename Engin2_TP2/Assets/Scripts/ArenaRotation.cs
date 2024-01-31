@@ -1,6 +1,7 @@
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEditor;
 using UnityEngine;
 
@@ -161,7 +162,12 @@ public class ArenaRotation : NetworkBehaviour, IInteractable
 
 	public void OnPlayerClicked(GameMasterController player)
 	{
-		IsSelected = true;
+		if (IsActivated)
+		{
+			IsSelected = true;
+		}
+
+		
 	}
 	public void OnPlayerClickUp(GameMasterController player)
 	{

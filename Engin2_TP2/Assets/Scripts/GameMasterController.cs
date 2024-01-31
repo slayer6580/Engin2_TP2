@@ -39,11 +39,9 @@ public class GameMasterController : MonoBehaviour
             {
                if(hit.collider.gameObject.GetComponent<IInteractable>() != null)        //To Replace by if Interactable
                 {
-                    if (hit.collider.gameObject.GetComponent<ArenaRotation>().IsActivated)
-                    {
-						m_lastSelectedObject = hit.collider.gameObject;
-						m_lastSelectedObject.GetComponent<IInteractable>().OnPlayerClicked(this);
-					}
+					m_lastSelectedObject = hit.collider.gameObject;
+					m_lastSelectedObject.GetComponent<IInteractable>().OnPlayerClicked(this);
+					
 				}
             }
         }
