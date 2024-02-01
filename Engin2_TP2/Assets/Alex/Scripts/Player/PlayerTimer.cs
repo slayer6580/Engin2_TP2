@@ -13,7 +13,7 @@ public class PlayerTimer : NetworkBehaviour
 
     private void Awake()
     {
-        m_currentTime = m_secondsToCompleteLevel;
+        ResetTimer();
         m_characterSpawnPoint = GetComponent<CharacterSpawnPoint>();    
     }
 
@@ -28,6 +28,11 @@ public class PlayerTimer : NetworkBehaviour
         }
 
         m_timeText.text = "Time: " + ((int)m_currentTime).ToString();        
+    }
+
+    public void ResetTimer()
+    {
+        m_currentTime = m_secondsToCompleteLevel;
     }
 
 }

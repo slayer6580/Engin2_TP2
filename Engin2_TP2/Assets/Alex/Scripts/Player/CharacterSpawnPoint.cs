@@ -2,6 +2,7 @@ using Mirror;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(PlayerTimer))]
 public class CharacterSpawnPoint : NetworkBehaviour
 {
     private Vector3 m_spawnPoint;
@@ -18,8 +19,7 @@ public class CharacterSpawnPoint : NetworkBehaviour
     {
         transform.SetPositionAndRotation(m_spawnPoint, Quaternion.identity);
         m_rb.velocity = Vector3.zero;
-        // deux fois client, hote toute les clients
-        Debug.LogError("RESPAWN:" + m_spawnPoint.ToString());
+        GetComponent<PlayerTimer>().ResetTimer();
     }
 
 
