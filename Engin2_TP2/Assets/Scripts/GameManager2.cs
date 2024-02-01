@@ -6,7 +6,7 @@ using TMPro;
 
 // Gère les étapes de jeux, les points, les mises de joueur aux bonnes places, etc.
 
-public class GameManager : MonoBehaviour
+public class GameManager2 : MonoBehaviour
 {
     [SerializeField] float timeLeftInGame;
     public enum GameState 
@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
 
     private GameState m_currentState = GameState.none;
 
-    public static GameManager Instance;
+    public static GameManager2 Instance;
     private void Awake()
     {
         if (Instance == null) // Singleton; à revoir avec le multiplayer? Il doit runner sur le serveur...

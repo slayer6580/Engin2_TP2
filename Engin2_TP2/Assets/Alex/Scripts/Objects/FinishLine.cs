@@ -6,8 +6,11 @@ public class FinishLine : MonoBehaviour
     {
         CharacterSpawnPoint character = other.GetComponent<CharacterSpawnPoint>();
 
-        if (character)
-            character.GoToSpawnPoint();
+        if (character == null)
+            return;
+
+        character.GoToSpawnPoint();
+        GameManager.GetInstance().CMD_ScoreRunner();
 
     }
 }
