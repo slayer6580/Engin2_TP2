@@ -7,7 +7,6 @@ public class ObjectOnRail : MonoBehaviour
     [SerializeField] private bool m_isAuto;
 	[SerializeField] private float m_autoSpeed;
 
-	[SerializeField] private float m_manualSpeed;
 	private bool m_isGrowing = true;
 	[SerializeField] private bool m_isManual;
 
@@ -74,9 +73,6 @@ public class ObjectOnRail : MonoBehaviour
            
         }
       
-
-
-        print("I: " + i);
 		Vector3 direction = destination - m_railPoints[i-1].position;
 
 		float percentBetween2Points = m_positionOnRail - m_railPointsPercentage[i - 1];
