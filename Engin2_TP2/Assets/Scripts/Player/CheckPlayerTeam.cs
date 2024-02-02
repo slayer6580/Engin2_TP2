@@ -31,6 +31,12 @@ public class CheckPlayerTeam : NetworkBehaviour
 			m_gameMasterController.enabled = false;
 			m_playerStateMachine.enabled = false;
 		}
+
+		if (m_isGameMaster)
+		{
+			print("GAMEMASET");
+			transform.position = Vector3.zero;
+		}
 	}
 
 
