@@ -120,8 +120,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ed0379b3712d514f83a957919eae975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushForce: 10
-  bumperObjectMovesOnImpact: 1
+  pushForce: 1000
+  bumperForceReduction: 2
+  bumperObjectMovesOnImpact: 0
+  canBeMovedByGameMaster: 0
   touchEffect: {fileID: 0}
 --- !u!65 &5129296982425796534
 BoxCollider:
