@@ -2,19 +2,19 @@ using Mirror;
 using TMPro;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterSpawnPoint))]
+[RequireComponent(typeof(PlayerCheckpoint))]
 public class PlayerTimer : NetworkBehaviour
 {
     [SerializeField] private float m_secondsToCompleteLevel;
     [SerializeField] TextMeshProUGUI m_timeText;
 
     private float m_currentTime;
-    private CharacterSpawnPoint m_characterSpawnPoint;
+    private PlayerCheckpoint m_characterSpawnPoint;
 
     private void Awake()
     {
         ResetTimer();
-        m_characterSpawnPoint = GetComponent<CharacterSpawnPoint>();    
+        m_characterSpawnPoint = GetComponent<PlayerCheckpoint>();    
     }
 
     private void Update()
@@ -23,8 +23,8 @@ public class PlayerTimer : NetworkBehaviour
 
         if (m_currentTime <= 0)
         {
-            m_characterSpawnPoint.GoToSpawnPoint();
-            m_currentTime = m_secondsToCompleteLevel;
+            m_characterSpawnPoint.GoToTeleportPoint();
+            ResetTimer();
         }
 
         m_timeText.text = "Time: " + ((int)m_currentTime).ToString();        
@@ -33,6 +33,11 @@ public class PlayerTimer : NetworkBehaviour
     public void ResetTimer()
     {
         m_currentTime = m_secondsToCompleteLevel;
+    }
+
+    public void AddBonusToTimer(float bonus)
+    {
+        m_currentTime += bonus;
     }
 
 }

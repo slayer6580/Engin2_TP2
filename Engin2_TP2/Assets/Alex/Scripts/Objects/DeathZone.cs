@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FinishLine : MonoBehaviour
+public class DeathZone : MonoBehaviour
 {
     [SerializeField] private bool m_KeepRenderer;
 
@@ -16,18 +16,9 @@ public class FinishLine : MonoBehaviour
         if (character == null)
             return;
 
-        if (character.GetCheckpointReached() != CheckpointManager.GetInstance().GetListLength())
-        {
-            Debug.LogError("Manque des checkpoints!");
-            return;
-        }
-
-        character.SetTeleportPointToStart();
-        character.GoToTeleportPoint();  
+        character.GoToTeleportPoint();
         character.gameObject.GetComponent<PlayerTimer>().ResetTimer();
-        character.SetCheckpointReached(0);
-
-        ScoreManager.GetInstance().CMD_ScoreRunner();
+        ScoreManager.GetInstance().CMD_ScoreGameMaster();
     }
 
     private void DesactiveRenderer()

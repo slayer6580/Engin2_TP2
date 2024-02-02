@@ -2,7 +2,7 @@ using Mirror;
 using TMPro;
 using UnityEngine;
 
-public class GameManager : NetworkBehaviour
+public class ScoreManager : NetworkBehaviour
 {
 
     public enum ETeam
@@ -14,13 +14,13 @@ public class GameManager : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI m_gamemasterScoreText;
     [SerializeField] private TextMeshProUGUI m_runnerScoreText;
 
-    [SyncVar] private int m_gamemasterScore = 0;
-    [SyncVar] private int m_runnerScore = 0;
+    private int m_gamemasterScore = 0;
+    private int m_runnerScore = 0;
 
-    private static GameManager s_instance = null;
+    private static ScoreManager s_instance = null;
 
 
-    public static GameManager GetInstance()
+    public static ScoreManager GetInstance()
     {
         return s_instance;
     }
