@@ -1,7 +1,8 @@
 using UnityEngine;
 
-public class FinishLine : MonoBehaviour
+public class CheckPoint : MonoBehaviour
 {
+    [SerializeField] private float m_bonusToAdd;
     [SerializeField] private bool m_KeepRenderer;
 
     private void Awake()
@@ -16,23 +17,23 @@ public class FinishLine : MonoBehaviour
         if (character == null)
             return;
 
-        if (character.GetCheckpointReached() != CheckpointManager.GetInstance().GetListLength())
+        CheckpointManager instance = CheckpointManager.GetInstance();
+
+        if (!instance.ValidateCheckpoint(this, character))
         {
             Debug.LogError("Manque des checkpoints!");
             return;
         }
 
-        character.SetTeleportPointToStart();
-        character.GoToTeleportPoint();  
-        character.gameObject.GetComponent<PlayerTimer>().ResetTimer();
-        character.SetCheckpointReached(0);
-
+        character.SetCheckpointReached(instance.GetCheckpointNumber(this));
         ScoreManager.GetInstance().CMD_ScoreRunner();
+        character.GetComponent<PlayerTimer>().AddBonusToTimer(m_bonusToAdd);
+        character.SetTeleportPoint();
     }
 
     private void DesactiveRenderer()
     {
         if (!m_KeepRenderer)
-            GetComponent<MeshRenderer>().enabled = false;
+        GetComponent<MeshRenderer>().enabled = false;
     }
 }
