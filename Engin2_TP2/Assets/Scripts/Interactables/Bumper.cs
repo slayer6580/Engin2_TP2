@@ -24,16 +24,16 @@ public class Bumper : MonoBehaviour, IInteractable
          bumperCollider = this.GetComponent<BoxCollider>();
     }
 
-    public void OnPlayerCollision(Player player)
+    public void OnPlayerCollision(PlayerStateMachine playerStateMachine)
     {
-        PushPlayer(player);
+        PushPlayer(playerStateMachine);
         PlayParticleEffect();
-        UpdateInteractableObject(player); // idealement ne passer que le transform du joueur ici, ca bouge le bumper
+        UpdateInteractableObject(playerStateMachine); // idealement ne passer que le transform du joueur ici, ca bouge le bumper
     }
 
-    void PushPlayer(Player player)
+    void PushPlayer(PlayerStateMachine playerStateMachine)
     {
-        Rigidbody playerRigidbody = player.GetComponent<Rigidbody>();
+        Rigidbody playerRigidbody = playerStateMachine.gameObject.GetComponent<Rigidbody>();
 
         //if (player.GetType() == player)
         //    return;
@@ -41,7 +41,7 @@ public class Bumper : MonoBehaviour, IInteractable
 
         if (playerRigidbody != null)
         {
-            Vector3 bumpForce = CalculateBumpForce(player);
+            Vector3 bumpForce = CalculateBumpForce(playerStateMachine);
 
             // Apply force to the player's rigidbody
             playerRigidbody.AddForce(bumpForce, ForceMode.Impulse);
@@ -51,10 +51,10 @@ public class Bumper : MonoBehaviour, IInteractable
    
      void OnCollisionEnter(Collision collision)
     {
-        Player player = collision.collider.GetComponent<Player>(); // le player doit avoir un script nommé Player sur lui
-        if (player != null)
+        PlayerStateMachine playerStateMachine = collision.collider.GetComponent<PlayerStateMachine>(); // le player doit avoir un script nommé PlayerStateMachine sur lui
+        if (playerStateMachine != null)
         {
-            OnPlayerCollision(player); // ou encore, appeler IBumpable sur le joueur? A-t-on vraiment besoin d'une sous-fonction ici? Le bumper ne bump que les players
+            OnPlayerCollision(playerStateMachine); // ou encore, appeler IBumpable sur le joueur? A-t-on vraiment besoin d'une sous-fonction ici? Le bumper ne bump que les players
         }
     }
 
@@ -67,22 +67,26 @@ public class Bumper : MonoBehaviour, IInteractable
         // Pour le moment, on mets le script sur un objet; c'est un autre script sur l'objet qui permet le déplacement.
         //IInteractable
     }
+    public void OnPlayerCollision(Player player)
+    {
+        // On passe par la state machine finalement
+    }
 
-    public void UpdateInteractableObject(Player player)
+    public void UpdateInteractableObject(PlayerStateMachine playerStateMachine)
     { 
        
         if (bumperRigidbody != null && bumperObjectMovesOnImpact)
         {
-            Vector3 bumpForce = CalculateBumpForce(player);
+            Vector3 bumpForce = CalculateBumpForce(playerStateMachine);
             bumperRigidbody.AddForce(-bumpForce/bumperForceReduction, ForceMode.Impulse);
         }
 
     }
 
-    Vector3 CalculateBumpForce(Player player)
+    Vector3 CalculateBumpForce(PlayerStateMachine playerStateMachine)
     {
   
-        Vector3 pushDirection = this.transform.position-player.transform.position;
+        Vector3 pushDirection = this.transform.position- playerStateMachine.gameObject.transform.position;
         pushDirection.y = 0;            // déplacement sur le planXZ seulement
         pushDirection.Normalize();      // merci soufiane !! 
 
