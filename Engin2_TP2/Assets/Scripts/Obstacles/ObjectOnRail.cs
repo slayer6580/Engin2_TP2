@@ -1,10 +1,15 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectOnRail : MonoBehaviour
+[RequireComponent(typeof(NetworkIdentity))]
+
+public class ObjectOnRail : NetworkBehaviour
 {
-    [SerializeField] private bool m_isAuto;
+	
+
+	[SerializeField] private bool m_isAuto;
     [SerializeField] private bool m_isLooping;
 	[SerializeField] private float m_autoSpeed;
 
@@ -14,7 +19,7 @@ public class ObjectOnRail : MonoBehaviour
 	[SerializeField] private List<Transform> m_railPoints = new List<Transform>();
     [SerializeField] private List<int> m_railPointsPercentage = new List<int>();
 
-    [SerializeField][Range (0,100)] private float m_positionOnRail;
+    [SyncVar][SerializeField][Range (0,100)] private float m_positionOnRail;
     [SerializeField] private GameObject m_objectToMove;
 
     private Vector3 destination = Vector3.zero;
@@ -23,16 +28,48 @@ public class ObjectOnRail : MonoBehaviour
 
     public void Move(int dir)
     {
-        m_isManual = true;
+		MoveCommand(dir);
+	}
+
+	[Command(requiresAuthority = false)]
+	public void MoveCommand(int dir)
+	{
+		m_isManual = true;
 		m_direction = dir;
 	}
 
-    public void StopMove()
+	[Client]
+	public void MoveRPC(int dir)
+	{
+		print("BB");
+		m_isManual = true;
+		m_direction = dir;
+	}
+
+
+	public void StopMove()
     {
+		StopMoveCommand();
+	}
+
+	[Command(requiresAuthority = false)]
+	public void StopMoveCommand()
+	{
 		m_isManual = false;
 		m_direction = 0;
 	}
-    void Update()
+
+	[Client]
+	public void StopMoveRPC()
+	{
+		print("CC");
+		m_isManual = false;
+		m_direction = 0;
+	}
+
+
+
+	void Update()
     {
         if(m_isManual)
         {

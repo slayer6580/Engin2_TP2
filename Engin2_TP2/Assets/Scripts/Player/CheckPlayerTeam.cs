@@ -17,6 +17,7 @@ public class CheckPlayerTeam : NetworkBehaviour
 	public NetworkRoomManager m_roomManager;
 	[SyncVar] public bool m_isGameMaster;
 
+	private bool m_thisHaveCalledDeactivate = false;
 
 	private void Start()
 	{
@@ -34,11 +35,36 @@ public class CheckPlayerTeam : NetworkBehaviour
 
 		if (m_isGameMaster)
 		{
-			print("GAMEMASET");
+			if (isLocalPlayer)
+			{
+				m_thisHaveCalledDeactivate = true;
+				DeactivateThisCommand();
+			}
 			transform.position = Vector3.zero;
 		}
 	}
 
+
+	[Command(requiresAuthority = false)]
+	public void DeactivateThisCommand()
+	{
+		DeactivateThis();
+	}
+
+	[Client]
+	public void DeactivateThis()
+	{
+		if(m_thisHaveCalledDeactivate == false)
+		{
+			this.gameObject.SetActive(false);
+		}
+		else
+		{
+			//If I get here that mean this is the client that initiated deactivation, so reset the bool
+			m_thisHaveCalledDeactivate = false;
+		}
+		
+	}
 
 	void Update()
 	{
