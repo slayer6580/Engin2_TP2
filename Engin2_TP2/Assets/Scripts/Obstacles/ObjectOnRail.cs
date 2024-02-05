@@ -7,8 +7,8 @@ using UnityEngine;
 
 public class ObjectOnRail : NetworkBehaviour
 {
-	
 
+	[SerializeField] private float m_staminaCost;
 	[SerializeField] private bool m_isAuto;
     [SerializeField] private bool m_isLooping;
 	[SerializeField] private float m_autoSpeed;
@@ -26,9 +26,17 @@ public class ObjectOnRail : NetworkBehaviour
 
     private int m_direction = 0;
 
-    public void Move(int dir)
+
+	public void StaminaCost(GameMasterController player)
+	{
+		print("Cost: " + m_staminaCost);
+	}
+
+
+	public void Move(int dir)
     {
 		MoveCommand(dir);
+		m_staminaCost = 5;
 	}
 
 	[Command(requiresAuthority = false)]

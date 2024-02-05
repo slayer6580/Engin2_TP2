@@ -8,13 +8,14 @@ using Mirror;
 
 public class ActivateObstacle : NetworkBehaviour, IInteractable
 {
-	[SerializeField] UnityEvent m_Activate;
+
 	[SerializeField] UnityEvent m_Deactivate;
+	[SerializeField] UnityEvent<GameMasterController> m_Activate;
 
 	
 	public void OnPlayerClicked(GameMasterController player)
 	{
-		m_Activate.Invoke();
+		m_Activate.Invoke(player);
 	}
 
 	
@@ -23,12 +24,7 @@ public class ActivateObstacle : NetworkBehaviour, IInteractable
 		m_Deactivate.Invoke();
 	}
 
-	public void OnPlayerCollision(Player player)
-	{
-		throw new System.NotImplementedException();
-	}
-
-	public void UpdateInteractableObject(GameMasterController player)
+	public void StaminaCost(GameMasterController player)
 	{
 		throw new System.NotImplementedException();
 	}

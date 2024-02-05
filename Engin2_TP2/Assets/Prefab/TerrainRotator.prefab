@@ -753,7 +753,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8979929556891404500}
-  - component: {fileID: 9049007159561622138}
   m_Layer: 0
   m_Name: TerrainRotator
   m_TagString: Untagged
@@ -777,30 +776,9 @@ Transform:
   - {fileID: 6079878960385882503}
   - {fileID: 1600287310951345285}
   - {fileID: 3179520738504845211}
+  - {fileID: 7918483056789071932}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
---- !u!114 &9049007159561622138
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6765064504386422005}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23c3fecd949dfdd4bbb441aafe098c7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  m_rotatorManager: {fileID: 0}
-  m_netId: {fileID: 0}
-  m_arena: {fileID: 0}
-  m_rotationPoint: 0
-  m_maxX: 5
-  m_minX: -5
-  m_movementSpeed: 3
 --- !u!1 &7478998602705916959
 GameObject:
   m_ObjectHideFlags: 0
@@ -880,7 +858,7 @@ MonoBehaviour:
   m_GoUP:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9049007159561622138}
+      - m_Target: {fileID: 859620171634601506}
         m_TargetAssemblyTypeName: ArenaRotation, Assembly-CSharp
         m_MethodName: CallMovement
         m_Mode: 3
@@ -895,7 +873,7 @@ MonoBehaviour:
   m_GoDown:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9049007159561622138}
+      - m_Target: {fileID: 859620171634601506}
         m_TargetAssemblyTypeName: ArenaRotation, Assembly-CSharp
         m_MethodName: CallMovement
         m_Mode: 3
@@ -1673,3 +1651,76 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!1 &9087710404324736260
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7918483056789071932}
+  - component: {fileID: 859620171634601506}
+  - component: {fileID: 1058136551546882071}
+  m_Layer: 0
+  m_Name: RotatorsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7918483056789071932
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9087710404324736260}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8979929556891404500}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &859620171634601506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9087710404324736260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23c3fecd949dfdd4bbb441aafe098c7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  m_rotatorManager: {fileID: 0}
+  m_netId: {fileID: 0}
+  m_arena: {fileID: 0}
+  m_rotationPoint: 0
+  m_maxX: 5
+  m_minX: -5
+  m_movementSpeed: 3
+--- !u!114 &1058136551546882071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9087710404324736260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clientStarted: 0
+  sceneId: 0
+  _assetId: 90940618
+  serverOnly: 0
+  visible: 0
+  hasSpawned: 0

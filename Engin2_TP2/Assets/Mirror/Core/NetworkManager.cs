@@ -111,6 +111,7 @@ namespace Mirror
         [FormerlySerializedAs("m_PlayerPrefab")]
         [Tooltip("Prefab of the player object. Prefab must have a Network Identity component. May be an empty game object or a full avatar.")]
         public GameObject playerPrefab;
+        public GameObject gameMasterPrefab;
 
         /// <summary>Enable to automatically create player objects on connect and on scene change.</summary>
         [FormerlySerializedAs("m_AutoCreatePlayer")]
@@ -211,7 +212,12 @@ namespace Mirror
                 Debug.LogWarning("NetworkManager - Player Prefab doesn't need to be in Spawnable Prefabs list too. Removing it.");
                 spawnPrefabs.Remove(playerPrefab);
             }
-        }
+			if (gameMasterPrefab != null && spawnPrefabs.Contains(gameMasterPrefab))
+			{
+				Debug.LogWarning("NetworkManager - Player Prefab doesn't need to be in Spawnable Prefabs list too. Removing it.");
+				spawnPrefabs.Remove(gameMasterPrefab);
+			}
+		}
 
         // virtual so that inheriting classes' Reset() can call base.Reset() too
         // Reset only gets called when the component is added or the user resets the component
@@ -792,7 +798,10 @@ namespace Mirror
             if (playerPrefab != null)
                 NetworkClient.RegisterPrefab(playerPrefab);
 
-            foreach (GameObject prefab in spawnPrefabs.Where(t => t != null))
+			if (gameMasterPrefab != null)
+				NetworkClient.RegisterPrefab(gameMasterPrefab);
+
+			foreach (GameObject prefab in spawnPrefabs.Where(t => t != null))
                 NetworkClient.RegisterPrefab(prefab);
         }
 
@@ -1378,6 +1387,7 @@ namespace Mirror
         // The default implementation for this function creates a new player object from the playerPrefab.
         public virtual void OnServerAddPlayer(NetworkConnectionToClient conn)
         {
+            print("CEST PAS APPELT CA!!");
             Transform startPos = GetStartPosition();
             GameObject player = startPos != null
                 ? Instantiate(playerPrefab, startPos.position, startPos.rotation)

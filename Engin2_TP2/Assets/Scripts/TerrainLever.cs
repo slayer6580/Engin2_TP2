@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UIElements;
 
+[RequireComponent(typeof(NetworkIdentity))]
 public class TerrainLever : NetworkBehaviour, IInteractable
 {
 	[SerializeField] private ArenaRotationManager m_rotatorManager;
@@ -115,7 +116,7 @@ public class TerrainLever : NetworkBehaviour, IInteractable
 		throw new System.NotImplementedException();
 	}
 
-	public void UpdateInteractableObject(GameMasterController player)
+	public void StaminaCost(GameMasterController player)
 	{
 		throw new System.NotImplementedException();
 	}

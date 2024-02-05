@@ -85,6 +85,18 @@ public class SideSelectionManager : NetworkBehaviour
 		}
 	}
 
+	[Command(requiresAuthority = false)]
+	public void ChangeNameCommand(NetworkRoomPlayer player, string newName)
+	{
+		ChangeNameClient(player, newName);
+	}
+
+	[ClientRpc]
+	public void ChangeNameClient(NetworkRoomPlayer player, string newName)
+	{
+		player.gameObject.transform.name = newName;
+	}
+
 	public void SelectSlot(int wantedSlot)
 	{	
 		//If the selected slot is available
@@ -100,11 +112,16 @@ public class SideSelectionManager : NetworkBehaviour
 			//Set which side has been choosen
 			if (wantedSlot >= m_maxGameMaster)
 			{
-				m_networkRoomManager.GetComponent<SaveLocalPlayer>().m_isGameMaster = false;
+				//GetLocalNetworkRoomPlayer().gameObject.GetComponent<SaveLocalPlayer>().m_isGameMaster = false;
+				ChangeNameCommand(GetLocalNetworkRoomPlayer(), "Runner");
+				
+
 			}
 			else
 			{
-				m_networkRoomManager.GetComponent<SaveLocalPlayer>().m_isGameMaster = true;
+				//GetLocalNetworkRoomPlayer().gameObject.GetComponent<SaveLocalPlayer>().m_isGameMaster = true;
+				ChangeNameCommand(GetLocalNetworkRoomPlayer(), "GameMaster");
+
 			}
 
 			

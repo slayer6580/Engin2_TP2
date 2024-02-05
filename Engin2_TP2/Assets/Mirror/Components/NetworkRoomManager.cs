@@ -135,11 +135,25 @@ namespace Mirror
             GameObject gamePlayer = OnRoomServerCreateGamePlayer(conn, roomPlayer);
             if (gamePlayer == null)
             {
-                // get start position from base class
-                Transform startPos = GetStartPosition();
-                gamePlayer = startPos != null
-                    ? Instantiate(playerPrefab, startPos.position, startPos.rotation)
-                    : Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+                print("CALL THUIS");
+                if(roomPlayer.gameObject.transform.name == "GameMaster")
+                {
+					// get start position from base class
+					Transform startPos = GetStartPosition();
+					gamePlayer = startPos != null
+						? Instantiate(gameMasterPrefab, startPos.position, startPos.rotation)
+						: Instantiate(gameMasterPrefab, Vector3.zero, Quaternion.identity);
+				}
+                else
+                {
+               
+					// get start position from base class
+					Transform startPos = GetStartPosition();
+					gamePlayer = startPos != null
+						? Instantiate(playerPrefab, startPos.position, startPos.rotation)
+						: Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+				}
+				
             }
 
             if (!OnRoomServerSceneLoadedForPlayer(conn, roomPlayer, gamePlayer))
@@ -436,7 +450,10 @@ namespace Mirror
             if (playerPrefab == null)
                 Debug.LogError("NetworkRoomManager no GamePlayer prefab is registered. Please add a GamePlayer prefab.");
 
-            OnRoomStartClient();
+			if (gameMasterPrefab == null)
+				Debug.LogError("NetworkRoomManager no GameMaster prefab is registered. Please add a GameMaster prefab.");
+
+			OnRoomStartClient();
         }
 
         /// <summary>

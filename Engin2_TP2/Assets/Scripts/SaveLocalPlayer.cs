@@ -2,8 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SaveLocalPlayer : MonoBehaviour
+namespace Mirror
 {
-    public bool m_isGameMaster;
-  
+	public class SaveLocalPlayer : NetworkBehaviour
+	{
+		[SyncVar] public bool m_isGameMaster;
+
+	}
 }
+
+
+

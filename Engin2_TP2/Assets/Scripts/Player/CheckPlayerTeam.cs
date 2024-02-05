@@ -25,7 +25,8 @@ public class CheckPlayerTeam : NetworkBehaviour
 
 		if (NetworkClient.localPlayer.gameObject == this.gameObject)
 		{
-			m_isGameMaster = m_roomManager.gameObject.GetComponent<SaveLocalPlayer>().m_isGameMaster;
+			//m_isGameMaster = m_roomManager.gameObject.GetComponent<SaveLocalPlayer>().m_isGameMaster;
+			//m_isGameMaster = m_roomManager.gameObject.GetComponent<NetworkRoomManager>().m_isGameMaster;
 		}
 		else
 		{
