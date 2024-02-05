@@ -1,24 +1,44 @@
 using Mirror;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class ArenaRotationManager : NetworkBehaviour
 {
-	[SerializeField] private List<ArenaRotation> m_rotators = new List<ArenaRotation>();
+	private bool m_isBeingMoved;
 
-	[Command(requiresAuthority = false)]
-	public void ManageRotatorsCommand(bool _value)
+	[SerializeField] private List<GameObject> m_changingColorObject;
+	[SerializeField] private Color m_baseRed;
+	[SerializeField] private Color m_inUseColor;
+
+	public void SetIsBeingMoved(bool value)
 	{
-		ManageRotators(_value);
+		m_isBeingMoved = value;
+		ChangeColor(value);
 	}
 
-	[ClientRpc]
-	public void ManageRotators(bool _value)
+	public bool GetIsBeingMove()
 	{
-		foreach (ArenaRotation rotator in m_rotators)
+		return m_isBeingMoved;
+	}
+	[ClientRpc]
+	public void ChangeColor(bool value)
+	{
+		if (value)
 		{
-			rotator.ManageRotator(_value);
+			foreach (GameObject obj in m_changingColorObject)
+			{
+				obj.GetComponent<MeshRenderer>().material.color = m_inUseColor;
+			}
+		}
+		else
+		{
+			foreach (GameObject obj in m_changingColorObject)
+			{
+				obj.GetComponent<MeshRenderer>().material.color = m_baseRed;
+			}
 		}
 	}
 

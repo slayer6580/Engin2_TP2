@@ -2,182 +2,130 @@ using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Burst.CompilerServices;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class ArenaRotation : NetworkBehaviour, IInteractable
+public class ArenaRotation : NetworkBehaviour
 {
+	private const float ADJUST_SPEED = 100;
 	enum Point { North, East, South, West };
-	[SerializeField] private ArenaRotationManager m_rotationManager; 
-	[SerializeField] GameObject m_arena;
+
+	[SerializeField] ArenaRotationManager m_rotatorManager;
+	[SerializeField] NetworkIdentity m_netId;
+	[SerializeField] GameObject m_arena;	
     [SerializeField] Point m_rotationPoint;
 	[SerializeField] private float m_maxX;
 	[SerializeField] private float m_minX;
-	private Vector3 m_currentRotation = Vector3.zero;
-	[field: SerializeField] public bool IsActivated { get; set; } = true;
+	[SerializeField] private float m_movementSpeed;
 	private bool m_isSelected;
-	public bool IsSelected
-	{
-		get
-		{
-			return m_isSelected;
-		}
-		set
-		{
-			m_isSelected = value;
-			if (value)
-			{
-				m_rotationManager.ManageRotatorsCommand(false);
-			}
-			else
-			{
-				m_rotationManager.ManageRotatorsCommand(true);
-			}
-		}
-	}
+	
 
-	public void ManageRotator(bool _value)
-	{
-		IsActivated = _value;
-	}
-
-	void Update()
+	//Call the good movement on the server depending of which switch has been activated
+	public void CallMovement(int upOrDown)
     {
-		if (IsSelected)
+		switch (m_rotationPoint)
 		{
-			switch (m_rotationPoint)
-			{
-				case Point.North:
-					MoveArena(-Input.GetAxis("Mouse Y"), Mathf.Round(m_arena.transform.eulerAngles.x), new Vector3(1, 0, 0), true);
-					break;
+			case Point.North:
+				MoveArena(upOrDown, new Vector3(1, 0, 0));
+				break;
 
-				case Point.South:
-					MoveArena(Input.GetAxis("Mouse Y"), Mathf.Round(m_arena.transform.eulerAngles.x), new Vector3(1, 0, 0), true);
-					break;
+			case Point.South:
+				MoveArena(upOrDown, new Vector3(1, 0, 0));
+				break;
 
-				case Point.East:
-					MoveArena(Input.GetAxis("Mouse Y"), Mathf.Round(m_arena.transform.eulerAngles.z), new Vector3(0, 0, 1), false);
-					break;
+			case Point.East:
+				MoveArena(upOrDown, new Vector3(0, 0, 1));
+				break;
 
-				case Point.West:
-					MoveArena(-Input.GetAxis("Mouse Y"), Mathf.Round(m_arena.transform.eulerAngles.z), new Vector3(0, 0, 1), false);
-					break;
-			}
+			case Point.West:
+				MoveArena(upOrDown, new Vector3(0, 0, 1));
+				break;
 		}
-
-		if (isServer)
-		{
-			ReplaceIfOverCommand();
-		}	
 	}
 
-	[Command(requiresAuthority = false)]
-	public void MoveArena(float mouseYAxis, float angleToCheck, Vector3 rotateBy, bool isX)
-	{
-		if (mouseYAxis > 0)
-		{
-			if (angleToCheck < (45 + m_maxX))
-			{
-				ClientRotate(rotateBy);
-			}
 
+
+	[Command(requiresAuthority = false)]
+	public void MoveArena(float upOrDown, Vector3 direction)
+	{
+		if (direction.x == 1)
+		{		
+			ClientRotate(upOrDown, direction);
+			ResetAngle_Rpc(m_arena.transform.localEulerAngles.z, true);
 		}
-		else if (mouseYAxis < 0)
+		else
 		{
-			if (angleToCheck > (45 + m_minX))
-			{
-				ClientRotate(-rotateBy);
-			}			
+			ClientRotate(upOrDown, direction);
+			ResetAngle_Rpc(m_arena.transform.localEulerAngles.x, false);
 		}
-	
-		if(mouseYAxis != 0)
-		{
-			if (isX)
-			{
-				ResetAngle_Rpc(Mathf.Round(m_arena.transform.eulerAngles.z), new Vector3(0, 0, 1));
-			}
-			else
-			{
-				ResetAngle_Rpc(Mathf.Round(m_arena.transform.eulerAngles.x), new Vector3(1, 0, 0));				
-			}
-		}
+
 	}
 	
 	[ClientRpc]
-	public void ClientRotate(Vector3 currentRotation)
+	public void ClientRotate(float upOrDown, Vector3 direction)
 	{
-		m_arena.transform.eulerAngles += currentRotation;
+		//Mode the arena
+		m_arena.transform.Rotate(direction, upOrDown * m_movementSpeed * Time.deltaTime);
+
+		//Limit the movement. ClampCurrentRotation make sure the angle is between  -180 et 180 degre
+		float angle = ClampCurrentRotation((m_arena.transform.localEulerAngles.x * direction.x) + (m_arena.transform.localEulerAngles.z * direction.z));
+
+		//Check if the angle is between the given limits
+		float clampedRotation = Mathf.Clamp(angle, m_minX, m_maxX);
+
+		//If it's been clamped, it means it got over the limits so replace it.
+		if (clampedRotation == m_minX || clampedRotation == m_maxX)
+		{
+			//m_arena.transform.localEulerAngles = new Vector3(clampedRotation * direction.x, 0, clampedRotation * direction.z);
+			m_arena.transform.localEulerAngles = new Vector3((clampedRotation * direction.x) + (m_arena.transform.localEulerAngles.x * direction.z), 0, (clampedRotation * direction.z) + (m_arena.transform.localEulerAngles.z * direction.x) );
+		}
+
 	}
 
+
+	//Be sure the angle is between -180 et 180 degre
+	private float ClampCurrentRotation(float rotationToClamp)
+	{
+		float clampedRotation = rotationToClamp;
+		if (clampedRotation > 180.0f)
+		{
+			clampedRotation -= 360.0f;
+		}
+		return clampedRotation;
+	}
+
+
+	//If moving on X, replace Z to zero and vice versa
 	[ClientRpc]
-	public void ResetAngle_Rpc(float angleToCheck, Vector3 resetPosition)
+	public void ResetAngle_Rpc(float angleToCheck, bool isX)
 	{
-		if (angleToCheck > 45)
+		angleToCheck = ClampCurrentRotation(angleToCheck);
+
+		if (!isX)
 		{
-			m_arena.transform.eulerAngles += new Vector3(-1 * resetPosition.x, 0, -1 * resetPosition.z);
+			if (angleToCheck > 0)
+			{
+				m_arena.transform.Rotate(Vector3.right, -m_movementSpeed * Time.deltaTime);
+			}
+			else if(angleToCheck < 0)
+			{
+				m_arena.transform.Rotate(Vector3.right, m_movementSpeed * Time.deltaTime);
+			}
+		}
+		else
+		{
+			if (angleToCheck > 0)
+			{
+				m_arena.transform.Rotate(Vector3.forward, -m_movementSpeed * Time.deltaTime);
+			}
+			else if (angleToCheck < 0)
+			{
+				m_arena.transform.Rotate(Vector3.forward, m_movementSpeed * Time.deltaTime);
+			}
 		}
 
-		if (angleToCheck < 45)
-		{
-			m_arena.transform.eulerAngles += new Vector3(1 * resetPosition.x, 0, 1 * resetPosition.z);
-		}
+		m_arena.transform.localEulerAngles = new Vector3(m_arena.transform.localEulerAngles.x, 0, m_arena.transform.localEulerAngles.z);
 	}
-
-	[Command(requiresAuthority = false)]
-	public void ReplaceIfOverCommand()
-	{
-		ReplaceIfOver();
-	}
-
-	[ClientRpc]
-	public void ReplaceIfOver()
-	{
-		float xAngle = Mathf.Round(m_arena.transform.eulerAngles.x);
-		if (xAngle > 45 + m_maxX)
-		{
-			m_arena.transform.eulerAngles = new Vector3(45 + m_maxX, 0, 45);
-		}
-		else if (xAngle < 45 + m_minX)
-		{
-			m_arena.transform.eulerAngles = new Vector3(45 + m_minX, 0, 45);
-		}
-
-
-		float zAngle = Mathf.Round(m_arena.transform.eulerAngles.z);
-		if (zAngle > 45 + m_maxX)
-		{
-			m_arena.transform.eulerAngles = new Vector3(45, 0, 45 + m_maxX);
-		}
-		else if (zAngle < 45 + m_minX)
-		{
-			m_arena.transform.eulerAngles = new Vector3(45, 0, 45 + m_minX);
-		}
-	}
-
-
-	public void OnPlayerCollision(Player player)
-	{
-		throw new System.NotImplementedException();
-	}
-
-	public void OnPlayerClicked(GameMasterController player)
-	{
-		if (IsActivated)
-		{
-			IsSelected = true;
-		}
-
-		
-	}
-	public void OnPlayerClickUp(GameMasterController player)
-	{
-		IsSelected = false;
-	}
-
-	public void UpdateInteractableObject(GameMasterController player)
-	{
-		throw new System.NotImplementedException();
-	}
-
-
 }

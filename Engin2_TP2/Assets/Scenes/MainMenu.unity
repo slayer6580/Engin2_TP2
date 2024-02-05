@@ -1180,6 +1180,7 @@ GameObject:
   - component: {fileID: 1537272969}
   - component: {fileID: 1537272970}
   - component: {fileID: 1537272971}
+  - component: {fileID: 1537272972}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -1237,7 +1238,7 @@ MonoBehaviour:
   autoConnectClientBuild: 0
   offlineScene: Assets/Scenes/MainMenu.unity
   onlineScene: Assets/Scenes/Room.unity
-  transport: {fileID: 1537272969}
+  transport: {fileID: 1537272972}
   networkAddress: localhost
   maxConnections: 100
   disconnectInactiveConnections: 0
@@ -1329,6 +1330,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_isGameMaster: 0
+--- !u!114 &1537272972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1537272963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96b149f511061407fb54895c057b7736, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wrap: {fileID: 1537272969}
+  latency: 0
+  jitter: 0.02
+  jitterSpeed: 1
+  unreliableLoss: 2
+  unreliableScramble: 2
 --- !u!1 &1550998203
 GameObject:
   m_ObjectHideFlags: 0
