@@ -120,11 +120,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ed0379b3712d514f83a957919eae975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushForce: 1000
+  pushForce: 10000
   bumperForceReduction: 2
   bumperObjectMovesOnImpact: 0
   canBeMovedByGameMaster: 0
-  touchEffect: {fileID: 0}
+  touchEffect: {fileID: 8768779924509883835, guid: 3bc52a59aa235404dbf37d4ebf813075,
+    type: 3}
 --- !u!65 &5129296982425796534
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -154,7 +155,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3847683424560120410}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -168,7 +169,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
