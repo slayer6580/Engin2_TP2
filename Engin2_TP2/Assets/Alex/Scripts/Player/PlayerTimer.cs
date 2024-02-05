@@ -23,18 +23,20 @@ public class PlayerTimer : NetworkBehaviour
 
         if (m_currentTime <= 0)
         {
-            m_characterSpawnPoint.GoToTeleportPoint();
+            m_characterSpawnPoint.GoToSpawnPoint();
             ResetTimer();
         }
 
         m_timeText.text = "Time: " + ((int)m_currentTime).ToString();        
     }
 
+    /// <summary> Reset le timer du joueur </summary>
     public void ResetTimer()
     {
         m_currentTime = m_secondsToCompleteLevel;
     }
 
+    /// <summary> Rajouter du temps au timer du joueur </summary>
     public void AddBonusToTimer(float bonus)
     {
         m_currentTime += bonus;

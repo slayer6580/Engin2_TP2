@@ -13,7 +13,7 @@ public class PlayerSetup : NetworkBehaviour
             DisableComponents();          
         }
 
-        PlayersManager.GetInstance().SetParent(this.gameObject);
+        RunnerManager.GetInstance().SetParent(this.gameObject);
         gameObject.name = "Player" + GetComponent<NetworkIdentity>().netId.ToString();
     }
 

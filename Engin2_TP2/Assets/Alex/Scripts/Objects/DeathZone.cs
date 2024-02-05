@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class DeathZone : MonoBehaviour
 {
+    [Header("Voit t-on le renderer lors du lancement du jeu?")]
     [SerializeField] private bool m_KeepRenderer;
 
     private void Awake()
@@ -16,9 +17,9 @@ public class DeathZone : MonoBehaviour
         if (character == null)
             return;
 
-        character.GoToTeleportPoint();
+        character.GoToSpawnPoint();
         character.gameObject.GetComponent<PlayerTimer>().ResetTimer();
-        ScoreManager.GetInstance().CMD_ScoreGameMaster();
+        ScoreManager.GetInstance().ScoreGameMaster();
     }
 
     private void DesactiveRenderer()

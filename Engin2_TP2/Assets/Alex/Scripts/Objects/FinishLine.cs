@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class FinishLine : MonoBehaviour
 {
+    [Header("Voit t-on le renderer lors du lancement du jeu?")]
     [SerializeField] private bool m_KeepRenderer;
 
     private void Awake()
@@ -17,17 +18,14 @@ public class FinishLine : MonoBehaviour
             return;
 
         if (character.GetCheckpointReached() != CheckpointManager.GetInstance().GetListLength())
-        {
-            Debug.LogError("Manque des checkpoints!");
-            return;
-        }
-
-        character.SetTeleportPointToStart();
-        character.GoToTeleportPoint();  
+            return; //Manque des checkpoints
+        
+        character.SetSpawnPointToStart();
+        character.GoToSpawnPoint();  
         character.gameObject.GetComponent<PlayerTimer>().ResetTimer();
-        character.SetCheckpointReached(0);
+        character.ResetCheckpointReached();
 
-        ScoreManager.GetInstance().CMD_ScoreRunner();
+        ScoreManager.GetInstance().ScoreRunner();
     }
 
     private void DesactiveRenderer()

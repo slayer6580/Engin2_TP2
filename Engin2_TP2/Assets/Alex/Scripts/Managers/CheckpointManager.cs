@@ -25,11 +25,10 @@ public class CheckpointManager : MonoBehaviour
         }
     }
 
+    /// <summary> Pour vérifier si le joueur peut prendre ce checkpoint </summary>
     public bool ValidateCheckpoint(CheckPoint checkpoint, PlayerCheckpoint player)
     {
-        int checkpointNumber = m_checkpoints.IndexOf(checkpoint) + 1;
-
-        if (player.GetCheckpointReached() + 1 == checkpointNumber)
+        if (player.GetCheckpointReached() == GetCheckpointNumber(checkpoint))
         {
             return true;
         }
@@ -37,11 +36,13 @@ public class CheckpointManager : MonoBehaviour
         return false;
     }
 
+    /// <summary> Pour avoir l'index du checkpoint dans la liste excluant le 0 </summary>
     public int GetCheckpointNumber(CheckPoint checkpoint)
     {
-        return m_checkpoints.IndexOf(checkpoint) + 1;
+        return m_checkpoints.IndexOf(checkpoint);
     }
 
+    /// <summary> Pour savoir combien de checkpoint il y a dans le jeu </summary>
     public int GetListLength()
     {
         return m_checkpoints.Count;
@@ -51,7 +52,7 @@ public class CheckpointManager : MonoBehaviour
     {
         for (int i = 0; i < m_checkpoints.Count; i++)
         {
-            m_checkpoints[i].gameObject.name = "Checkpoint" + (i + 1).ToString();
+            m_checkpoints[i].gameObject.name = "Checkpoint_" + (i + 1).ToString();
         }
     }
 }

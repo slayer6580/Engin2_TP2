@@ -38,23 +38,20 @@ public class ScoreManager : NetworkBehaviour
         }
     }
 
-    [Command(requiresAuthority = false)]
-    public void CMD_ScoreGameMaster()
+    public void ScoreGameMaster()
+    {      
+        UpdateScore(ETeam.gameMaster);
+    }
+
+    public void ScoreRunner()
     {
-        RPC_UpdateScore(ETeam.gameMaster);
+        UpdateScore(ETeam.runner);
     }
 
-    [Command(requiresAuthority = false)]
-    public void CMD_ScoreRunner()
-    { 
-        RPC_UpdateScore(ETeam.runner);
-    }
-
-    [ClientRpc]
-    private void RPC_UpdateScore(ETeam team)
+    private void UpdateScore(ETeam team)
     {
         if (team == ETeam.gameMaster)
-            m_gamemasterScore++;
+            m_gamemasterScore++;        
         else
             m_runnerScore++;
 

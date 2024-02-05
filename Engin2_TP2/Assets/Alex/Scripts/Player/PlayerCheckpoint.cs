@@ -5,43 +5,59 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerTimer))]
 public class PlayerCheckpoint : NetworkBehaviour
 {
+    private Vector3 m_startPoint;
     private Vector3 m_spawnPoint;
-    private Vector3 m_teleportPoint;
     private Rigidbody m_rb;
 
     private int m_checkpointReached = 0;
 
     private void Awake()
     {
-        m_spawnPoint = transform.position;
-        m_rb = GetComponent<Rigidbody>();
-        m_teleportPoint = m_spawnPoint;
+        m_startPoint = RunnerManager.GetInstance().FindAStartPoint();
+        m_spawnPoint = m_startPoint;
+        m_rb = GetComponent<Rigidbody>();       
+    }
+
+    private void Start()
+    {
+        GoToSpawnPoint();
     }
 
     /// <summary> Pour la réapparition du joueur à son point de départ </summary>
-    public void GoToTeleportPoint()
+    public void GoToSpawnPoint()
     {
-        transform.SetPositionAndRotation(m_teleportPoint, Quaternion.identity);
+        transform.SetPositionAndRotation(m_spawnPoint, Quaternion.identity);
         m_rb.velocity = Vector3.zero;
     }
 
-    public void SetTeleportPoint()
+    /// <summary> Changer le point de réapparition </summary>
+    public void SetSpawnPoint(Vector3 newPosition)
     {
-        m_teleportPoint = transform.position;
+        m_spawnPoint = newPosition;
     }
 
+    /// <summary> Changer le point de réapparition pour le point de départ </summary>
+    public void SetSpawnPointToStart()
+    {
+        m_spawnPoint = m_startPoint;
+    }
+
+    /// <summary> Pour savoir combien de checkpoint le joueur a franchi </summary>
     public int GetCheckpointReached()
     {
         return m_checkpointReached;
     }
 
-    public void SetCheckpointReached(int number)
+    /// <summary> Pour déterminer combien de checkpoint le joueur a franchi </summary>
+    public void SetCheckpointReached()
     {
-        m_checkpointReached = number;
-    }   
-    
-    public void SetTeleportPointToStart()
-    {
-        m_teleportPoint = m_spawnPoint;
+        m_checkpointReached++;
     }
+
+    public void ResetCheckpointReached()
+    {
+        m_checkpointReached = 0;
+    }
+
+
 }
