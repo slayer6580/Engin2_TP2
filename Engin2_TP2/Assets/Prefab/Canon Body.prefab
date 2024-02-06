@@ -24,13 +24,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5526848908983014983}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.49515536, y: -0, z: -0, w: 0.86880445}
-  m_LocalPosition: {x: 0.008, y: 1.12, z: -0.073}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0.008000135, y: 1.6729999, z: 0.0020004062}
   m_LocalScale: {x: 1.25, y: 1.2499999, z: 1.2499999}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5924422188907797022}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &7723502233061419345
 GameObject:
   m_ObjectHideFlags: 0
@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 2459664842790539670}
   - component: {fileID: 6827649382932339906}
   - component: {fileID: 5326153798799815843}
+  - component: {fileID: 3040680716717974514}
   m_Layer: 0
   m_Name: Canon Body
   m_TagString: Untagged
@@ -61,10 +62,9 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.29459, y: 14.12, z: -28.17}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5924422188907797022}
   - {fileID: 4695593324720720462}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -166,6 +166,25 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 122
   m_CollisionDetection: 0
+--- !u!114 &3040680716717974514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7723502233061419345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f658c96a3eda0a444947a233dc44e1d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cannonballPrefab: {fileID: 3847683424560120410, guid: 695bbcd8d8021ac49997923fb799975c,
+    type: 3}
+  shootPoint: {fileID: 6068556215267941830}
+  shootingInterval: 2
+  cannonballSpeed: 10000
+  cannonballLifeSpan: 5
+  automaticFire: 1
 --- !u!1 &8075846886659627423
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,13 +213,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8075846886659627423}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.49515536, y: -0, z: -0, w: 0.86880445}
-  m_LocalPosition: {x: 0, y: 0.721, z: -1.177}
+  m_LocalRotation: {x: -0.66647464, y: -0, z: -0, w: 0.7455278}
+  m_LocalPosition: {x: 0, y: 0.19, z: -1.237}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5924422188907797022}
   m_Father: {fileID: 6277739580851306630}
-  m_LocalEulerAnglesHint: {x: -59.36, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -83.591, y: 0, z: 0}
 --- !u!33 &5226789127146448875
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -328,13 +348,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8639004611763717150}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.49515536, y: -0, z: -0, w: 0.86880445}
-  m_LocalPosition: {x: 0, y: 0.826, z: -1.355}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.20666088, z: -0.00037533045}
+  m_LocalScale: {x: 0.8, y: 0.8000001, z: 0.8000001}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6068556215267941830}
-  m_Father: {fileID: 6277739580851306630}
+  m_Father: {fileID: 4695593324720720462}
   m_LocalEulerAnglesHint: {x: -59.36, y: 0, z: 0}
 --- !u!33 &7856150026208550105
 MeshFilter:
