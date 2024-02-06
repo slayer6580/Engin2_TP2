@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CannonShooter : MonoBehaviour
@@ -10,6 +11,8 @@ public class CannonShooter : MonoBehaviour
     [SerializeField] private float cannonballLifeSpan = 5f; // y seconds lifespan of the cannonball
 
     [SerializeField] private bool automaticFire = true;
+    [SerializeField] private float cooldown = 2f;
+    private float cooldownTimer = 0f; // Timer to track cooldown
 
     private void Start()
     {
@@ -40,5 +43,29 @@ public class CannonShooter : MonoBehaviour
         }
         // Destroy the cannonball after y seconds
         Destroy(cannonball, cannonballLifeSpan);
+    }
+
+    private void Update()
+    {
+        if (cooldownTimer > 0)
+        {
+            cooldownTimer -= Time.deltaTime;
+        }
+
+        if (Input.GetMouseButtonDown(0) && cooldownTimer <= 0)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                // Check if the cannon itself was clicked
+                if (hit.transform == transform)
+                {
+                    ShootCannonball();
+                    cooldownTimer = cooldown; // Reset the cooldown timer
+                }
+            }
+        }
     }
 }
