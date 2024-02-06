@@ -131,11 +131,11 @@ namespace Mirror
                 pendingPlayers.Add(pending);
                 return;
             }
-
+             
             GameObject gamePlayer = OnRoomServerCreateGamePlayer(conn, roomPlayer);
             if (gamePlayer == null)
             {
-                print("CALL THUIS");
+                
                 if(roomPlayer.gameObject.transform.name == "GameMaster")
                 {
 					// get start position from base class

@@ -12,8 +12,6 @@ public class ArenaRotation : NetworkBehaviour
 	private const float ADJUST_SPEED = 100;
 	enum Point { North, East, South, West };
 
-	[SerializeField] ArenaRotationManager m_rotatorManager;
-	[SerializeField] NetworkIdentity m_netId;
 	[SerializeField] GameObject m_arena;	
     [SerializeField] Point m_rotationPoint;
 	[SerializeField] private float m_maxX;

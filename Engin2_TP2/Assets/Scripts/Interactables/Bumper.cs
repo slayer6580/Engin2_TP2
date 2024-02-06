@@ -1,3 +1,4 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine;
      * Note: Le script va repousser tout ce qui a un PlayerStateMachine et un rigidbody
      * Attention: l'objet sur lequel ce script est mis doit avoir un rigidbody!!
 */
-public class Bumper : MonoBehaviour, IInteractable
+public class Bumper : MonoBehaviour
 {
     
     [SerializeField] private float pushForce = 1000f; // Adjustable force of the push
@@ -38,20 +39,6 @@ public class Bumper : MonoBehaviour, IInteractable
     }
 
 
-    // Code de l'interface. Pour les bumpers controllés par les Game Masters:
-    public void OnPlayerClicked(Player player)
-    { 
-        // ne fait rien, mais éventuellement, les maîtres du jeu pourraient déplacer le bumper   
-        // if (player.type == maitre)
-        // ...
-
-        // Pour le moment, on mets le script sur un objet; c'est un autre script sur l'objet qui permet le déplacement.
-        //IInteractable
-    }
-    public void OnPlayerCollision(Player player)
-    {
-        // On passe par la state machine finalement
-    }
     void PlayParticleEffect()
     {
         if (touchEffect != null)
@@ -60,18 +47,5 @@ public class Bumper : MonoBehaviour, IInteractable
         }
     }
 
-	public void OnPlayerClicked(GameMasterController player)
-	{
-		throw new System.NotImplementedException(); // drag and drop?
-	}
 
-	public void OnPlayerClickUp(GameMasterController player)
-	{
-		throw new System.NotImplementedException();
-	}
-
-	public void UpdateInteractableObject(GameMasterController player)
-	{
-		throw new System.NotImplementedException();
-	}
 }

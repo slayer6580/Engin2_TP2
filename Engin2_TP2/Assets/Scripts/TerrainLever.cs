@@ -1,6 +1,7 @@
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UIElements;
@@ -8,52 +9,45 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(NetworkIdentity))]
 public class TerrainLever : NetworkBehaviour, IInteractable
 {
-	[SerializeField] private ArenaRotationManager m_rotatorManager;
-	[SerializeField] private NetworkIdentity m_netId;
+	[SerializeField] private ObstacleManager m_obstacleManager;
+
+
 
 	private bool m_isHoldingOn;
+	[SerializeField] private NetworkIdentity m_netId;
 	[SerializeField] private float m_rotationLimit;
 	[SerializeField] private float m_leverMovementSpeed;
 	[SerializeField] private float m_backInPlaceSpeed;
 
 	[SerializeField] private UnityEvent m_GoUP;
 	[SerializeField] private UnityEvent m_GoDown;
+	[SerializeField] private UnityEvent m_toCallIfFree;
+	[SerializeField] private UnityEvent m_toReleaseObstacle;
 
 	private float currentRotation;
 
+
 	public void OnPlayerClicked(GameMasterController player)
-	{		
-		IsFreeToMoveCommand(m_netId.connectionToClient);
-	}
-
-	[Command(requiresAuthority = false)]
-	public void IsFreeToMoveCommand(NetworkConnectionToClient target)
 	{
-
-		if (m_rotatorManager.GetIsBeingMove() == false)
-		{
-			m_rotatorManager.SetIsBeingMoved(true);
-			TargetItWasFreeToMove(target);
-		}
+		m_obstacleManager.CheckIfFreeToUse(m_toCallIfFree);
+		
+	}
+	
+	public void OnPlayerClickUp(GameMasterController player)
+	{
+		m_obstacleManager.ReleaseObstacle(m_toReleaseObstacle);
 	}
 
-	[TargetRpc]
-	public void TargetItWasFreeToMove(NetworkConnectionToClient target)
+	public void FreeToUse()
 	{
 		m_isHoldingOn = true;
 	}
 
-	public void OnPlayerClickUp(GameMasterController player)
+	public void ReleaseObstacle()
 	{
 		m_isHoldingOn = false;
-		ReleaseArenaCommand();
 	}
 
-	[Command(requiresAuthority = false)]
-	public void ReleaseArenaCommand()
-	{
-		m_rotatorManager.SetIsBeingMoved(false);
-	}
 
 
 	// Update is called once per frame

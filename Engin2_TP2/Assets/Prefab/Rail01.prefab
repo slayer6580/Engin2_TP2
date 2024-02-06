@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6629597894160905675}
   - component: {fileID: 9172921286306677348}
   - component: {fileID: 1313110186150508640}
+  - component: {fileID: 4909833599820115892}
   m_Layer: 0
   m_Name: RailController (1)
   m_TagString: Untagged
@@ -121,25 +122,11 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  m_Deactivate:
+  m_obstacleManager: {fileID: 6426321701320024041}
+  m_toCallIfFree:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6242106660575936086}
-        m_TargetAssemblyTypeName: ObjectOnRail, Assembly-CSharp
-        m_MethodName: StopMove
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  m_Activate:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6242106660575936086}
+      - m_Target: {fileID: 8047340782051604771}
         m_TargetAssemblyTypeName: ObjectOnRail, Assembly-CSharp
         m_MethodName: Move
         m_Mode: 3
@@ -151,6 +138,39 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  m_toReleaseObstacle:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8047340782051604771}
+        m_TargetAssemblyTypeName: ObjectOnRail, Assembly-CSharp
+        m_MethodName: StopMove
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &4909833599820115892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 924415536477878580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clientStarted: 0
+  sceneId: 0
+  _assetId: 1408145740
+  serverOnly: 0
+  visible: 0
+  hasSpawned: 0
 --- !u!1 &2581179063714205331
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,6 +211,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3084759862173777350}
+  - component: {fileID: 1621789750241860128}
+  - component: {fileID: 2763419104647993675}
   m_Layer: 0
   m_Name: ToMove
   m_TagString: Untagged
@@ -215,6 +237,58 @@ Transform:
   - {fileID: 6661979595625495638}
   m_Father: {fileID: 956454960939089512}
   m_LocalEulerAnglesHint: {x: 0, y: -2.115, z: 0}
+--- !u!114 &1621789750241860128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2968653709397840487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clientStarted: 0
+  sceneId: 0
+  _assetId: 1408145740
+  serverOnly: 0
+  visible: 0
+  hasSpawned: 0
+--- !u!114 &2763419104647993675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2968653709397840487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 3084759862173777350}
+  syncPosition: 1
+  syncRotation: 0
+  syncScale: 0
+  interpolatePosition: 1
+  interpolateRotation: 0
+  interpolateScale: 0
+  coordinateSpace: 0
+  sendIntervalMultiplier: 1
+  timelineOffset: 0
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  onlySyncOnChange: 1
+  compressRotation: 1
+  bufferResetMultiplier: 3
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
 --- !u!1 &3806946980762946199
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,6 +302,7 @@ GameObject:
   - component: {fileID: 4446205202719500720}
   - component: {fileID: 1645396064283188920}
   - component: {fileID: 3099950877964999519}
+  - component: {fileID: 5622065398946176118}
   m_Layer: 0
   m_Name: RailController
   m_TagString: Untagged
@@ -336,25 +411,11 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  m_Deactivate:
+  m_obstacleManager: {fileID: 6426321701320024041}
+  m_toCallIfFree:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6242106660575936086}
-        m_TargetAssemblyTypeName: ObjectOnRail, Assembly-CSharp
-        m_MethodName: StopMove
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  m_Activate:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6242106660575936086}
+      - m_Target: {fileID: 8047340782051604771}
         m_TargetAssemblyTypeName: ObjectOnRail, Assembly-CSharp
         m_MethodName: Move
         m_Mode: 3
@@ -366,6 +427,137 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  m_toReleaseObstacle:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8047340782051604771}
+        m_TargetAssemblyTypeName: ObjectOnRail, Assembly-CSharp
+        m_MethodName: StopMove
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5622065398946176118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3806946980762946199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clientStarted: 0
+  sceneId: 0
+  _assetId: 1408145740
+  serverOnly: 0
+  visible: 0
+  hasSpawned: 0
+--- !u!1 &4378868110439986546
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 591345571079323882}
+  - component: {fileID: 7926656903172909221}
+  - component: {fileID: 6426321701320024041}
+  - component: {fileID: 8047340782051604771}
+  m_Layer: 0
+  m_Name: ObstacleManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &591345571079323882
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4378868110439986546}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 956454960939089512}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7926656903172909221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4378868110439986546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clientStarted: 0
+  sceneId: 0
+  _assetId: 1408145740
+  serverOnly: 0
+  visible: 0
+  hasSpawned: 0
+--- !u!114 &6426321701320024041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4378868110439986546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de43d02d0ba0134b8b04c55a4cec7af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  m_staminaCost: 2
+  m_changingColorObject:
+  - {fileID: 3806946980762946199}
+  - {fileID: 924415536477878580}
+  m_baseRed: {r: 0.8156863, g: 0.28235295, b: 0.28235295, a: 0}
+  m_inUseColor: {r: 1, g: 1, b: 1, a: 0}
+--- !u!114 &8047340782051604771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4378868110439986546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e9d3ab15de068943926e21defae875a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  m_staminaCost: 0
+  m_isAuto: 0
+  m_isLooping: 0
+  m_autoSpeed: 100
+  m_railPoints:
+  - {fileID: 2445229445409073259}
+  - {fileID: 5986271966881822797}
+  m_railPointsPercentage: 0000000064000000
+  m_positionOnRail: 0
+  m_objectToMove: {fileID: 2968653709397840487}
 --- !u!1 &5565691691444947515
 GameObject:
   m_ObjectHideFlags: 0
@@ -928,8 +1120,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 956454960939089512}
-  - component: {fileID: 6242106660575936086}
-  - component: {fileID: 2817345590679890606}
   m_Layer: 0
   m_Name: Rail01
   m_TagString: Untagged
@@ -950,6 +1140,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 591345571079323882}
   - {fileID: 3944576072597594950}
   - {fileID: 6844728498554060206}
   - {fileID: 4602304252896781686}
@@ -958,49 +1149,6 @@ Transform:
   - {fileID: 3084759862173777350}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6242106660575936086
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7818959976840850358}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e9d3ab15de068943926e21defae875a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  m_staminaCost: 0
-  m_isAuto: 0
-  m_isLooping: 0
-  m_autoSpeed: 100
-  m_railPoints:
-  - {fileID: 2445229445409073259}
-  - {fileID: 5986271966881822797}
-  m_railPointsPercentage: 0000000064000000
-  m_positionOnRail: 0
-  m_objectToMove: {fileID: 2968653709397840487}
---- !u!114 &2817345590679890606
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7818959976840850358}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clientStarted: 0
-  sceneId: 0
-  _assetId: 1408145740
-  serverOnly: 0
-  visible: 0
-  hasSpawned: 0
 --- !u!1 &9206027756768374379
 GameObject:
   m_ObjectHideFlags: 0

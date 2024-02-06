@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class ObjectOnRail : NetworkBehaviour
 {
+	private bool m_isBeingUsed;
 
 	[SerializeField] private float m_staminaCost;
 	[SerializeField] private bool m_isAuto;
@@ -27,6 +28,7 @@ public class ObjectOnRail : NetworkBehaviour
     private int m_direction = 0;
 
 
+
 	public void StaminaCost(GameMasterController player)
 	{
 		print("Cost: " + m_staminaCost);
@@ -35,6 +37,7 @@ public class ObjectOnRail : NetworkBehaviour
 
 	public void Move(int dir)
     {
+
 		MoveCommand(dir);
 		m_staminaCost = 5;
 	}
@@ -49,7 +52,6 @@ public class ObjectOnRail : NetworkBehaviour
 	[Client]
 	public void MoveRPC(int dir)
 	{
-		print("BB");
 		m_isManual = true;
 		m_direction = dir;
 	}
@@ -70,7 +72,6 @@ public class ObjectOnRail : NetworkBehaviour
 	[Client]
 	public void StopMoveRPC()
 	{
-		print("CC");
 		m_isManual = false;
 		m_direction = 0;
 	}

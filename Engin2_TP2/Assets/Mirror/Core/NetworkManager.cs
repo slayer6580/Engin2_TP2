@@ -1387,7 +1387,6 @@ namespace Mirror
         // The default implementation for this function creates a new player object from the playerPrefab.
         public virtual void OnServerAddPlayer(NetworkConnectionToClient conn)
         {
-            print("CEST PAS APPELT CA!!");
             Transform startPos = GetStartPosition();
             GameObject player = startPos != null
                 ? Instantiate(playerPrefab, startPos.position, startPos.rotation)

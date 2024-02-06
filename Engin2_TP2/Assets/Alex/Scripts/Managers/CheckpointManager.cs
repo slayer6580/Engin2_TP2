@@ -48,11 +48,4 @@ public class CheckpointManager : MonoBehaviour
         return m_checkpoints.Count;
     }
 
-    private void OnValidate()
-    {
-        for (int i = 0; i < m_checkpoints.Count; i++)
-        {
-            m_checkpoints[i].gameObject.name = "Checkpoint_" + (i + 1).ToString();
-        }
-    }
 }

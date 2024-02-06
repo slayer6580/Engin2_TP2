@@ -6,38 +6,38 @@ using UnityEngine.Serialization;
 using UnityEngine.Events;
 using Mirror;
 
+[RequireComponent(typeof(NetworkIdentity))]
+
 public class ActivateObstacle : NetworkBehaviour, IInteractable
 {
 
-	[SerializeField] UnityEvent m_Deactivate;
-	[SerializeField] UnityEvent<GameMasterController> m_Activate;
+	[SerializeField] private ObstacleManager m_obstacleManager;
 
-	
+	//[SerializeField] UnityEvent m_Deactivate;
+	//[SerializeField] UnityEvent<GameMasterController> m_Activate;
+
+	[SerializeField] private UnityEvent m_toCallIfFree;
+	[SerializeField] private UnityEvent m_toReleaseObstacle;
+
+
 	public void OnPlayerClicked(GameMasterController player)
 	{
-		m_Activate.Invoke(player);
+		m_obstacleManager.CheckIfFreeToUse(m_toCallIfFree);
 	}
 
-	
 	public void OnPlayerClickUp(GameMasterController player)
 	{
-		m_Deactivate.Invoke();
+		m_obstacleManager.ReleaseObstacle(m_toReleaseObstacle);
 	}
 
-	public void StaminaCost(GameMasterController player)
+	public void FreeToUse()
+	{
+		throw new System.NotImplementedException();
+	}
+	public void ReleaseObstacle()
 	{
 		throw new System.NotImplementedException();
 	}
 
-	// Start is called before the first frame update
-	void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
