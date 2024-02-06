@@ -37,7 +37,7 @@ public class CheckPoint : MonoBehaviour
             return;
         }
 
-        character.CheckpointReached();
+        character.SetCheckpointReached();
         ScoreManager.GetInstance().ScoreRunner();
         character.GetComponent<PlayerTimer>().AddBonusToTimer(m_bonusToAdd);
         character.SetSpawnPoint(GetRandomSpawnPosition());
