@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class CheckpointManager : MonoBehaviour
 {
+    [Header("Mettre tout les checkpoints en ordre dans cette liste")]
     [SerializeField] private List<CheckPoint> m_checkpoints = new List<CheckPoint>();
 
     private static CheckpointManager s_instance = null;
@@ -11,7 +12,7 @@ public class CheckpointManager : MonoBehaviour
     {
         return s_instance;
     }
-
+            
     private void Awake()
     {
         if (s_instance == null)
@@ -36,7 +37,7 @@ public class CheckpointManager : MonoBehaviour
         return false;
     }
 
-    /// <summary> Pour avoir l'index du checkpoint dans la liste excluant le 0 </summary>
+    /// <summary> Pour avoir l'index du checkpoint dans la liste </summary>
     public int GetCheckpointNumber(CheckPoint checkpoint)
     {
         return m_checkpoints.IndexOf(checkpoint);
