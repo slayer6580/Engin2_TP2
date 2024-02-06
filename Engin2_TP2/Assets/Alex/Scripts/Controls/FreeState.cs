@@ -1,3 +1,5 @@
+using Palmmedia.ReportGenerator.Core.Parser.Analysis;
+using System;
 using UnityEngine;
 
 public class FreeState : CharacterState
@@ -5,12 +7,14 @@ public class FreeState : CharacterState
     Vector3 m_lastVectorDirection = Vector3.zero;
     private const float LANDING_DURATION = 0.7f;
     private float m_currentTimer = 0;
+    private float m_maxSpeed;
     private bool m_isSprinting = false;
+
+    private Vector3 m_velocity = Vector3.zero;
     public override void OnEnter()
     {
         m_stateMachine.RB.drag = m_stateMachine.DragOnGround;
         m_stateMachine.m_JumpLeft = m_stateMachine.MaxJump;
-        Debug.LogWarning("JumpLeft: " + m_stateMachine.m_JumpLeft);
         Debug.Log("Enter state: FreeState\n");
     }
 
@@ -20,10 +24,11 @@ public class FreeState : CharacterState
         Sprint();
     }
 
+
     public override void OnFixedUpdate()
     {
         FreeStateMovement();
-        SetMaxVelocity();
+        SetMaxVelocity(); 
     }
 
     public override void OnExit()
@@ -36,7 +41,6 @@ public class FreeState : CharacterState
         //Je ne peux entrer dans le FreeState que si je touche le sol
         if (m_stateMachine.IsInContactWithFloor())
         {
-            Debug.LogWarning("JE TOUCHE LE SOL");
             return m_stateMachine.IsInContactWithFloor();
         }
         return false;
@@ -58,33 +62,25 @@ public class FreeState : CharacterState
         {
             totalVector += Vector3.ProjectOnPlane(m_stateMachine.Camera.transform.forward, Vector3.up);
             inputsNumber++;
-            totalSpeed += m_stateMachine.GroundSpeed;
-            m_lastVectorDirection += Vector3.up;
+            totalSpeed += m_stateMachine.AccelerationRate;
         }
         if (Input.GetKey(KeyCode.A))
         {
             totalVector += Vector3.ProjectOnPlane(-m_stateMachine.Camera.transform.right, Vector3.up);
             inputsNumber++;
-            totalSpeed += m_stateMachine.SideSpeed;
-            m_lastVectorDirection += Vector3.left;
+            totalSpeed += m_stateMachine.AccelerationRate;
         }
         if (Input.GetKey(KeyCode.S))
         {
             totalVector += Vector3.ProjectOnPlane(-m_stateMachine.Camera.transform.forward, Vector3.up);
             inputsNumber++;
-            totalSpeed += m_stateMachine.BackSpeed;
-            m_lastVectorDirection += Vector3.down;
+            totalSpeed += m_stateMachine.AccelerationRate;
         }
         if (Input.GetKey(KeyCode.D))
         {
             totalVector += Vector3.ProjectOnPlane(m_stateMachine.Camera.transform.right, Vector3.up);
             inputsNumber++;
-            totalSpeed += m_stateMachine.SideSpeed;
-            m_lastVectorDirection += Vector3.right;
-        }
-        if (m_lastVectorDirection != Vector3.zero)
-        {
-            m_lastVectorDirection.Normalize();
+            totalSpeed += m_stateMachine.AccelerationRate;
         }
 
         float normalizeSpeed = 0;
@@ -104,9 +100,6 @@ public class FreeState : CharacterState
             normalizedVector = totalVector.normalized;
         }
 
-       // était utile pour donner en parametres a vitesse de l'animation
-        m_lastVectorDirection = m_lastVectorDirection * (m_stateMachine.RB.velocity.magnitude / m_stateMachine.MaxVelocityOnGround);
-
         // Bouger
         m_stateMachine.RB.AddForce(normalizedVector * normalizeSpeed, ForceMode.Acceleration);
     }
@@ -114,33 +107,27 @@ public class FreeState : CharacterState
     // pour avoir une vitesse au sol maximal
     private void SetMaxVelocity()
     {
-        if (m_stateMachine.RB.velocity.magnitude > m_stateMachine.MaxVelocityOnGround)
+        if (m_stateMachine.RB.velocity.magnitude > m_maxSpeed)
         {
-            m_stateMachine.RB.velocity = m_stateMachine.RB.velocity.normalized * m_stateMachine.MaxVelocityOnGround;
+            m_stateMachine.RB.velocity = m_stateMachine.RB.velocity.normalized * m_maxSpeed;
         }
     }
 
     private float GetMovement() 
     {
-        float velocity = 0;
-        velocity += Mathf.Abs(m_stateMachine.RB.velocity.x);
-        velocity += Mathf.Abs(m_stateMachine.RB.velocity.y);
-        velocity += Mathf.Abs(m_stateMachine.RB.velocity.z);
-        velocity = velocity / m_stateMachine.MaxVelocityOnGround;
-        velocity *= 1.50f;
-        //Debug.LogWarning("Velocity: " + velocity);
-
-        return velocity;
-
+        Debug.LogWarning("Velocity: " + m_stateMachine.RB.velocity.magnitude + "   Ratio: " + m_stateMachine.RB.velocity.magnitude / m_stateMachine.MaxVelocityOnGround);
+        return m_stateMachine.RB.velocity.magnitude / m_stateMachine.MaxVelocityOnGround;
     }
 
     private void Sprint()
     {
         if (Input.GetKey(KeyCode.LeftShift))
         {
+            m_maxSpeed = m_stateMachine.SprintSpeed;
             m_isSprinting = true;
             return;
         }
+        m_maxSpeed = m_stateMachine.GroundSpeed;
         m_isSprinting = false;
     }
 }

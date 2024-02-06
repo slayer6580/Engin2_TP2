@@ -10,7 +10,12 @@ public class JumpState : CharacterState
         m_stateMachine.m_InAir = true;
         m_stateMachine.RB.drag = m_stateMachine.DragOnAir;
         m_stateMachine.Animator.SetBool("Jump", true);
-        m_stateMachine.StaminaPlayer.JumpCost();
+
+        //Check if its the first jump, the first jump is free
+        if (m_stateMachine.m_JumpLeft != m_stateMachine.MaxJump) 
+        {
+            m_stateMachine.StaminaPlayer.JumpCost();
+        }
         m_stateMachine.m_JumpLeft--;
         Debug.LogWarning("Jump Left: " + m_stateMachine.m_JumpLeft);
 

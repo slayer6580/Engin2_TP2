@@ -7,12 +7,14 @@ public class PlayerStateMachine : MonoBehaviour
 {
     [field: Header("Camera")]
     [field: SerializeField] public CinemachineVirtualCamera Camera { get; private set; }
+    [field: SerializeField] public Vector3 Direction { get; private set; }
 
     [field: Header("Movement")]
     [field: SerializeField] public float GroundSpeed { get; private set; }
+    [field: SerializeField] public float SprintSpeed { get; private set; }
+    [field: Range(1.0f, 3.0f)][field: SerializeField] public float SprintSpeedMultiplier { get; private set; }
+    [field: SerializeField] public float AccelerationRate { get; private set; }
     [field: SerializeField] public float MaxVelocityOnGround { get; private set; }
-    [field: SerializeField][field: Range(0.0f, 1.0f)] public float SideSpeed_Multiplier { get; private set; }
-    [field: SerializeField][field: Range(0.0f, 1.0f)] public float BackSpeed_Multiplier { get; private set; }
     [field: SerializeField][field: Range(1.0f, 5.0f)] public float DragOnGround { get; private set; }
 
     [field: Header("Jumping")]
@@ -21,16 +23,14 @@ public class PlayerStateMachine : MonoBehaviour
     [field: Range(0.0f, 1.0f)] [field: SerializeField] public float AirMoveSpeed_Multiplier { get; private set; }
     [field: SerializeField] public float MaxVelocityInAir { get; private set; }
     [field: Range(0.0f, 5.0f)] [field: SerializeField] public float DragOnAir { get; private set; }
+    [field: Range(-5.0f, 0f)][field: SerializeField] public float GravityForce { get; private set; }
     [field: SerializeField] public float LandingDelay { get; private set; }
     public Rigidbody RB { get; private set; }
     public Animator Animator { get; set; }
     private CapsuleCollider PlayerCollider { get; set; }
-    public float SideSpeed { get; private set; }
-    public float BackSpeed { get; private set; }
 
     [field: Header("Stamina")]
     public StaminaPlayer StaminaPlayer { get; set; }
-    [field: Range(1.0f, 3.0f)] [field: SerializeField] public float SprintSpeedMultiplier { get; private set; }
 
     [SerializeField] private CharacterFloorTrigger m_floorTrigger;
     [SerializeField] private PhysicMaterial m_groundPhysicMaterial;
@@ -70,7 +70,6 @@ public class PlayerStateMachine : MonoBehaviour
     void Start()
     {
         CreatePossibleStates();
-        SetSideAndBackSpeed();
    
         foreach (CharacterState state in m_possibleStates)
         {
@@ -87,19 +86,13 @@ public class PlayerStateMachine : MonoBehaviour
         m_currentState.OnUpdate();
         TryStateTransition();
         UpdateAnimatorInAirBool();
+        //SetOrientation();
     }
 
 
     private void FixedUpdate()
     {
         m_currentState.OnFixedUpdate();
-    }
-
-    // Set la vitesse de coté et de reculont
-    private void SetSideAndBackSpeed()
-    {
-        SideSpeed = GroundSpeed * SideSpeed_Multiplier;
-        BackSpeed = GroundSpeed * BackSpeed_Multiplier;
     }
 
     // regarder si notre object floor trigger touche le sol
@@ -165,10 +158,16 @@ public class PlayerStateMachine : MonoBehaviour
     {
         JumpIntensity = newIntensity;
     }
+    public void SetOrientation()
+    {
+        //Vector3.ProjectOnPlane(Camera.transform.right, Vector3.up);
+        transform.LookAt(Direction);
+    }
     private void UpdateAnimatorInAirBool()
     {
         Animator.SetBool("InAir", !m_floorTrigger.IsOnFloor);
     }
+
 }
 
 

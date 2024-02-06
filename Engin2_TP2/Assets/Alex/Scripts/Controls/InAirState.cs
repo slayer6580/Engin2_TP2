@@ -26,8 +26,7 @@ public class InAirState : CharacterState
     public override void OnFixedUpdate()
     {
         InAirMovement();
-        Vector3 gravity = new Vector3( 0, -1, 0 );
-        m_stateMachine.RB.AddForce(gravity, ForceMode.Acceleration);
+        ApplyGravityPull();
     }
 
     private void InAirMovement()
@@ -46,19 +45,19 @@ public class InAirState : CharacterState
         {
             totalVector += Vector3.ProjectOnPlane(-m_stateMachine.Camera.transform.right, Vector3.up);
             inputsNumber++;
-            totalSpeed += m_stateMachine.SideSpeed;
+            totalSpeed += m_stateMachine.GroundSpeed;
         }
         if (Input.GetKey(KeyCode.S))
         {
             totalVector += Vector3.ProjectOnPlane(-m_stateMachine.Camera.transform.forward, Vector3.up);
             inputsNumber++;
-            totalSpeed += m_stateMachine.BackSpeed;
+            totalSpeed += m_stateMachine.GroundSpeed;
         }
         if (Input.GetKey(KeyCode.D))
         {
             totalVector += Vector3.ProjectOnPlane(m_stateMachine.Camera.transform.right, Vector3.up);
             inputsNumber++;
-            totalSpeed += m_stateMachine.SideSpeed;
+            totalSpeed += m_stateMachine.GroundSpeed;
         }
 
         float finalSpeed = 0;
@@ -113,6 +112,12 @@ public class InAirState : CharacterState
         {
             m_stateMachine.RB.velocity = m_stateMachine.RB.velocity.normalized * m_stateMachine.MaxVelocityInAir;
         }
+    }
+
+    private void ApplyGravityPull() 
+    {
+        Vector3 gravity = new Vector3(0, m_stateMachine.GravityForce, 0);
+        m_stateMachine.RB.AddForce(gravity, ForceMode.Acceleration);
     }
 
 }
