@@ -1,5 +1,3 @@
-using Palmmedia.ReportGenerator.Core.Parser.Analysis;
-using System;
 using UnityEngine;
 
 public class FreeState : CharacterState

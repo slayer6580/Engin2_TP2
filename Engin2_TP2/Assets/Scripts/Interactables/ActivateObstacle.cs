@@ -13,13 +13,26 @@ public class ActivateObstacle : NetworkBehaviour, IInteractable
 
 	[SerializeField] private ObstacleManager m_obstacleManager;
 
+	[SerializeField] private float m_staminaCost;
+    [SerializeField] private bool m_isInstantCost;
 
-	[SerializeField] private UnityEvent m_toCallIfFree;
+    [SerializeField] private UnityEvent m_toCallIfFree;
 	[SerializeField] private UnityEvent m_toReleaseObstacle;
+
 
 
 	public void OnPlayerClicked(GameMasterController player)
 	{
+
+		if (m_isInstantCost && player.gameObject.GetComponent<StaminaGamemaster>().CanUseStamina(m_staminaCost))
+		{
+
+		}
+		else if (player.gameObject.GetComponent<StaminaGamemaster>().CanUseStaminaOverTime(m_staminaCost))
+		{
+
+		}
+		
 		if(m_toCallIfFree != null)
 		{
 			m_obstacleManager.CheckIfFreeToUse(m_toCallIfFree);
@@ -33,6 +46,12 @@ public class ActivateObstacle : NetworkBehaviour, IInteractable
 		{
 			m_obstacleManager.ReleaseObstacle(m_toReleaseObstacle);
 		}
+
+		if (!m_isInstantCost)
+		{
+			player.gameObject.GetComponent<StaminaGamemaster>().StopStaminaCost();
+
+        }
 		
 	}
 
