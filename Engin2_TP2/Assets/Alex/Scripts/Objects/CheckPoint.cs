@@ -37,7 +37,7 @@ public class CheckPoint : MonoBehaviour
             return;
         }
 
-        character.SetCheckpointReached();
+        character.CheckpointReached();
         ScoreManager.GetInstance().ScoreRunner();
         character.GetComponent<PlayerTimer>().AddBonusToTimer(m_bonusToAdd);
         character.SetSpawnPoint(GetRandomSpawnPosition());
@@ -49,6 +49,7 @@ public class CheckPoint : MonoBehaviour
             GetComponent<MeshRenderer>().enabled = false;
     }
 
+    /// <summary> Retourne la position d'un spawn au hazard </summary>
     private Vector3 GetRandomSpawnPosition()
     {
         int randomIndex = Random.Range(0, m_checkpointSpawns.Count);

@@ -48,12 +48,13 @@ public class PlayerCheckpoint : NetworkBehaviour
         return m_checkpointReached;
     }
 
-    /// <summary> Pour déterminer combien de checkpoint le joueur a franchi </summary>
-    public void SetCheckpointReached()
+    /// <summary> Pour augmenter le nombre de checkpoint que le joueur a franchi </summary>
+    public void CheckpointReached()
     {
         m_checkpointReached++;
     }
 
+    /// <summary> Pour remettre a 0 le nombre de checkpoint que le joueur a franchi </summary>
     public void ResetCheckpointReached()
     {
         m_checkpointReached = 0;
