@@ -13,8 +13,6 @@ public class ActivateObstacle : NetworkBehaviour, IInteractable
 
 	[SerializeField] private ObstacleManager m_obstacleManager;
 
-	//[SerializeField] UnityEvent m_Deactivate;
-	//[SerializeField] UnityEvent<GameMasterController> m_Activate;
 
 	[SerializeField] private UnityEvent m_toCallIfFree;
 	[SerializeField] private UnityEvent m_toReleaseObstacle;
@@ -22,12 +20,20 @@ public class ActivateObstacle : NetworkBehaviour, IInteractable
 
 	public void OnPlayerClicked(GameMasterController player)
 	{
-		m_obstacleManager.CheckIfFreeToUse(m_toCallIfFree);
+		if(m_toCallIfFree != null)
+		{
+			m_obstacleManager.CheckIfFreeToUse(m_toCallIfFree);
+		}
+		
 	}
 
 	public void OnPlayerClickUp(GameMasterController player)
 	{
-		m_obstacleManager.ReleaseObstacle(m_toReleaseObstacle);
+		if(m_toReleaseObstacle != null)
+		{
+			m_obstacleManager.ReleaseObstacle(m_toReleaseObstacle);
+		}
+		
 	}
 
 	public void FreeToUse()

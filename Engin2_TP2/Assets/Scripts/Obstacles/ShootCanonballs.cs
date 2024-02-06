@@ -1,8 +1,9 @@
+using Mirror;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class CannonShooter : MonoBehaviour
+public class CannonShooter : NetworkBehaviour
 {
     [SerializeField] private GameObject cannonballPrefab; // Assign your cannonball prefab in the inspector
     [SerializeField] private Transform shootPoint; // Assign the point from where the cannonball will be shot
@@ -21,17 +22,31 @@ public class CannonShooter : MonoBehaviour
 
     private IEnumerator ShootCannonballRoutine()
     {
-        while (true)
+
+        if (automaticFire)
         {
-            if (automaticFire)
-            {
-                yield return new WaitForSeconds(shootingInterval);
-                ShootCannonball();
-            }
-        }
+            yield return new WaitForSeconds(shootingInterval);
+            ShootCannonball();
+			StartCoroutine(ShootCannonballRoutine());
+		}
+        
     }
 
-    private void ShootCannonball()
+
+    public void ShootCannonball()
+    {
+        ShootCannonballCommand();
+	}
+
+	[Command(requiresAuthority = false)]
+	public void ShootCannonballCommand()
+    {
+        ClientShootCannonball();
+	}
+
+    //TODO à changer pour un spawn par network???
+	[ClientRpc]
+    public void ClientShootCannonball()
     {
 
         GameObject cannonball = Instantiate(cannonballPrefab, shootPoint.position, shootPoint.rotation);

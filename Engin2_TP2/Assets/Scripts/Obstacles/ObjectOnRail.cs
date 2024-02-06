@@ -37,9 +37,7 @@ public class ObjectOnRail : NetworkBehaviour
 
 	public void Move(int dir)
     {
-
 		MoveCommand(dir);
-		m_staminaCost = 5;
 	}
 
 	[Command(requiresAuthority = false)]
