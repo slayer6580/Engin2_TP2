@@ -11,6 +11,7 @@ public class ScoreManager : NetworkBehaviour
         runner
     }
 
+    [Header("TextMeshProGUI du Score Canvas")]
     [SerializeField] private TextMeshProUGUI m_gamemasterScoreText;
     [SerializeField] private TextMeshProUGUI m_runnerScoreText;
 
@@ -38,16 +39,19 @@ public class ScoreManager : NetworkBehaviour
         }
     }
 
+    /// <summary> Pour augmenter le score du GameMaster </summary>
     public void ScoreGameMaster()
     {      
         UpdateScore(ETeam.gameMaster);
     }
 
+    /// <summary> Pour augmenter le score du Runner </summary>
     public void ScoreRunner()
     {
         UpdateScore(ETeam.runner);
     }
 
+    /// <summary> Pour augmenter le score d'une équipe et le gerer dans le UI </summary>
     private void UpdateScore(ETeam team)
     {
         if (team == ETeam.gameMaster)
