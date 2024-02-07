@@ -48,7 +48,7 @@ public class CameraController : MonoBehaviour
     private void UpdateHorizontalMovements()
     {
         float currentAngleX = Input.GetAxis("Mouse X") * m_rotationSpeedX;
-        m_mainPlayer.transform.Rotate(new Vector3(0, currentAngleX, 0), Space.World);
+        m_lookAt.transform.Rotate(new Vector3(0, currentAngleX, 0), Space.World);
     }
 
     private void UpdateVerticalMovements()

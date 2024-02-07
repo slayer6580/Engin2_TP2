@@ -1141,13 +1141,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5063046681540948583}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0000018099951, y: 0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.0000018099951, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7162049171658967079}
-  m_Father: {fileID: 4066430377661887801}
+  m_Father: {fileID: 8678863901112323493}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5212777119573559139
 GameObject:
@@ -1433,6 +1433,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 198936485185324247}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5674064050050457704
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8678863901112323493}
+  m_Layer: 0
+  m_Name: Body
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8678863901112323493
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5674064050050457704}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2214238681770995634}
+  m_Father: {fileID: 4066430377661887801}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5893716960676152377
 GameObject:
   m_ObjectHideFlags: 0
@@ -1476,7 +1508,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2133066540298799390}
-  - {fileID: 2214238681770995634}
+  - {fileID: 8678863901112323493}
   - {fileID: 3302779542025303383}
   - {fileID: 2070571373723187548}
   - {fileID: 7696033930867699229}
@@ -1570,7 +1602,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebe006b61ec6a274aa8f9e0cd63fa711, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Model>k__BackingField: {fileID: 5674064050050457704}
   <Camera>k__BackingField: {fileID: 6585508796173872766}
+  <Direction>k__BackingField: {x: 0, y: 0, z: 0}
   <GroundSpeed>k__BackingField: 5
   <SprintSpeed>k__BackingField: 7
   <SprintSpeedMultiplier>k__BackingField: 2

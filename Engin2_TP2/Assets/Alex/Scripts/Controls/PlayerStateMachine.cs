@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class PlayerStateMachine : MonoBehaviour
 {
+    [field: Header("Character Model")]
+    [field: SerializeField] public GameObject Model { get; private set; }
+
     [field: Header("Camera")]
     [field: SerializeField] public CinemachineVirtualCamera Camera { get; private set; }
     [field: SerializeField] public Vector3 Direction { get; private set; }
@@ -86,7 +89,6 @@ public class PlayerStateMachine : MonoBehaviour
         m_currentState.OnUpdate();
         TryStateTransition();
         UpdateAnimatorInAirBool();
-        //SetOrientation();
     }
 
 
@@ -158,10 +160,10 @@ public class PlayerStateMachine : MonoBehaviour
     {
         JumpIntensity = newIntensity;
     }
-    public void SetOrientation()
+    public void SetOrientation(Vector3 direction)
     {
-        //Vector3.ProjectOnPlane(Camera.transform.right, Vector3.up);
-        transform.LookAt(Direction);
+        //Vector3 direction = Vector3.ProjectOnPlane(Camera.transform.right, Vector3.up);
+        Model.transform.LookAt(direction + transform.position);
     }
     private void UpdateAnimatorInAirBool()
     {

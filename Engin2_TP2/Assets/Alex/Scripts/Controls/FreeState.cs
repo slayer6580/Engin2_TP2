@@ -96,6 +96,7 @@ public class FreeState : CharacterState
         {
             normalizeSpeed = totalSpeed / inputsNumber;
             normalizedVector = totalVector.normalized;
+            m_stateMachine.SetOrientation(normalizedVector);
         }
 
         // Bouger
@@ -113,7 +114,7 @@ public class FreeState : CharacterState
 
     private float GetMovement() 
     {
-        Debug.LogWarning("Velocity: " + m_stateMachine.RB.velocity.magnitude + "   Ratio: " + m_stateMachine.RB.velocity.magnitude / m_stateMachine.MaxVelocityOnGround);
+        //Debug.LogWarning("Velocity: " + m_stateMachine.RB.velocity.magnitude + "   Ratio: " + m_stateMachine.RB.velocity.magnitude / m_stateMachine.MaxVelocityOnGround);
         return m_stateMachine.RB.velocity.magnitude / m_stateMachine.MaxVelocityOnGround;
     }
 
