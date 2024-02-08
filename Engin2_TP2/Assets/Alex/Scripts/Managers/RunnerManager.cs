@@ -26,7 +26,7 @@ public class RunnerManager : NetworkBehaviour
         }
         else
         {
-            Debug.LogError("Il y avait plus qu'une instance de StartPointManager dans la scène, FIX IT!");
+            Debug.LogError("Il y avait plus qu'une instance de RunnerManager dans la scène, FIX IT!");
             Destroy(this);
         }
 
