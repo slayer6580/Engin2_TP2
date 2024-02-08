@@ -1,7 +1,8 @@
+using Mirror;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CheckPoint : MonoBehaviour
+public class CheckPoint : NetworkBehaviour
 {
     [Header("Le nombre de temps bonus à donner au runner")]
     [SerializeField] private float m_bonusToAdd;
@@ -20,7 +21,10 @@ public class CheckPoint : MonoBehaviour
 
         PlayerCheckpoint character = other.GetComponent<PlayerCheckpoint>();
 
-        if (character == null)
+		if (character == null)
+			return;
+
+		if (character.enabled == false)
             return;
 
         if (m_checkpointSpawns.Count == 0)
@@ -38,8 +42,11 @@ public class CheckPoint : MonoBehaviour
         }
 
         character.CheckpointReached();
-        ScoreManager.GetInstance().ScoreRunner();
-        character.GetComponent<PlayerTimer>().AddBonusToTimer(m_bonusToAdd);
+
+		ScoreManager.GetInstance().UpdateScore(ScoreManager.ETeam.runner);
+		
+		
+		character.GetComponent<PlayerTimer>().AddBonusToTimer(m_bonusToAdd);
         character.SetSpawnPoint(GetRandomSpawnPosition());
     }
 

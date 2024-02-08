@@ -7,19 +7,25 @@ using UnityEngine;
 
 public class TrapDoor : NetworkBehaviour
 {
+	[Header("Important")]
+	[SerializeField] private ObstacleManager m_obstacleManager;
 	[SerializeField] private Animator m_trapAnimator;
+
+	[Header("Settings")]
 	[SerializeField] private float m_timeOpen;
 	[SerializeField] private float m_timeToResetAfterClose;
+
 	private float m_currentTimer;
 	private bool m_isOpen;
 	private bool m_isWaitingToReset;
 	[SyncVar]private bool m_canBeClickedOn = true;
-
+	private float m_staminaCost;
 
 	public void ActivateTrap()
 	{
 		if (m_canBeClickedOn)
 		{
+			m_staminaCost = m_obstacleManager.m_staminaCost;
 			ActivateTrapCommand();
 		}	
 	}
@@ -27,6 +33,7 @@ public class TrapDoor : NetworkBehaviour
 	[Command(requiresAuthority = false)]
 	public void ActivateTrapCommand()
 	{
+		GmStaminaManager.GetInstance().InstantCostCommand(m_staminaCost);
 		m_canBeClickedOn = false;
 		m_isOpen = true;
 		m_currentTimer = m_timeOpen;

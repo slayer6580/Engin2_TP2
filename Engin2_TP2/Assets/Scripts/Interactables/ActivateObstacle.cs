@@ -13,7 +13,7 @@ public class ActivateObstacle : NetworkBehaviour, IInteractable
 
 	[SerializeField] private ObstacleManager m_obstacleManager;
 
-	[SerializeField] private float m_staminaCost;
+	
     [SerializeField] private bool m_isInstantCost;
 
     [SerializeField] private UnityEvent m_toCallIfFree;
@@ -23,46 +23,31 @@ public class ActivateObstacle : NetworkBehaviour, IInteractable
 
 	public void OnPlayerClicked(GameMasterController player)
 	{
-
-		if (m_isInstantCost && player.gameObject.GetComponent<StaminaGamemaster>().CanUseStamina(m_staminaCost))
+		if (GmStaminaManager.GetInstance().CanUseStaminaOverTime(m_obstacleManager.m_staminaCost))
 		{
+			if (m_toCallIfFree != null)
+			{
+				m_obstacleManager.CheckIfFreeToUse(m_toCallIfFree, m_toReleaseObstacle);
+			}
+		}
+		else
+		{
+			print("ERROR: NOT ENOUGH STAMINA!!! !! ! !!");
 
 		}
-		else if (player.gameObject.GetComponent<StaminaGamemaster>().CanUseStaminaOverTime(m_staminaCost))
-		{
+			
 
-		}
-		
-		if(m_toCallIfFree != null)
-		{
-			m_obstacleManager.CheckIfFreeToUse(m_toCallIfFree);
-		}
-		
 	}
 
 	public void OnPlayerClickUp(GameMasterController player)
 	{
 		if(m_toReleaseObstacle != null)
 		{
-			m_obstacleManager.ReleaseObstacle(m_toReleaseObstacle);
-		}
-
-		if (!m_isInstantCost)
-		{
-			player.gameObject.GetComponent<StaminaGamemaster>().StopStaminaCost();
-
-        }
-		
+			m_obstacleManager.ReleaseObstacle();
+		}		
 	}
 
-	public void FreeToUse()
-	{
-		throw new System.NotImplementedException();
-	}
-	public void ReleaseObstacle()
-	{
-		throw new System.NotImplementedException();
-	}
+
 
 
 }

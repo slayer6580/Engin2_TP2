@@ -13,9 +13,6 @@ public interface IInteractable
 	void OnPlayerClickUp(GameMasterController player);
 
 
-	public void FreeToUse();
-	public void ReleaseObstacle();
-
 
 	// Ce qui se passe quand on clic à l'objet (bouge, tourne, particules...)
 	//void StaminaCost(GameMasterController player);

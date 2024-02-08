@@ -15,8 +15,8 @@ public class ScoreManager : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI m_gamemasterScoreText;
     [SerializeField] private TextMeshProUGUI m_runnerScoreText;
 
-    private int m_gamemasterScore = 0;
-    private int m_runnerScore = 0;
+    public int m_gamemasterScore = 0;
+	public int m_runnerScore = 0;
 
     private static ScoreManager s_instance = null;
 
@@ -39,28 +39,41 @@ public class ScoreManager : NetworkBehaviour
         }
     }
 
-    /// <summary> Pour augmenter le score du GameMaster </summary>
-    public void ScoreGameMaster()
-    {      
-        UpdateScore(ETeam.gameMaster);
-    }
-
-    /// <summary> Pour augmenter le score du Runner </summary>
-    public void ScoreRunner()
+    public void UpdateScore(ETeam team)
     {
-        UpdateScore(ETeam.runner);
-    }
+        UpdateScoreCommand(team);
+
+	}
+
+
+    [Command(requiresAuthority = false)]
+    public void UpdateScoreCommand(ETeam team)
+    {
+		//UpdateScoreFinal(team);
+		UpdateScoreRpc(team);
+	}
+
 
     /// <summary> Pour augmenter le score d'une équipe et le gerer dans le UI </summary>
-    private void UpdateScore(ETeam team)
-    {
-        if (team == ETeam.gameMaster)
-            m_gamemasterScore++;        
-        else
-            m_runnerScore++;
 
-        m_gamemasterScoreText.text = m_gamemasterScore.ToString();
-        m_runnerScoreText.text = m_runnerScore.ToString();
-    }
+    [ClientRpc]
+    private void UpdateScoreRpc(ETeam team)
+    {
+		UpdateScoreFinal(team);
+	}
+
+	private void UpdateScoreFinal(ETeam team)
+	{
+		if (team == ETeam.gameMaster)
+		{
+			m_gamemasterScore++;
+		}
+		else
+		{
+			m_runnerScore++;
+		}
+		m_gamemasterScoreText.text = m_gamemasterScore.ToString();
+		m_runnerScoreText.text = m_runnerScore.ToString();
+	}
 
 }

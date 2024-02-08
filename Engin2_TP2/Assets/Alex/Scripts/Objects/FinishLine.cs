@@ -14,10 +14,13 @@ public class FinishLine : MonoBehaviour
     {
         PlayerCheckpoint character = other.GetComponent<PlayerCheckpoint>();
 
-        if (character == null)
-            return;
+		if (character == null)
+			return;
 
-        if (character.GetCheckpointReached() != CheckpointManager.GetInstance().GetListLength())
+		if (character.enabled == false)
+			return;
+
+		if (character.GetCheckpointReached() != CheckpointManager.GetInstance().GetListLength())
             return; //Manque des checkpoints
         
         character.SetSpawnPointToStart();
@@ -25,8 +28,8 @@ public class FinishLine : MonoBehaviour
         character.gameObject.GetComponent<PlayerTimer>().ResetTimer();
         character.ResetCheckpointReached();
 
-        ScoreManager.GetInstance().ScoreRunner();
-    }
+		ScoreManager.GetInstance().UpdateScore(ScoreManager.ETeam.runner);
+	}
 
     private void DesactiveRenderer()
     {

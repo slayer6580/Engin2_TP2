@@ -123,6 +123,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   m_obstacleManager: {fileID: 6426321701320024041}
+  m_isInstantCost: 0
   m_toCallIfFree:
     m_PersistentCalls:
       m_Calls:
@@ -230,7 +231,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.000000051014037, y: -0.018457921, z: -0.000000030826605,
     w: 0.9998297}
-  m_LocalPosition: {x: 7.33, y: -0, z: 0.24}
+  m_LocalPosition: {x: 7.33, y: 0, z: 0.24}
   m_LocalScale: {x: 4.1466002, y: 2.4314198, z: 4.1466002}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -412,6 +413,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   m_obstacleManager: {fileID: 6426321701320024041}
+  m_isInstantCost: 0
   m_toCallIfFree:
     m_PersistentCalls:
       m_Calls:
@@ -527,7 +529,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  m_staminaCost: 2
+  m_staminaCost: 5
   m_changingColorObject:
   - {fileID: 3806946980762946199}
   - {fileID: 924415536477878580}
@@ -548,7 +550,8 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  m_staminaCost: 0
+  m_obstacleManager: {fileID: 6426321701320024041}
+  m_objectToMove: {fileID: 2968653709397840487}
   m_isAuto: 0
   m_isLooping: 0
   m_autoSpeed: 100
@@ -556,8 +559,7 @@ MonoBehaviour:
   - {fileID: 2445229445409073259}
   - {fileID: 5986271966881822797}
   m_railPointsPercentage: 0000000064000000
-  m_positionOnRail: 0
-  m_objectToMove: {fileID: 2968653709397840487}
+  m_positionOnRailPercent: 0
 --- !u!1 &5565691691444947515
 GameObject:
   m_ObjectHideFlags: 0
@@ -1143,10 +1145,10 @@ Transform:
   - {fileID: 591345571079323882}
   - {fileID: 3944576072597594950}
   - {fileID: 6844728498554060206}
+  - {fileID: 3084759862173777350}
   - {fileID: 4602304252896781686}
   - {fileID: 2445229445409073259}
   - {fileID: 5986271966881822797}
-  - {fileID: 3084759862173777350}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9206027756768374379

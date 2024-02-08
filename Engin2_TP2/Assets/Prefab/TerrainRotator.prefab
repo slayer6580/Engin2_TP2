@@ -1748,6 +1748,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  m_obstacleManager: {fileID: 0}
   m_arena: {fileID: 0}
   m_rotationPoint: 0
   m_maxX: 5

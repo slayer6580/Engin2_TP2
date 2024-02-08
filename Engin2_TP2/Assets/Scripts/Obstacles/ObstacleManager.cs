@@ -8,24 +8,27 @@ using UnityEngine.UIElements.Experimental;
 [RequireComponent(typeof(NetworkIdentity))]
 public class ObstacleManager : NetworkBehaviour
 {
-	private bool m_isBeingUsed;
-	private NetworkIdentity m_netId;
-	[SerializeField] private float m_staminaCost;
+	public float m_staminaCost;
 	[SerializeField] private List<GameObject> m_changingColorObject;
 	[SerializeField] private Color m_baseRed;
 	[SerializeField] private Color m_inUseColor;
 
 	private UnityEvent m_toCallIfFree;
 	private UnityEvent m_toReleaseObstacle;
+	private bool m_isBeingUsed;
+	private NetworkIdentity m_netId;
 
 	public void Start()
 	{
 		m_netId = this.gameObject.GetComponent<NetworkIdentity>();
 	}
 
-	public void CheckIfFreeToUse(UnityEvent toCallIfFree)
+	//Be sure that nobody is already using this obstacle
+	public void CheckIfFreeToUse(UnityEvent toCallIfFree, UnityEvent toReleaseObstacle)
 	{
 		m_toCallIfFree = toCallIfFree;
+		m_toReleaseObstacle = toReleaseObstacle;
+
 		IsFreeToUseCommand(m_netId.connectionToClient);
 	}
 
@@ -34,7 +37,7 @@ public class ObstacleManager : NetworkBehaviour
 	{
 		if (m_isBeingUsed == false)
 		{
-			SetIsBeingUsed(true);
+			SetIsBeingUsedCommand(true);
 			TargetWasFreeToUseClient(target);
 		}
 	}
@@ -42,21 +45,20 @@ public class ObstacleManager : NetworkBehaviour
 	[TargetRpc]
 	public void TargetWasFreeToUseClient(NetworkConnectionToClient target)
 	{
-		m_toCallIfFree.Invoke();
-		
+		m_toCallIfFree.Invoke();	
 	}
 
 
-	public void ReleaseObstacle(UnityEvent toReleaseObstacle)
+	//Called when the player release the mouse button or when there's no more stamina
+	public void ReleaseObstacle()
 	{
-		m_toReleaseObstacle = toReleaseObstacle;
 		ReleaseObstacleCommand(m_netId.connectionToClient);
 	}
 
 	[Command(requiresAuthority = false)]
 	public void ReleaseObstacleCommand(NetworkConnectionToClient target)
 	{
-		SetIsBeingUsed(false);
+		SetIsBeingUsedCommand(false);
 		TargetReleaseObstacle(target);
 	}
 
@@ -67,13 +69,12 @@ public class ObstacleManager : NetworkBehaviour
 	}
 
 
-
-
-	//This is and must always called by the server only
-	public void SetIsBeingUsed(bool value)
+	//
+	[Command(requiresAuthority = false)]
+	public void SetIsBeingUsedCommand(bool value)
 	{
 		m_isBeingUsed = value;
-		ChangeColor(value);
+		ChangeColorRcp(value);
 	}
 
 	public bool GetIsBeingMove()
@@ -81,8 +82,9 @@ public class ObstacleManager : NetworkBehaviour
 		return m_isBeingUsed;
 	}
 
+	//Change the color for everyone to notify that the obstacle is in use
 	[ClientRpc]
-	public void ChangeColor(bool value)
+	public void ChangeColorRcp(bool value)
 	{
 		if (value)
 		{

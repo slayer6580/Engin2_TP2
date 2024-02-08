@@ -17,9 +17,14 @@ public class DeathZone : MonoBehaviour
         if (character == null)
             return;
 
-        character.GoToSpawnPoint();
+		if (character.enabled == false)
+			return;
+		
+		
+
+		character.GoToSpawnPoint();
         character.gameObject.GetComponent<PlayerTimer>().ResetTimer();
-        ScoreManager.GetInstance().ScoreGameMaster();
+        ScoreManager.GetInstance().UpdateScore(ScoreManager.ETeam.gameMaster);
     }
 
     private void DesactiveRenderer()
