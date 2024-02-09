@@ -82,6 +82,7 @@ namespace Mirror
                     if (ushort.TryParse(GUILayout.TextField(portTransport.Port.ToString()), out ushort port))
                         portTransport.Port = port;
                 }
+               
 
                 GUILayout.EndHorizontal();
 
