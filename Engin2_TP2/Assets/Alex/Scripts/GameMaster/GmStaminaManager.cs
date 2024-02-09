@@ -82,7 +82,7 @@ public class GmStaminaManager : NetworkBehaviour
     {
     // if(isServer)
        // {
-            UpdateStaminaRpc();
+           //UpdateStaminaRpc();
 		
 		if (m_currentState == EStaminaState.recover)
 				RecoverStamina();

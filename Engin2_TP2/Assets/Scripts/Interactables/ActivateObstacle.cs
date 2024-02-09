@@ -23,20 +23,28 @@ public class ActivateObstacle : NetworkBehaviour, IInteractable
 
 	public void OnPlayerClicked(GameMasterController player)
 	{
-		if (GmStaminaManager.GetInstance().CanUseStaminaOverTime(m_obstacleManager.m_staminaCost))
+		if (m_toCallIfFree != null)
 		{
-			if (m_toCallIfFree != null)
+			if (m_isInstantCost)
 			{
-				m_obstacleManager.CheckIfFreeToUse(m_toCallIfFree, m_toReleaseObstacle);
+				if (GmStaminaManager.GetInstance().CanUseStamina(m_obstacleManager.m_staminaCost))
+				{
+					m_obstacleManager.CheckIfFreeToUse(m_toCallIfFree, m_toReleaseObstacle);
+					return;
+				}
+				
 			}
-		}
-		else
-		{
+			else
+			{
+				if (GmStaminaManager.GetInstance().CanUseStaminaOverTime(m_obstacleManager.m_staminaCost))
+				{
+					m_obstacleManager.CheckIfFreeToUse(m_toCallIfFree, m_toReleaseObstacle);
+					return;
+				}
+				
+			}
 			print("ERROR: NOT ENOUGH STAMINA!!! !! ! !!");
-
 		}
-			
-
 	}
 
 	public void OnPlayerClickUp(GameMasterController player)

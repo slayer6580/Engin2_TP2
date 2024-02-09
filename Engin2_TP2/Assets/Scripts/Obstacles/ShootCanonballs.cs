@@ -5,82 +5,62 @@ using UnityEngine;
 
 public class CannonShooter : NetworkBehaviour
 {
-    [SerializeField] private GameObject cannonballPrefab; // Assign your cannonball prefab in the inspector
+	[Header("Important")]
+	[SerializeField] private ObstacleManager m_obstacleManager;
+	[SerializeField] private GameObject cannonballPrefab; // Assign your cannonball prefab in the inspector
     [SerializeField] private Transform shootPoint; // Assign the point from where the cannonball will be shot
-    [SerializeField] private float shootingInterval = 2f; // x seconds between shots
+
+	[Header("Settings")]
+	[SerializeField] private float shootingInterval = 2f; // x seconds between shots
     [SerializeField] private float cannonballSpeed = 1000f; // Speed of the cannonball
     [SerializeField] private float cannonballLifeSpan = 5f; // y seconds lifespan of the cannonball
-
     [SerializeField] private bool automaticFire = true;
     [SerializeField] private float cooldown = 2f;
+
     private float cooldownTimer = 0f; // Timer to track cooldown
 
-    private void Start()
+	private float m_staminaCost;
+
+	private void Start()
     {
         StartCoroutine(ShootCannonballRoutine());
     }
 
     private IEnumerator ShootCannonballRoutine()
     {
+		yield return new WaitForSeconds(shootingInterval);
 
-        if (automaticFire)
-        {
-            yield return new WaitForSeconds(shootingInterval);
+		if (automaticFire)
+        {          
             ShootCannonball();
 			StartCoroutine(ShootCannonballRoutine());
-		}
-        
+		}    
     }
 
 
     public void ShootCannonball()
     {
+		m_staminaCost = m_obstacleManager.m_staminaCost;
         ShootCannonballCommand();
 	}
 
 	[Command(requiresAuthority = false)]
 	public void ShootCannonballCommand()
     {
-        ClientShootCannonball();
+		GmStaminaManager.GetInstance().InstantCostCommand(m_staminaCost);
+
+		GameObject cannonball = Instantiate(cannonballPrefab, shootPoint.position, shootPoint.rotation);
+
+		// Apply a forward force to the cannonball to shoot it
+		Rigidbody rb = cannonball.GetComponent<Rigidbody>();
+		if (rb != null)
+		{
+			rb.AddForce(shootPoint.forward * cannonballSpeed);
+		}
+		NetworkServer.Spawn(cannonball, connectionToClient);
+
+		// Destroy the cannonball after y seconds
+		Destroy(cannonball, cannonballLifeSpan);
 	}
 
-    //TODO à changer pour un spawn par network???
-	[ClientRpc]
-    public void ClientShootCannonball()
-    {
-
-        GameObject cannonball = Instantiate(cannonballPrefab, shootPoint.position, shootPoint.rotation);
-        // Apply a forward force to the cannonball to shoot it
-        Rigidbody rb = cannonball.GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.AddForce(shootPoint.forward * cannonballSpeed);
-        }
-        // Destroy the cannonball after y seconds
-        Destroy(cannonball, cannonballLifeSpan);
-    }
-
-    private void Update()
-    {
-        if (cooldownTimer > 0)
-        {
-            cooldownTimer -= Time.deltaTime;
-        }
-
-        if (Input.GetMouseButtonDown(0) && cooldownTimer <= 0)
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit))
-            {
-                // Check if the cannon itself was clicked
-                if (hit.transform == transform)
-                {
-                    ShootCannonball();
-                    cooldownTimer = cooldown; // Reset the cooldown timer
-                }
-            }
-        }
-    }
 }

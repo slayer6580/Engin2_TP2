@@ -1614,9 +1614,9 @@ MonoBehaviour:
   <JumpIntensity>k__BackingField: 400
   <MaxJump>k__BackingField: 2
   <AirMoveSpeed_Multiplier>k__BackingField: 1
-  <MaxVelocityInAir>k__BackingField: 10
+  <MaxVelocityInAir>k__BackingField: 7
   <DragOnAir>k__BackingField: 0
-  <GravityForce>k__BackingField: -2
+  <GravityForce>k__BackingField: -5.7
   <LandingDelay>k__BackingField: 1.25
   m_floorTrigger: {fileID: 7612770571215720951}
   m_groundPhysicMaterial: {fileID: 13400000, guid: 84c51717a3cf9b149881455e9547c6a1,

@@ -4845,7 +4845,7 @@ GameObject:
   - component: {fileID: 2874557003784209246}
   - component: {fileID: 7950207905367696215}
   m_Layer: 0
-  m_Name: Cylinder
+  m_Name: BumperCol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10546,7 +10546,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1469
+  m_VersionIndex: 1472
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -10666,8 +10666,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ed0379b3712d514f83a957919eae975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushForce: 2000
+  pushForce: 1000
   bumperForceReduction: 2
+  addedUpForce: 0.25
   bumperObjectMovesOnImpact: 1
   canBeMovedByGameMaster: 0
   touchEffect: {fileID: 0}
@@ -10727,11 +10728,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5561378811320514635}
   - {fileID: 941953992520577181}
   - {fileID: 304352700170163484}
   - {fileID: 3706511173561569244}
   - {fileID: 460981277681390819}
-  - {fileID: 5561378811320514635}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3753222850200889498

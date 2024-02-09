@@ -37,6 +37,7 @@ public class ObstacleManager : NetworkBehaviour
 	{
 		if (m_isBeingUsed == false)
 		{
+			print("TESTAAAA");
 			SetIsBeingUsedCommand(true);
 			TargetWasFreeToUseClient(target);
 		}

@@ -23,10 +23,10 @@ public class PlayerStateMachine : MonoBehaviour
     [field: Header("Jumping")]
     [field: SerializeField] public float JumpIntensity { get; private set; } = 1000.0f;
     [field: SerializeField] public int MaxJump { get; private set; }
-    [field: Range(0.0f, 1.0f)] [field: SerializeField] public float AirMoveSpeed_Multiplier { get; private set; }
+    [field: Range(0.0f, 10.0f)] [field: SerializeField] public float AirMoveSpeed_Multiplier { get; private set; }
     [field: SerializeField] public float MaxVelocityInAir { get; private set; }
     [field: Range(0.0f, 5.0f)] [field: SerializeField] public float DragOnAir { get; private set; }
-    [field: Range(-5.0f, 0f)][field: SerializeField] public float GravityForce { get; private set; }
+    [field: Range(-25.0f, 0f)][field: SerializeField] public float GravityForce { get; private set; }
     [field: SerializeField] public float LandingDelay { get; private set; }
     public Rigidbody RB { get; private set; }
     public Animator Animator { get; set; }
@@ -34,6 +34,8 @@ public class PlayerStateMachine : MonoBehaviour
 
     [field: Header("Stamina")]
     public StaminaPlayer StaminaPlayer { get; set; }
+
+
 
     [SerializeField] private CharacterFloorTrigger m_floorTrigger;
     [SerializeField] private PhysicMaterial m_groundPhysicMaterial;
@@ -46,14 +48,33 @@ public class PlayerStateMachine : MonoBehaviour
     [HideInInspector] public bool m_CanJump = true;
     [HideInInspector] public int m_JumpLeft;
 
-    private void CreatePossibleStates()
+	private bool m_JustBeenBumped = false;
+
+    public void BeingBumped(bool value)
+    {
+      
+
+        print("Bump: " + value);
+        m_JustBeenBumped = value;
+
+	}
+
+	// regarder si un objet bumper nous a toucher
+	public bool HasJustBeenBumped()
+	{
+		return m_JustBeenBumped;
+	}
+
+
+	private void CreatePossibleStates()
     {
         // Code Review:
         // Rien à dire, sinon que c'est excellent!
         //
         m_possibleStates = new List<CharacterState>();
         m_possibleStates.Add(new FreeState());
-        m_possibleStates.Add(new InAirState());
+		m_possibleStates.Add(new BumpedState());
+		m_possibleStates.Add(new InAirState());
         m_possibleStates.Add(new JumpState());
     }
 
@@ -86,6 +107,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void Update()
     {
+        Debug.LogWarning(RB.velocity.y);
         m_currentState.OnUpdate();
         TryStateTransition();
         UpdateAnimatorInAirBool();
@@ -105,8 +127,10 @@ public class PlayerStateMachine : MonoBehaviour
         //
        return m_floorTrigger.IsOnFloor;
     }
+	
+	
 
-    private void TryStateTransition()
+	private void TryStateTransition()
     {
         if (!m_currentState.CanExit())
         {

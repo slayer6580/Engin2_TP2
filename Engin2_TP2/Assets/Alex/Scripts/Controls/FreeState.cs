@@ -36,8 +36,12 @@ public class FreeState : CharacterState
 
     public override bool CanEnter(IState currentState)
     {
-        //Je ne peux entrer dans le FreeState que si je touche le sol
-        if (m_stateMachine.IsInContactWithFloor())
+		if (m_stateMachine.HasJustBeenBumped())
+		{
+			return false;
+		}
+		//Je ne peux entrer dans le FreeState que si je touche le sol
+		if (m_stateMachine.IsInContactWithFloor())
         {
             return m_stateMachine.IsInContactWithFloor();
         }

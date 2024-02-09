@@ -129,12 +129,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5526848908983014983}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.008000135, y: 1.6729999, z: 0.0020004062}
-  m_LocalScale: {x: 1.25, y: 1.2499999, z: 1.2499999}
+  m_LocalRotation: {x: -0.99843645, y: -0, z: -0, w: 0.055899017}
+  m_LocalPosition: {x: 0.0064001083, y: 0.3636818, z: -2.7722692}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5924422188907797022}
+  m_Father: {fileID: 6277739580851306630}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &6927685494486367499
 GameObject:
@@ -184,11 +184,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f658c96a3eda0a444947a233dc44e1d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  m_obstacleManager: {fileID: 6931504388720835256}
   cannonballPrefab: {fileID: 3847683424560120410, guid: 695bbcd8d8021ac49997923fb799975c,
     type: 3}
   shootPoint: {fileID: 6068556215267941830}
   shootingInterval: 2
-  cannonballSpeed: 10000
+  cannonballSpeed: 100000
   cannonballLifeSpan: 5
   automaticFire: 0
   cooldown: 2
@@ -229,6 +233,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   m_obstacleManager: {fileID: 6931504388720835256}
+  m_isInstantCost: 1
   m_toCallIfFree:
     m_PersistentCalls:
       m_Calls:
@@ -318,6 +323,7 @@ Transform:
   - {fileID: 7282268050158500978}
   - {fileID: 4853075415225031518}
   - {fileID: 4695593324720720462}
+  - {fileID: 6068556215267941830}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8075846886659627423
@@ -331,8 +337,6 @@ GameObject:
   - component: {fileID: 4695593324720720462}
   - component: {fileID: 5226789127146448875}
   - component: {fileID: 2738690347553703976}
-  - component: {fileID: 7023764057324802185}
-  - component: {fileID: 9181486269340142928}
   m_Layer: 0
   m_Name: Canon Tube
   m_TagString: Untagged
@@ -406,56 +410,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &7023764057324802185
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8075846886659627423}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!54 &9181486269340142928
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8075846886659627423}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
 --- !u!1 &8639004611763717150
 GameObject:
   m_ObjectHideFlags: 0
@@ -467,7 +421,6 @@ GameObject:
   - component: {fileID: 5924422188907797022}
   - component: {fileID: 7856150026208550105}
   - component: {fileID: 5924880010915781833}
-  - component: {fileID: 6564702662613597476}
   m_Layer: 0
   m_Name: InnerCanon
   m_TagString: Untagged
@@ -487,8 +440,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.20666088, z: -0.00037533045}
   m_LocalScale: {x: 0.8, y: 0.8000001, z: 0.8000001}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 6068556215267941830}
+  m_Children: []
   m_Father: {fileID: 4695593324720720462}
   m_LocalEulerAnglesHint: {x: -59.36, y: 0, z: 0}
 --- !u!33 &7856150026208550105
@@ -541,26 +493,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &6564702662613597476
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8639004611763717150}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}

@@ -11,6 +11,7 @@ public class Bumper : MonoBehaviour
     
     [SerializeField] private float pushForce = 1000f; // Adjustable force of the push
     [SerializeField] private float bumperForceReduction = 2.0f; // le bumper bouge moins que le player sur impact
+    [SerializeField] private float addedUpForce = 0f; 
     [SerializeField] private bool bumperObjectMovesOnImpact = true;
     [SerializeField] private bool canBeMovedByGameMaster = false;
 
@@ -24,21 +25,31 @@ public class Bumper : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         PlayerStateMachine stateMachine = collision.gameObject.GetComponent<PlayerStateMachine>();
-        if (stateMachine == null || bumperRigidbody==null)
+        if (stateMachine != null)
+        {
+			stateMachine.BeingBumped(true);
+		}
+       
+        
+
+		if (stateMachine == null || bumperRigidbody==null)
             return;
 
         ContactPoint contactPoint = collision.contacts[0];
         Vector3 oppositeDirection = contactPoint.normal;
 
-        stateMachine.RB.AddForce(-oppositeDirection * pushForce, ForceMode.Impulse);
-        PlayParticleEffect();
+     
+		stateMachine.RB.AddForce(-oppositeDirection * pushForce, ForceMode.Impulse);
+		stateMachine.RB.AddForce(new Vector3(0, addedUpForce, 0) * pushForce, ForceMode.Impulse);
+
+		PlayParticleEffect();
         if (bumperObjectMovesOnImpact)
         { 
             bumperRigidbody.AddForce(oppositeDirection * pushForce / bumperForceReduction, ForceMode.Impulse); 
         }
     }
 
-
+    
     void PlayParticleEffect()
     {
         if (touchEffect != null)

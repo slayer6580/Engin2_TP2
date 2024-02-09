@@ -1724,7 +1724,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   m_obstacleManager: {fileID: 275206207082661009}
-  m_isInstantCost: 0
+  m_isInstantCost: 1
   m_toCallIfFree:
     m_PersistentCalls:
       m_Calls:
