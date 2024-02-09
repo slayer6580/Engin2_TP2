@@ -139,7 +139,9 @@ public class AudioManager : NetworkBehaviour
 
     private void PlayClipOneShot_RPC(AudioBox audiobox, ESound sound)
     {
-        audiobox.GetComponent<AudioSource>().PlayOneShot(m_sounds[(int)sound]);
+        AudioSource audioSource = audiobox.GetComponent<AudioSource>();
+        audioSource.loop = false;
+        audioSource.PlayOneShot(m_sounds[(int)sound]);
     }
 
     private void PlayClipLoop_RPC(AudioBox audiobox, ESound sound)
