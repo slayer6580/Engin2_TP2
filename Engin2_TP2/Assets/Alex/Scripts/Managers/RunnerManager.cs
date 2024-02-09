@@ -52,8 +52,8 @@ public class RunnerManager : NetworkBehaviour
         
     }
 
-    /// <summary> Désactive le texte des spawnPoints </summary>
-    private void DeactivateSpawnPointText()
+	/// <summary> Désactive le texte des spawnPoints </summary>
+	private void DeactivateSpawnPointText()
     {
         foreach (Transform spawn in m_spawnsPoints)
         {
