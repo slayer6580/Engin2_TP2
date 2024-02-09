@@ -1360,6 +1360,11 @@ PrefabInstance:
       propertyPath: sceneId
       value: 3324490538
       objectReference: {fileID: 0}
+    - target: {fileID: 3460733662934036045, guid: 02255a02044dab9499e03bb595841d65,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3515953103498081551, guid: 02255a02044dab9499e03bb595841d65,
         type: 3}
       propertyPath: m_audioBox.Array.data[0]
