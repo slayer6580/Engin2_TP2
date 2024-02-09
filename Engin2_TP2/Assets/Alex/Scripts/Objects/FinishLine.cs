@@ -29,7 +29,7 @@ public class FinishLine : MonoBehaviour
         character.ResetCheckpointReached();
 
 		ScoreManager.GetInstance().UpdateScore(ScoreManager.ETeam.runner);
-        AudioManager.GetInstance().PlaySoundEffects_CMD(AudioManager.ESound.checkpoint, other.gameObject.transform.position);
+        AudioManager.GetInstance().PlaySoundEffectsOneShot_CMD(AudioManager.ESound.checkpoint, other.gameObject.transform.position);
 	}
 
     private void DesactiveRenderer()

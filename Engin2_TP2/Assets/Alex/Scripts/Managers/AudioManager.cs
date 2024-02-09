@@ -45,17 +45,29 @@ public class AudioManager : NetworkBehaviour
         {
             GetComponent<AudioSource>().Stop();
         }
-    
+
 
     }
     [Command(requiresAuthority = false)]
-    public void PlaySoundEffects_CMD(ESound sound, Vector3 newPosition)
+    public void PlaySoundEffectsOneShot_CMD(ESound sound, Vector3 newPosition)
     {
-        PlaySoundEffects_RPC(sound, newPosition);   
+        PlaySoundEffectsOneShot_RPC(sound, newPosition);
+    }
+
+    [Command(requiresAuthority = false)]
+    public void PlaySoundEffectsLoop_CMD(ESound sound, Vector3 newPosition)
+    {
+        PlaySoundEffectsLoop_RPC(sound, newPosition);
+    }
+
+    [Command(requiresAuthority = false)]
+    public void StopSoundEffectsLoop_CMD(ESound sound, Vector3 newPosition)
+    {
+        PlaySoundEffectsLoop_RPC(sound, newPosition);
     }
 
     [ClientRpc]
-    public void PlaySoundEffects_RPC(ESound sound, Vector3 newPosition)
+    public void PlaySoundEffectsOneShot_RPC(ESound sound, Vector3 newPosition)
     {
         AudioBox audiobox = FindAValidAudioBox();
 
@@ -63,10 +75,40 @@ public class AudioManager : NetworkBehaviour
             return;
 
         AudioClip clip = m_sounds[(int)sound];
-        audiobox.m_isPlaying = true;     
+        audiobox.m_isPlaying = true;
         MoveAudioBox_RPC(audiobox, newPosition);
-        PlayClip_RPC(audiobox, sound);
+        PlayClipOneShot_RPC(audiobox, sound);
         StartCoroutine(ReActivateAudioBox(audiobox, clip));
+    }
+
+    [ClientRpc]
+    public void PlaySoundEffectsLoop_RPC(ESound sound, Vector3 newPosition)
+    {
+        AudioBox audiobox = FindAValidAudioBox();
+
+        if (audiobox == null)
+            return;
+
+        audiobox.m_isPlaying = true;
+        MoveAudioBox_RPC(audiobox, newPosition);
+        PlayClipLoop_RPC(audiobox, sound);
+    }
+
+    [ClientRpc]
+    public void StopSoundEffectsLoop_RPC(ESound sound, Vector3 newPosition)
+    {
+        AudioClip clip = m_sounds[(int)sound];
+        foreach (AudioBox audioBox in m_audioBox)
+        {
+            AudioSource audioSource = audioBox.GetComponent<AudioSource>();
+            if (audioBox.transform.position == newPosition && audioSource.clip == clip)
+            {
+                audioBox.m_isPlaying = false;
+                audioSource.Stop();
+                return;
+            }
+        }
+        Debug.LogError("Pas d'audio a désactivé, AUDIO MANAGER script");
     }
 
     private AudioBox FindAValidAudioBox()
@@ -74,7 +116,7 @@ public class AudioManager : NetworkBehaviour
         foreach (AudioBox audioBox in m_audioBox)
         {
             if (!audioBox.m_isPlaying)
-            {      
+            {
                 return audioBox;
             }
         }
@@ -95,9 +137,17 @@ public class AudioManager : NetworkBehaviour
     }
 
 
-    private void PlayClip_RPC(AudioBox audiobox, ESound sound)
+    private void PlayClipOneShot_RPC(AudioBox audiobox, ESound sound)
     {
-        audiobox.GetComponent<AudioSource>().PlayOneShot(m_sounds[(int)sound]);    
+        audiobox.GetComponent<AudioSource>().PlayOneShot(m_sounds[(int)sound]);
+    }
+
+    private void PlayClipLoop_RPC(AudioBox audiobox, ESound sound)
+    {
+        AudioSource audioSource = audiobox.GetComponent<AudioSource>();
+        audioSource.loop = true;
+        audioSource.clip = m_sounds[(int)sound];
+        audioSource.Play();
     }
 
 }

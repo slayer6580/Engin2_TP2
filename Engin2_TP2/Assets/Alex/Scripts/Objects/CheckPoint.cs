@@ -44,7 +44,7 @@ public class CheckPoint : NetworkBehaviour
         character.CheckpointReached();
 
 		ScoreManager.GetInstance().UpdateScore(ScoreManager.ETeam.runner);
-        AudioManager.GetInstance().PlaySoundEffects_CMD(AudioManager.ESound.checkpoint, other.gameObject.transform.position);
+        AudioManager.GetInstance().PlaySoundEffectsOneShot_CMD(AudioManager.ESound.checkpoint, other.gameObject.transform.position);
 		
 		character.GetComponent<PlayerTimer>().AddBonusToTimer(m_bonusToAdd);
         character.SetSpawnPoint(GetRandomSpawnPosition());
