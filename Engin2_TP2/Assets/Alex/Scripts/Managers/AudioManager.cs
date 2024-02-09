@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
+using Mirror;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : NetworkBehaviour
 {
     public enum ESound
     {
@@ -39,10 +40,22 @@ public class AudioManager : MonoBehaviour
             Debug.LogError("Il y avait plus qu'une instance de AudioManager dans la scène, FIX IT!");
             Destroy(this);
         }
+
+        if (!isLocalPlayer)
+        {
+            GetComponent<AudioSource>().Stop();
+        }
+    
+
+    }
+    [Command(requiresAuthority = false)]
+    public void PlaySoundEffects_CMD(ESound sound, Vector3 newPosition)
+    {
+        PlaySoundEffects_RPC(sound, newPosition);   
     }
 
-
-    public void PlaySoundEffects(ESound sound, Vector3 newPosition)
+    [ClientRpc]
+    public void PlaySoundEffects_RPC(ESound sound, Vector3 newPosition)
     {
         AudioBox audiobox = FindAValidAudioBox();
 
@@ -51,8 +64,8 @@ public class AudioManager : MonoBehaviour
 
         AudioClip clip = m_sounds[(int)sound];
         audiobox.m_isPlaying = true;     
-        audiobox.transform.position = newPosition;
-        PlayClip(audiobox, clip);
+        MoveAudioBox_RPC(audiobox, newPosition);
+        PlayClip_RPC(audiobox, sound);
         StartCoroutine(ReActivateAudioBox(audiobox, clip));
     }
 
@@ -75,9 +88,16 @@ public class AudioManager : MonoBehaviour
         audiobox.m_isPlaying = false;
     }
 
-    private void PlayClip(AudioBox audiobox, AudioClip clip)
+
+    private void MoveAudioBox_RPC(AudioBox audioBox, Vector3 newPosition)
     {
-        audiobox.GetComponent<AudioSource>().PlayOneShot(clip);    
+        audioBox.transform.position = newPosition;
+    }
+
+
+    private void PlayClip_RPC(AudioBox audiobox, ESound sound)
+    {
+        audiobox.GetComponent<AudioSource>().PlayOneShot(m_sounds[(int)sound]);    
     }
 
 }
