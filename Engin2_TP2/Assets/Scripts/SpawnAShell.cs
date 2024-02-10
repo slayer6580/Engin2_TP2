@@ -9,7 +9,27 @@ public class SpawnAShell : MonoBehaviour
     [SerializeField] private GameObject redShellPrefab;
     [SerializeField] private GameObject blueShellPrefab;
     [SerializeField] private float spawnInterval = 2f; // Time between spawns
+    [SerializeField] private float spawnCooldown = 1f;
 
+    private float timeSinceLastSpawn;
+
+    private void Start()
+    {
+        timeSinceLastSpawn = spawnCooldown; 
+    }
+
+    void Update()
+    {
+        
+        timeSinceLastSpawn += Time.deltaTime;
+
+        
+        if (Input.GetMouseButtonDown(1) && timeSinceLastSpawn >= spawnCooldown)
+        {
+            SpawnRandomShell();
+            timeSinceLastSpawn = 0; // Reset the timer
+        }
+    }
     void SpawnRandomShell()
     {
         // Choose a random shell to spawn

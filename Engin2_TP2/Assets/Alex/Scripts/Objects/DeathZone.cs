@@ -25,8 +25,8 @@ public class DeathZone : MonoBehaviour
 
 		character.GoToSpawnPoint();
         character.gameObject.GetComponent<PlayerTimer>().ResetTimer();
-        ScoreManager.GetInstance().UpdateScoreCommand(ScoreManager.ETeam.gameMaster, character.gameObject.GetComponent<NetworkIdentity>());
-        AudioManager.GetInstance().PlaySoundEffectsOneShot_CMD(AudioManager.ESound.deathZone, other.gameObject.transform.position);
+        ScoreManager.GetInstance().CmdUpdateScore(ScoreManager.ETeam.gameMaster, character.gameObject.GetComponent<NetworkIdentity>());
+        AudioManager.GetInstance().CmdPlaySoundEffectsOneShot(AudioManager.ESound.deathZone, other.gameObject.transform.position);
     }
 
     private void DesactiveRenderer()

@@ -4,12 +4,12 @@ public class RedShell : MonoBehaviour
 {
 
     // Note: When called, spawn it at gamemaster camera. Add cooldown on red shell if needed
-    [SerializeField] private float speed = 5f;
+    [SerializeField] private float speed = 20f;
     [SerializeField] private float homingDuration = 5f; // Duration the cannonball will follow the player
-     
+    [SerializeField] private float timeToDie = 15f;
 
     private Transform target;
-    private float homingTimer;
+    private float homingTimer=5.0f;
     private Rigidbody rb;
     private PlayerStateMachine playerStateMachine;
 
@@ -22,11 +22,13 @@ public class RedShell : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         homingTimer = homingDuration;
 
-      
+        PlayerStateMachine playerStateMachine = FindObjectOfType<PlayerStateMachine>();
         if (playerStateMachine != null)
         {
             target = playerStateMachine.transform;
         }
+        Destroy(gameObject, timeToDie); // Destroys this shell after timeToDie seconds
+
     }
 
     void Update()

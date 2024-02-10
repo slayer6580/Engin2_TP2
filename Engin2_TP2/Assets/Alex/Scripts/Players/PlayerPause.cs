@@ -23,11 +23,13 @@ public class PlayerPause : MonoBehaviour
         }
     }
 
+    /// <summary> Pour activer ou désactiver le pause Canvas </summary>
     public void PauseCanvasSetActive(bool value)
     {
         m_pausePanel.SetActive(value);
     }
 
+    /// <summary> Pour retourner au lobby </summary>
     public void Lobby()
     {
 		manager.ServerChangeScene(m_roomScene);

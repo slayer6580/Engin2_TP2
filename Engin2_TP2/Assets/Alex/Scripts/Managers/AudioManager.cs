@@ -43,31 +43,35 @@ public class AudioManager : NetworkBehaviour
 
         if (!isLocalPlayer)
         {
-            GetComponent<AudioSource>().Stop();
+            DesactivateMusic();
         }
 
-
     }
+
+    /// <summary> Pour dire de jouer un son une fois </summary>
     [Command(requiresAuthority = false)]
-    public void PlaySoundEffectsOneShot_CMD(ESound sound, Vector3 newPosition)
+    public void CmdPlaySoundEffectsOneShot(ESound sound, Vector3 newPosition)
     {
-        PlaySoundEffectsOneShot_RPC(sound, newPosition);
+        RpcPlaySoundEffectsOneShot(sound, newPosition);
     }
 
+    /// <summary> Pour dire de jouer un son en boucle </summary>
     [Command(requiresAuthority = false)]
-    public void PlaySoundEffectsLoop_CMD(ESound sound, Vector3 newPosition)
+    public void CmdPlaySoundEffectsLoop(ESound sound, Vector3 newPosition)
     {
-        PlaySoundEffectsLoop_RPC(sound, newPosition);
+        RpcPlaySoundEffectsLoop(sound, newPosition);
     }
 
+    /// <summary> Pour dire d'arreter de jouer un son en boucle </summary>
     [Command(requiresAuthority = false)]
-    public void StopSoundEffectsLoop_CMD(ESound sound, Vector3 newPosition)
+    public void CmdStopSoundEffectsLoop(ESound sound, Vector3 newPosition)
     {
-        PlaySoundEffectsLoop_RPC(sound, newPosition);
+        RpcPlaySoundEffectsLoop(sound, newPosition);
     }
 
+    /// <summary> Tout les clients va jouer un son une fois </summary>
     [ClientRpc]
-    public void PlaySoundEffectsOneShot_RPC(ESound sound, Vector3 newPosition)
+    public void RpcPlaySoundEffectsOneShot(ESound sound, Vector3 newPosition)
     {
         AudioBox audiobox = FindAValidAudioBox();
 
@@ -76,13 +80,14 @@ public class AudioManager : NetworkBehaviour
 
         AudioClip clip = m_sounds[(int)sound];
         audiobox.m_isPlaying = true;
-        MoveAudioBox_RPC(audiobox, newPosition);
-        PlayClipOneShot_RPC(audiobox, sound);
+        MoveAudioBox(audiobox, newPosition);
+        PlayClipOneShot(audiobox, sound);
         StartCoroutine(ReActivateAudioBox(audiobox, clip));
     }
 
+    /// <summary> Tout les clients va jouer un son en boucle </summary>
     [ClientRpc]
-    public void PlaySoundEffectsLoop_RPC(ESound sound, Vector3 newPosition)
+    public void RpcPlaySoundEffectsLoop(ESound sound, Vector3 newPosition)
     {
         AudioBox audiobox = FindAValidAudioBox();
 
@@ -90,12 +95,13 @@ public class AudioManager : NetworkBehaviour
             return;
 
         audiobox.m_isPlaying = true;
-        MoveAudioBox_RPC(audiobox, newPosition);
-        PlayClipLoop_RPC(audiobox, sound);
+        MoveAudioBox(audiobox, newPosition);
+        PlayClipLoop(audiobox, sound);
     }
 
+    /// <summary> Tout les clients va arreter de jouer un son en boucle </summary>
     [ClientRpc]
-    public void StopSoundEffectsLoop_RPC(ESound sound, Vector3 newPosition)
+    public void RpcStopSoundEffectsLoop(ESound sound, Vector3 newPosition)
     {
         AudioClip clip = m_sounds[(int)sound];
         foreach (AudioBox audioBox in m_audioBox)
@@ -111,6 +117,7 @@ public class AudioManager : NetworkBehaviour
         Debug.LogError("Pas d'audio a désactivé, AUDIO MANAGER script");
     }
 
+    /// <summary> Pour trouver une audioBox en attente d'action </summary>
     private AudioBox FindAValidAudioBox()
     {
         foreach (AudioBox audioBox in m_audioBox)
@@ -124,32 +131,40 @@ public class AudioManager : NetworkBehaviour
         return null;
     }
 
+    /// <summary> Pour réactiver une audioBox selon le temps du clip </summary>
     private IEnumerator ReActivateAudioBox(AudioBox audiobox, AudioClip clip)
     {
         yield return new WaitForSeconds(clip.length);
         audiobox.m_isPlaying = false;
     }
 
-
-    private void MoveAudioBox_RPC(AudioBox audioBox, Vector3 newPosition)
+    /// <summary> Pour bouger l'audioBox a un endroit précis </summary>
+    private void MoveAudioBox(AudioBox audioBox, Vector3 newPosition)
     {
         audioBox.transform.position = newPosition;
     }
 
-
-    private void PlayClipOneShot_RPC(AudioBox audiobox, ESound sound)
+    /// <summary> Pour que l'audioBox joue le son une fois </summary>
+    private void PlayClipOneShot(AudioBox audiobox, ESound sound)
     {
         AudioSource audioSource = audiobox.GetComponent<AudioSource>();
         audioSource.loop = false;
         audioSource.PlayOneShot(m_sounds[(int)sound]);
     }
 
-    private void PlayClipLoop_RPC(AudioBox audiobox, ESound sound)
+    /// <summary> Pour que l'audioBox joue le son en boucle </summary>
+    private void PlayClipLoop(AudioBox audiobox, ESound sound)
     {
         AudioSource audioSource = audiobox.GetComponent<AudioSource>();
         audioSource.loop = true;
         audioSource.clip = m_sounds[(int)sound];
         audioSource.Play();
+    }
+
+    /// <summary> Pour désactiver la musique du jeu </summary>
+    private void DesactivateMusic()
+    {
+        GetComponent<AudioSource>().Stop();
     }
 
 }
