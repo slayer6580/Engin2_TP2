@@ -44,12 +44,12 @@ public class MenuButton : MonoBehaviour
 		if (Transport.active is PortTransport portTransport)
 		{
 			// use TryParse in case someone tries to enter non-numeric characters
-			if (ushort.TryParse(GUILayout.TextField(portTransport.Port.ToString()), out ushort port))
-				portTransport.Port = port;
+			if (ushort.TryParse(m_port.text, out ushort port))
+			{
+				portTransport.Port = port;			
+			}
 
-			//Can't test with port if problem with TryParse,maybe try with this...
-			//ushort port = Convert.ToUInt16(m_port.text);
-			//portTransport.Port = port;
+			m_port.text = port.ToString();
 		}
 	}
 

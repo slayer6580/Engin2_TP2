@@ -28,10 +28,13 @@ public class SideSelectionManager : NetworkBehaviour
 	private NetworkRoomManager m_networkRoomManager;		//NotDestroyOnLoad, give access to list of players, use to pass value to gameSscene
 	private NetworkRoomPlayer m_localNetworkRoomPlayer;     //For network setting: Player is ready to start or not
 	private int m_slotSelected = -1;
+	private bool m_canClick = true;		//To avoid clicking on slot after clicking on disconnecting button
+	private NetworkIdentity m_networkIdentity;
 
 
 	void Awake()
 	{
+		m_networkIdentity = GetComponent<NetworkIdentity>();
 		m_networkRoomManager = FindObjectOfType<NetworkRoomManager>();
 
 		//Set m_isSlotReady the same as the number of slot available
@@ -98,66 +101,100 @@ public class SideSelectionManager : NetworkBehaviour
 	}
 
 	public void SelectSlot(int wantedSlot)
-	{	
-		//If the selected slot is available
-		if (GetFreeSlot(wantedSlot))
+	{
+		if (m_canClick)
 		{
-
-			//Place the character into the chosen slot
-			GetLocalNetworkRoomPlayer().transform.position = m_slotCharacterPosition[wantedSlot].position;
-			m_readyButton.SetActive(true);
-			m_readyButton.transform.position = new Vector3(m_slotCharacterPosition[wantedSlot].position.x, m_slotCharacterPosition[wantedSlot].position.y - m_readyButtonSpacing, m_slotCharacterPosition[wantedSlot].position.z);
-			ManageIsReadyTextCommand(wantedSlot, true, false);
-
-			//Set which side has been choosen
-			if (wantedSlot >= m_maxGameMaster)
-			{
-				//GetLocalNetworkRoomPlayer().gameObject.GetComponent<SaveLocalPlayer>().m_isGameMaster = false;
-				ChangeNameCommand(GetLocalNetworkRoomPlayer(), "Runner");
-				
-
-			}
-			else
-			{
-				//GetLocalNetworkRoomPlayer().gameObject.GetComponent<SaveLocalPlayer>().m_isGameMaster = true;
-				ChangeNameCommand(GetLocalNetworkRoomPlayer(), "GameMaster");
-
-			}
-
-			
-			///Reset some values		
-			//If already had a slot selected, reactivate it
-			if (m_slotSelected >= 0)
-			{
-				SwitchSlotStateCommand(m_slotSelected, true);
-				//Set the local Ready button to the "not ready" values
-				SetAsReady(false, "Ready");
-			}
-
-			//Deactivate the new selected slot
-			SwitchSlotStateCommand(wantedSlot, false);
-
-			//The players has change his position so he's not ready anymore
-			ManageIsReadyTextCommand(m_slotSelected, false, false);
-			
-			m_slotSelected = wantedSlot;	
-			
-		}
+			CmdGetFreeSlot(wantedSlot, m_networkIdentity.connectionToClient);
+		}	
 	}
 
-	
-	//Toggle the ready button under the local player to set If ready or not to start le match
-	public void ToggleReadyButton()
-	{	
-        //Check if already Ready
-		if (GetLocalNetworkRoomPlayer().readyToBegin)
-        {
-			SetAsReady(false, "Ready");
+	public void ValidateSlot(int wantedSlot)
+	{
+		//Place the character into the chosen slot
+		GetLocalNetworkRoomPlayer().transform.position = m_slotCharacterPosition[wantedSlot].position;
+		m_readyButton.SetActive(true);
+		m_readyButton.transform.position = new Vector3(m_slotCharacterPosition[wantedSlot].position.x, m_slotCharacterPosition[wantedSlot].position.y - m_readyButtonSpacing, m_slotCharacterPosition[wantedSlot].position.z);
+		ManageIsReadyTextCommand(wantedSlot, true, false);
+		
+		//Replace the ready text over the slot imediatly for the local player
+		ManageIsReadyText(m_slotSelected, false, false);
+		ManageIsReadyText(wantedSlot, true, false);
+		
+
+		//Set which side has been choosen
+		if (wantedSlot >= m_maxGameMaster)
+		{
+			//GetLocalNetworkRoomPlayer().gameObject.GetComponent<SaveLocalPlayer>().m_isGameMaster = false;
+			ChangeNameCommand(GetLocalNetworkRoomPlayer(), "Runner");
+
 		}
 		else
 		{
-			SetAsReady(true, "Cancel");
+			//GetLocalNetworkRoomPlayer().gameObject.GetComponent<SaveLocalPlayer>().m_isGameMaster = true;
+			ChangeNameCommand(GetLocalNetworkRoomPlayer(), "GameMaster");
+
 		}
+
+		///Reset some values		
+		//If already had a slot selected, reactivate it
+		if (m_slotSelected >= 0)
+		{
+			SwitchSlotStateCommand(m_slotSelected, true);
+			//Set the local Ready button to the "not ready" values
+			SetAsReady(false, "Ready");
+		}
+
+		//Deactivate the new selected slot
+		//SwitchSlotStateCommand(wantedSlot, false);
+
+		//The players has change his position so he's not ready anymore
+		ManageIsReadyTextCommand(m_slotSelected, false, false);
+
+		m_slotSelected = wantedSlot;
+	}
+
+	public void ClientLeavingLobby()
+	{
+		if (m_canClick && m_slotSelected >= 0)
+		{
+			m_canClick = false;
+			ManageIsReadyTextCommand(m_slotSelected, false, false);
+			SwitchSlotStateCommand(m_slotSelected, true);
+		}
+			CmdDoneDisconnecting(m_networkIdentity.connectionToClient);
+		
+			
+	}
+
+	[Command(requiresAuthority = false)]
+	public void CmdDoneDisconnecting(NetworkConnectionToClient target)
+	{
+		TargetValidateDisconnection(target);
+	}
+
+	[TargetRpc]
+	public void TargetValidateDisconnection(NetworkConnectionToClient target)
+	{
+		this.gameObject.GetComponent<OnlineButtons>().RoomLobyToMainMenu();
+	}
+
+
+	//Toggle the ready button under the local player to set If ready or not to start le match
+	public void ToggleReadyButton()
+	{
+		if (m_canClick)
+		{
+			//Check if already Ready
+			if (GetLocalNetworkRoomPlayer().readyToBegin)
+			{
+				SetAsReady(false, "Ready");
+			}
+			else
+			{
+				SetAsReady(true, "Cancel");
+			}
+		}
+       
 	}
 
 	public void SetAsReady(bool setToReady, string textInReadyButton)
@@ -179,10 +216,15 @@ public class SideSelectionManager : NetworkBehaviour
 	[Command(requiresAuthority = false)]
 	public void ManageIsReadyTextCommand(int slotPosition, bool newState, bool isReady)
 	{
-		ManageIsReadyText(slotPosition, newState, isReady);
+		RcpManageIsReadyText(slotPosition, newState, isReady);
 	}
 
 	[ClientRpc]
+	public void RcpManageIsReadyText(int slotPosition, bool newState, bool isReady)
+	{
+		ManageIsReadyText(slotPosition, newState, isReady);	
+	}
+
 	public void ManageIsReadyText(int slotPosition, bool newState, bool isReady)
 	{
 		if (slotPosition >= 0)
@@ -191,21 +233,21 @@ public class SideSelectionManager : NetworkBehaviour
 			m_playerInThisSlotReadyText[slotPosition].SetActive(newState);
 
 			if (isReady)
-			{	
-				textMesh.text= "Ready";
+			{
+				textMesh.text = "Ready";
 			}
 			else
 			{
 				textMesh.text = "Not Ready";
-			}		
-		}	
+			}
+		}
 	}
 
-	
 	//Toggle the grey area section to select the TEAM
 	[Command(requiresAuthority = false)]
 	public void SwitchSlotStateCommand(int slot, bool state)
 	{
+		m_isSlotFree[slot] = state;
 		SwitchSlotState(slot, state);
 	}
 	[ClientRpc]
@@ -228,9 +270,26 @@ public class SideSelectionManager : NetworkBehaviour
 		m_isSlotReady[slot] = state;
 	}
 
-	public bool GetFreeSlot(int slot)
+	[Command(requiresAuthority = false)]
+	public void CmdGetFreeSlot(int slot, NetworkConnectionToClient target)
 	{
-		return m_isSlotFree[slot];
+		
+		TargetValidateSlot(target, slot, m_isSlotFree[slot]);
+		SwitchSlotStateCommand(slot, false);
+	}
+
+	[TargetRpc]
+	public void TargetValidateSlot(NetworkConnectionToClient target,int slot,  bool isFree)
+	{
+		if(isFree)
+		{
+			ValidateSlot(slot);
+		}
+		else
+		{
+			print("ALREADY TAKEN");
+		}
+		
 	}
 
 	public NetworkRoomPlayer GetLocalNetworkRoomPlayer()
