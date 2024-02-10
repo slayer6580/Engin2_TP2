@@ -15,7 +15,7 @@ public class PlayerStateMachine : MonoBehaviour
     [field: Header("Movement")]
     [field: SerializeField] public float GroundSpeed { get; private set; }
     [field: SerializeField] public float SprintSpeed { get; private set; }
-    [field: Range(1.0f, 3.0f)][field: SerializeField] public float SprintSpeedMultiplier { get; private set; }
+    [field: Range(1.0f, 3.0f)][field: SerializeField] public float SpeedMultiplier { get; private set; }
     [field: SerializeField] public float AccelerationRate { get; private set; }
     [field: SerializeField] public float MaxVelocityOnGround { get; private set; }
     [field: SerializeField][field: Range(1.0f, 5.0f)] public float DragOnGround { get; private set; }
@@ -178,6 +178,11 @@ public class PlayerStateMachine : MonoBehaviour
     public void SetGroundSpeed(float newSpeed)
     {
         GroundSpeed = newSpeed;
+    }
+
+    public void SetSprintMultiplier(float newSpeed)
+    {
+        SpeedMultiplier = newSpeed;
     }
 
     public void SetJumpForce(float newIntensity)
