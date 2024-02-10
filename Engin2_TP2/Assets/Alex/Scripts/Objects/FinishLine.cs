@@ -1,3 +1,4 @@
+using Mirror;
 using UnityEngine;
 
 public class FinishLine : MonoBehaviour
@@ -28,7 +29,7 @@ public class FinishLine : MonoBehaviour
         character.gameObject.GetComponent<PlayerTimer>().ResetTimer();
         character.ResetCheckpointReached();
 
-		ScoreManager.GetInstance().UpdateScore(ScoreManager.ETeam.runner);
+		ScoreManager.GetInstance().UpdateScoreCommand(ScoreManager.ETeam.runner, character.gameObject.GetComponent<NetworkIdentity>());
         AudioManager.GetInstance().PlaySoundEffectsOneShot_CMD(AudioManager.ESound.checkpoint, other.gameObject.transform.position);
 	}
 

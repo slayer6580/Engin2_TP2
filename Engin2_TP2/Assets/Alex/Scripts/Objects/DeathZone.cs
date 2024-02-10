@@ -1,3 +1,4 @@
+using Mirror;
 using UnityEngine;
 
 public class DeathZone : MonoBehaviour
@@ -24,7 +25,7 @@ public class DeathZone : MonoBehaviour
 
 		character.GoToSpawnPoint();
         character.gameObject.GetComponent<PlayerTimer>().ResetTimer();
-        ScoreManager.GetInstance().UpdateScore(ScoreManager.ETeam.gameMaster);
+        ScoreManager.GetInstance().UpdateScoreCommand(ScoreManager.ETeam.gameMaster, character.gameObject.GetComponent<NetworkIdentity>());
         AudioManager.GetInstance().PlaySoundEffectsOneShot_CMD(AudioManager.ESound.deathZone, other.gameObject.transform.position);
     }
 
