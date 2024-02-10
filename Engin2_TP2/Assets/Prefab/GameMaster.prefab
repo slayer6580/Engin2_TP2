@@ -787,6 +787,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_pausePanel: {fileID: 1570758744212887001}
+  m_roomScene: Assets/Scenes/Arena.unity
 --- !u!1 &3879691296529184780
 GameObject:
   m_ObjectHideFlags: 0

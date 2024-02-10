@@ -12,6 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Room.unity
     guid: 5591d2cba6fb8f44982c642832656605
   - enabled: 1
-    path: Assets/Scenes/Arena_Tommy.unity
+    path: Assets/Scenes/Arena.unity
     guid: 95cb9b74f24cd314cabaa8c0deab4d42
   m_configObjects: {}

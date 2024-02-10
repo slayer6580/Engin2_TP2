@@ -1,12 +1,21 @@
+using Mirror;
 using UnityEngine;
 
 
 public class PlayerPause : MonoBehaviour
 {
     [SerializeField] private GameObject m_pausePanel;
+	NetworkManager manager;
+	[Scene][SerializeField] private string m_roomScene;
 
-    // Update is called once per frame
-    void Update()
+
+	void Awake()
+	{
+		manager = GetComponent<NetworkManager>();
+	}
+
+	// Update is called once per frame
+	void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape) && !m_pausePanel.activeSelf)
         {
@@ -21,7 +30,6 @@ public class PlayerPause : MonoBehaviour
 
     public void Lobby()
     {
-        // TODO 
-        // Rajouter le code quand un des joueur va cliquer sur le bouton Lobby pour redémarrer la partie au lobby.
-    }
+		manager.ServerChangeScene(m_roomScene);
+	}
 }
