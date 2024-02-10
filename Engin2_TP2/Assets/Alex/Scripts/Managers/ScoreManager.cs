@@ -14,17 +14,16 @@ public class ScoreManager : NetworkBehaviour
     [Header("TextMeshProGUI du Score Canvas")]
     [SerializeField] private TextMeshProUGUI m_gamemasterScoreText;
     [SerializeField] private TextMeshProUGUI m_runnerScoreText;
+    [Header("Dans le canvas du GameManager")]
     [SerializeField] private GameObject m_gameOverPanel;
     [SerializeField] private TextMeshProUGUI m_winnerText;
+    [Header("Le score a atteindre pour finir la partie")]
     [SerializeField] private int m_maxScore;
 
     private int m_gamemasterScore = 0;
 	private int m_runnerScore = 0;
 
     private static ScoreManager s_instance = null;
-    private bool m_gameIsOver = false;
-    
-
 
     public static ScoreManager GetInstance()
     {
@@ -45,19 +44,18 @@ public class ScoreManager : NetworkBehaviour
     }
 
 
-
+    /// <summary> Pour dire que le score a augmenter pour une équipe </summary>
     [Command(requiresAuthority = false)]
-    public void UpdateScoreCommand(ETeam team, NetworkIdentity player)
+    public void CmdUpdateScore(ETeam team, NetworkIdentity player)
     {
-        UpdateScoreRpc(team);
-        CheckForWinners_TRPC(player.connectionToClient);
+        RpcUpdateScore(team);
+        TargetCheckForWinners(player.connectionToClient);
 	}
 
 
     /// <summary> Pour augmenter le score d'une équipe et le gerer dans le UI </summary>
-
     [ClientRpc]
-    private void UpdateScoreRpc(ETeam team)
+    private void RpcUpdateScore(ETeam team)
     {
         if (team == ETeam.gameMaster)
             m_gamemasterScore++;
@@ -69,27 +67,30 @@ public class ScoreManager : NetworkBehaviour
      
     }
 
+    /// <summary> Pour regarder si la partie est finie </summary>
     [TargetRpc]
-    private void CheckForWinners_TRPC(NetworkConnectionToClient target)
+    private void TargetCheckForWinners(NetworkConnectionToClient target)
     {
         if (m_gamemasterScore == m_maxScore) 
         {
-            ShowWinners_CMD(ETeam.gameMaster);
+            CmdShowWinners(ETeam.gameMaster);
         }
         else if (m_runnerScore == m_maxScore)
         {
-            ShowWinners_CMD(ETeam.runner);
+            CmdShowWinners(ETeam.runner);
         }
     }
 
+    /// <summary> Pour dire que la partie es finie </summary>
     [Command(requiresAuthority = false)]
-    private void ShowWinners_CMD(ETeam team)
+    private void CmdShowWinners(ETeam team)
     {
-        ShowWinners_RPC(team);
+        RpcShowWinners(team);
     }
 
+    /// <summary> Montrer le UI comme quoi la partie es finie et arreter le jeu </summary>
     [ClientRpc]
-    private void ShowWinners_RPC(ETeam team)
+    private void RpcShowWinners(ETeam team)
     {
         string winText;
 
@@ -100,15 +101,9 @@ public class ScoreManager : NetworkBehaviour
 
         m_gameOverPanel.SetActive(true);
         m_winnerText.text = winText + " wins!";
-        // TODO Desactivate Script that players cant run anymore
+        // TODO Desactivate Scripts that players cant run anymore
         Time.timeScale = 0;
     }
 
-   
-
-
-   
-
-   
 
 }

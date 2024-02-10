@@ -43,8 +43,8 @@ public class CheckPoint : NetworkBehaviour
 
         character.CheckpointReached();
 
-		ScoreManager.GetInstance().UpdateScoreCommand(ScoreManager.ETeam.runner, character.gameObject.GetComponent<NetworkIdentity>());
-        AudioManager.GetInstance().PlaySoundEffectsOneShot_CMD(AudioManager.ESound.checkpoint, other.gameObject.transform.position);
+		ScoreManager.GetInstance().CmdUpdateScore(ScoreManager.ETeam.runner, character.gameObject.GetComponent<NetworkIdentity>());
+        AudioManager.GetInstance().CmdPlaySoundEffectsOneShot(AudioManager.ESound.checkpoint, other.gameObject.transform.position);
 		
 		character.GetComponent<PlayerTimer>().AddBonusToTimer(m_bonusToAdd);
         character.SetSpawnPoint(GetRandomSpawnPosition());
