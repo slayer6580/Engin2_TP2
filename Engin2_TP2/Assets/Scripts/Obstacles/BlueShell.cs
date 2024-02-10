@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class BlueShell : MonoBehaviour
 {
-    [SerializeField] private float speed = 5f;
+    [SerializeField] private float speed = 22f;
 
     private Transform target;
     private Rigidbody rb;
     private PlayerStateMachine playerStateMachine;
+    [SerializeField] private float timeToDie = 25f;
     private void Awake()
     {
         FindTarget();
@@ -16,11 +17,12 @@ public class BlueShell : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         // Find the player by the PlayerStateMachine component
-        
+        PlayerStateMachine playerStateMachine = FindObjectOfType<PlayerStateMachine>();
         if (playerStateMachine != null)
         {
             target = playerStateMachine.transform;
         }
+        Destroy(gameObject, timeToDie);
     }
 
     void Update()
