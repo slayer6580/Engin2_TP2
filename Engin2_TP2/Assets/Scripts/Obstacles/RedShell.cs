@@ -15,6 +15,7 @@ public class RedShell : MonoBehaviour
 
     private void Awake()
     {
+        //On doit pouvoir trouver le joueur le plus proche avant de l'intégré
         FindTarget();
     }
     void Start()
@@ -47,6 +48,6 @@ public class RedShell : MonoBehaviour
     }
     void OnCollisionEnter(Collision collision)
     {
-        Destroy(gameObject);
+       // Destroy(gameObject,0.1f);
     }
 }
