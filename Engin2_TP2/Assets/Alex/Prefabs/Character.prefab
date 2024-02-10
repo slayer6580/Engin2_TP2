@@ -2316,8 +2316,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6911063b9528c354f855718a3f7a935d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_speedPowerDuration: 4
-  m_speedDuringPower: 300
+  m_speedPowerDuration: 5
+  m_speedMultiplierDuringPower: 1.5
   m_invisibilityPowerDuration: 0
   m_jumpPowerDuration: 4
   m_jumpForceDuringPower: 400
@@ -2355,7 +2355,7 @@ MonoBehaviour:
   <Direction>k__BackingField: {x: 0, y: 0, z: 0}
   <GroundSpeed>k__BackingField: 5
   <SprintSpeed>k__BackingField: 7
-  <SprintSpeedMultiplier>k__BackingField: 2
+  <SpeedMultiplier>k__BackingField: 1
   <AccelerationRate>k__BackingField: 20
   <MaxVelocityOnGround>k__BackingField: 7
   <DragOnGround>k__BackingField: 1

@@ -16,7 +16,7 @@ public class PlayerPowers : MonoBehaviour
 
     [Header("Speed Power")]
     [SerializeField] private float m_speedPowerDuration;
-    [SerializeField] private float m_speedDuringPower;
+    [SerializeField] private float m_speedMultiplierDuringPower;
   
     [Header("Invisibility Power")]
     [SerializeField] private float m_invisibilityPowerDuration;
@@ -63,8 +63,8 @@ public class PlayerPowers : MonoBehaviour
         switch (m_currentPower)
         {
             case EPowers.speed:
-                m_lastData = m_playerFSM.GroundSpeed;
-                m_playerFSM.SetGroundSpeed(m_speedDuringPower);
+                m_lastData = m_playerFSM.SpeedMultiplier;
+                m_playerFSM.SetSprintMultiplier(m_speedMultiplierDuringPower);
                 StartCoroutine(WaitAndBackToNormal(m_speedPowerDuration));
                 break;
 
@@ -112,7 +112,7 @@ public class PlayerPowers : MonoBehaviour
 
         if (m_currentPower == EPowers.speed)
         {
-            m_playerFSM.SetGroundSpeed(m_lastData);
+            m_playerFSM.SetSprintMultiplier(m_lastData);
         }
         else if (m_currentPower == EPowers.jump)
         {

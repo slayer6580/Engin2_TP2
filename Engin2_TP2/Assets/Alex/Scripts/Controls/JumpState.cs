@@ -81,7 +81,7 @@ public class JumpState : CharacterState
 		if (m_isSprinting == true && m_stateMachine.StaminaPlayer.CanUseStamina())
 		{
 			m_stateMachine.StaminaPlayer.RunCost();
-			totalSpeed *= m_stateMachine.SprintSpeedMultiplier;
+			totalSpeed *= m_stateMachine.SpeedMultiplier;
 		}
 
 		// Pour mélanger équalement les vitesses de toute les directions appuyés (exemple: haut et gauche)

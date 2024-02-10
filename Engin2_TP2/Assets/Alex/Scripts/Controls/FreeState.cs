@@ -92,7 +92,6 @@ public class FreeState : CharacterState
         if (m_isSprinting == true && m_stateMachine.StaminaPlayer.CanUseStamina())
         {
             m_stateMachine.StaminaPlayer.RunCost();
-            totalSpeed *= m_stateMachine.SprintSpeedMultiplier;
         }
 
         // Pour mélanger équalement les vitesses de toute les directions appuyés (exemple: haut et gauche)
@@ -126,11 +125,11 @@ public class FreeState : CharacterState
     {
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            m_maxSpeed = m_stateMachine.SprintSpeed;
+            m_maxSpeed = m_stateMachine.SprintSpeed * m_stateMachine.SpeedMultiplier;
             m_isSprinting = true;
             return;
         }
-        m_maxSpeed = m_stateMachine.GroundSpeed;
+        m_maxSpeed = m_stateMachine.GroundSpeed * m_stateMachine.SpeedMultiplier;
         m_isSprinting = false;
     }
 }
