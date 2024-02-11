@@ -2,11 +2,12 @@ using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Telepathy;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MenuButton : MonoBehaviour
+public class MenuButton : NetworkBehaviour
 {
 	NetworkManager manager;
 
@@ -61,6 +62,33 @@ public class MenuButton : MonoBehaviour
 	public void StartJoinButton()
 	{
 		manager.StartClient();
+	}
+
+
+	//Back
+	public void ToMainMenu()
+	{
+		StartCoroutine(StartExit());
+
+	}
+
+	IEnumerator StartExit()
+	{
+
+		yield return new WaitForSeconds(0.25f);
+
+		if (isServer)
+		{
+			StartCoroutine(CompletExit());
+		}
+
+		NetworkManager.singleton.StopClient();
+	}
+
+	IEnumerator CompletExit()
+	{
+		yield return new WaitForSeconds(0.25f);
+		NetworkManager.singleton.StopServer();
 	}
 
 }

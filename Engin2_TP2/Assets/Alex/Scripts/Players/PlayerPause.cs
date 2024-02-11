@@ -2,11 +2,10 @@ using Mirror;
 using UnityEngine;
 
 
-public class PlayerPause : MonoBehaviour
+public class PlayerPause : NetworkBehaviour
 {
     [SerializeField] private GameObject m_pausePanel;
 	NetworkManager manager;
-	[Scene][SerializeField] private string m_roomScene;
 
 
 	void Awake()
@@ -32,6 +31,6 @@ public class PlayerPause : MonoBehaviour
     /// <summary> Pour retourner au lobby </summary>
     public void Lobby()
     {
-		manager.ServerChangeScene(m_roomScene);
+		NetworkManager.singleton.gameObject.GetComponent<MenuButton>().ToMainMenu();
 	}
 }

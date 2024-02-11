@@ -1034,7 +1034,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1205146964}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: OnlineButtons, Assembly-CSharp
         m_MethodName: RoomLobyToMainMenu
         m_Mode: 1
@@ -1697,7 +1697,6 @@ GameObject:
   - component: {fileID: 1205146961}
   - component: {fileID: 1205146962}
   - component: {fileID: 1205146963}
-  - component: {fileID: 1205146964}
   m_Layer: 0
   m_Name: RoomManager
   m_TagString: Untagged
@@ -1778,24 +1777,6 @@ MonoBehaviour:
   serverOnly: 0
   visible: 0
   hasSpawned: 0
---- !u!114 &1205146964
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1205146959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78c19026c7bdba24e819e0b1f38b7f9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  m_roomScene: Assets/Scenes/Room.unity
-  m_mainMenuScene: Assets/Scenes/MainMenu.unity
-  m_lobbyConfirmationPanel: {fileID: 1771622904}
 --- !u!1 &1309606384
 GameObject:
   m_ObjectHideFlags: 0
@@ -2736,7 +2717,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1205146962}
         m_TargetAssemblyTypeName: SideSelectionManager, Assembly-CSharp
-        m_MethodName: ClientLeavingLobby
+        m_MethodName: BackToMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -30,7 +30,8 @@ public class SideSelectionManager : NetworkBehaviour
 	private int m_slotSelected = -1;
 	private bool m_canClick = true;		//To avoid clicking on slot after clicking on disconnecting button
 	private NetworkIdentity m_networkIdentity;
-
+	private bool m_hasOneGameMaster;
+	private bool m_hasOneRunner;
 
 	void Awake()
 	{
@@ -41,8 +42,7 @@ public class SideSelectionManager : NetworkBehaviour
 		foreach (var slot in m_isSlotFree)
 		{
 			m_isSlotReady.Add(false);
-		}
-		
+		}	
 	}
 
 	public void Start()
@@ -73,6 +73,7 @@ public class SideSelectionManager : NetworkBehaviour
 
 	public void Update()
 	{
+		
 		//Place a character at a spawn point in the center of the screen when a new player enter the room
 		if (m_nbOfPlayer != m_networkRoomManager.roomSlots.Count)
 		{
@@ -175,9 +176,13 @@ public class SideSelectionManager : NetworkBehaviour
 	[TargetRpc]
 	public void TargetValidateDisconnection(NetworkConnectionToClient target)
 	{
-		this.gameObject.GetComponent<OnlineButtons>().RoomLobyToMainMenu();
+		BackToMainMenu();
 	}
 
+	public void BackToMainMenu()
+	{
+		NetworkManager.singleton.gameObject.GetComponent<MenuButton>().ToMainMenu();
+	}
 
 	//Toggle the ready button under the local player to set If ready or not to start le match
 	public void ToggleReadyButton()
