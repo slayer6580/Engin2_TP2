@@ -40,12 +40,12 @@ public class RunnerManager : NetworkBehaviour
     }
 
     /// <summary> Trouve un point de départ pour un joueur </summary>
-    public Vector3 FindAStartPoint()
+    public Transform FindAStartPoint()
     {
         if (m_spawnsPoints[m_currentCheckpoint] == null)
             m_currentCheckpoint = 0;
 
-        Vector3 startPoint = m_spawnsPoints[m_currentCheckpoint].position;
+        Transform startPoint = m_spawnsPoints[m_currentCheckpoint];
         m_currentCheckpoint++;
 
         return startPoint;

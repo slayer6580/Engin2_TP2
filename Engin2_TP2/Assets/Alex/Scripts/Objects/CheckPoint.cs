@@ -58,10 +58,10 @@ public class CheckPoint : NetworkBehaviour
     }
 
     /// <summary> Retourne la position d'un spawn au hazard </summary>
-    private Vector3 GetRandomSpawnPosition()
+    private Transform GetRandomSpawnPosition()
     {
         int randomIndex = Random.Range(0, m_checkpointSpawns.Count);
-        return m_checkpointSpawns[randomIndex].position;
+        return m_checkpointSpawns[randomIndex];
     }
 
 }
