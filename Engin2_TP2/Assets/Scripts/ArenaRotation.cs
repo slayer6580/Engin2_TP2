@@ -106,7 +106,7 @@ public class ArenaRotation : NetworkBehaviour
 
 
 	//If moving on X, replace Z to zero and vice versa
-	[ClientRpc]
+	[Command(requiresAuthority = false)]
 	public void ResetAngleCommand(float angleToCheck, bool isX)
 	{
 		angleToCheck = GetAccurateRotationValue(angleToCheck);
