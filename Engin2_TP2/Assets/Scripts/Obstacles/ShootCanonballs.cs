@@ -19,7 +19,7 @@ public class CannonShooter : NetworkBehaviour
 
     private float cooldownTimer = 0f; // Timer to track cooldown
 
-	private float m_staminaCost;
+	[SyncVar] private float m_staminaCost;
 
 	private void Start()
     {
@@ -39,14 +39,14 @@ public class CannonShooter : NetworkBehaviour
 
 
     public void ShootCannonball()
-    {
-		m_staminaCost = m_obstacleManager.m_staminaCost;
+    {	
         ShootCannonballCommand();
 	}
 
 	[Command(requiresAuthority = false)]
 	public void ShootCannonballCommand()
     {
+		m_staminaCost = m_obstacleManager.m_staminaCost;
 		GmStaminaManager.GetInstance().InstantCostCommand(m_staminaCost);
 
 		GameObject cannonball = Instantiate(cannonballPrefab, shootPoint.position, shootPoint.rotation);

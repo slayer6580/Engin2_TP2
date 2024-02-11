@@ -36,8 +36,7 @@ public class ObstacleManager : NetworkBehaviour
 	public void IsFreeToUseCommand(NetworkConnectionToClient target)
 	{
 		if (m_isBeingUsed == false)
-		{
-			print("TESTAAAA");
+		{ 
 			SetIsBeingUsedCommand(true);
 			TargetWasFreeToUseClient(target);
 		}
@@ -66,9 +65,14 @@ public class ObstacleManager : NetworkBehaviour
 	[TargetRpc]
 	public void TargetReleaseObstacle(NetworkConnectionToClient target)
 	{
-		m_toReleaseObstacle.Invoke();
+		print("IS THIS THE BUG???!");
+		ReleaseObstacleLocal();
 	}
 
+	public void ReleaseObstacleLocal()
+	{
+		m_toReleaseObstacle.Invoke();
+	}
 
 	//
 	[Command(requiresAuthority = false)]

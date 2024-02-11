@@ -253,6 +253,37 @@ public class SideSelectionManager : NetworkBehaviour
 	public void SwitchSlotStateCommand(int slot, bool state)
 	{
 		m_isSlotFree[slot] = state;
+
+		bool atLeastOneGameMaster = false;
+		bool atLeastOneRunner = false;
+
+		
+		int i = 0;
+		foreach(bool currentSlot in m_isSlotFree)
+		{
+			if (i < 2 && currentSlot == false)
+			{
+				atLeastOneGameMaster = true;
+			}
+			if (i >= 2 && currentSlot == false)
+			{
+				atLeastOneRunner = true;
+			}
+			i++;
+		}
+
+		if(atLeastOneGameMaster && atLeastOneRunner)
+		{
+			print("AA");
+			NetworkManager.singleton.HasOneInEachTeam = true;
+		}
+		else
+		{
+			print("BB");
+			NetworkManager.singleton.HasOneInEachTeam = false;
+		}
+	
+
 		SwitchSlotState(slot, state);
 	}
 	[ClientRpc]

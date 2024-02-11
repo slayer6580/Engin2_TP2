@@ -1,4 +1,6 @@
+using Mirror;
 using UnityEngine;
+using static AudioManager;
 
 public class FreeState : CharacterState
 {
@@ -7,6 +9,7 @@ public class FreeState : CharacterState
     private float m_currentTimer = 0;
     private float m_maxSpeed;
     private bool m_isSprinting = false;
+    private bool m_noMoreStaminaSfxHasPlay = false;
 
     private Vector3 m_velocity = Vector3.zero;
     public override void OnEnter()
@@ -89,7 +92,7 @@ public class FreeState : CharacterState
         Vector3 normalizedVector = Vector3.zero;
 
         // Si on sprint, applique le multiplier
-        if (m_isSprinting == true && m_stateMachine.StaminaPlayer.CanUseStamina())
+        if (m_isSprinting == true)
         {
             m_stateMachine.StaminaPlayer.RunCost();
         }
@@ -125,11 +128,26 @@ public class FreeState : CharacterState
     {
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            m_maxSpeed = m_stateMachine.SprintSpeed * m_stateMachine.SpeedMultiplier;
-            m_isSprinting = true;
-            return;
-        }
+            if (m_stateMachine.StaminaPlayer.CanUseStamina())
+            {
+				m_maxSpeed = m_stateMachine.SprintSpeed * m_stateMachine.SpeedMultiplier;
+				m_isSprinting = true;
+				return;
+			}
+            else
+            {
+                if (m_noMoreStaminaSfxHasPlay == false)
+                {
+					AudioManager.GetInstance().CmdPlaySoundEffectsOneShotTarget(ESound.noStamina, m_stateMachine.transform.position, NetworkClient.localPlayer.gameObject.GetComponent<NetworkIdentity>());
+                    m_noMoreStaminaSfxHasPlay = true;
+
+				}
+				return;
+			}
+           		
+		}
         m_maxSpeed = m_stateMachine.GroundSpeed * m_stateMachine.SpeedMultiplier;
         m_isSprinting = false;
-    }
+		m_noMoreStaminaSfxHasPlay = false;
+	}
 }

@@ -1210,7 +1210,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1537272963}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
   m_Name: 
@@ -1229,6 +1229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 615e6c6589cf9e54cad646b5a11e0529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_needOneInEachTeamToStart: 0
   dontDestroyOnLoad: 1
   runInBackground: 1
   headlessStartMode: 1
@@ -1269,9 +1270,9 @@ MonoBehaviour:
   evaluationMethod: 0
   evaluationInterval: 3
   timeInterpolationGui: 0
+  <HasOneInEachTeam>k__BackingField: 0
   showRoomGUI: 0
   minPlayers: 2
-  hasOneInEachTeam: 1
   roomPlayerPrefab: {fileID: 6033226784993900230, guid: fc0852717f587e342ac929847607b67a,
     type: 3}
   RoomScene: Assets/Scenes/Room.unity

@@ -2,6 +2,8 @@ using UnityEngine;
 using static AudioManager;
 using UnityEngine.UIElements;
 using System;
+using System.Security.Principal;
+using Mirror;
 
 public class JumpState : CharacterState
 {
@@ -19,7 +21,7 @@ public class JumpState : CharacterState
 			m_jumpFromGround = true;
         }
 
-            m_stateMachine.m_InAir = true;
+        m_stateMachine.m_InAir = true;
         m_stateMachine.RB.drag = m_stateMachine.DragOnAir;
         m_stateMachine.Animator.SetBool("Jump", true);
 		//Reset Y velocity 
@@ -149,13 +151,29 @@ public class JumpState : CharacterState
 		{
 			return false;
 		}
-		//This must be run in Update absolutely
-		if (m_stateMachine.m_JumpLeft > 0)
-        {
-            return Input.GetKeyDown(KeyCode.Space) && m_stateMachine.StaminaPlayer.CanUseStamina();
-        }
 
-        return false;
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			//This must be run in Update absolutely
+			if (m_stateMachine.m_JumpLeft > 1)
+			{
+				return Input.GetKeyDown(KeyCode.Space);
+			}
+
+			if (m_stateMachine.m_JumpLeft == 1)
+			{
+				if (m_stateMachine.StaminaPlayer.CanUseStamina())
+				{
+					return true;
+				}
+				else
+				{
+					AudioManager.GetInstance().CmdPlaySoundEffectsOneShotTarget(ESound.noStamina, m_stateMachine.transform.position, NetworkClient.localPlayer.gameObject.GetComponent<NetworkIdentity>());
+				}
+			}
+		}
+
+			return false;
     }
 
     public override bool CanExit()

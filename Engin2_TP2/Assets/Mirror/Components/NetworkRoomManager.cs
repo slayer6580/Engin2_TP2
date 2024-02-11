@@ -34,7 +34,7 @@ namespace Mirror
         [SerializeField]
         [Tooltip("Minimum number of players to auto-start the game")]
         public int minPlayers = 1;
-        public bool hasOneInEachTeam = false;
+       
 
         [FormerlySerializedAs("m_RoomPlayerPrefab")]
         [SerializeField]
@@ -202,13 +202,25 @@ namespace Mirror
             bool enoughReadyPlayers = minPlayers <= 0 || numberOfReadyPlayers >= minPlayers;
             if (enoughReadyPlayers)
             {
-                if(hasOneInEachTeam)
+                if (m_needOneInEachTeamToStart)
+                {
+                    if (HasOneInEachTeam)
+                    {
+                        foreach(NetworkRoomPlayer roomPlayer in roomSlots)
+                        {
+							roomPlayer.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+
+						}
+						pendingPlayers.Clear();
+						allPlayersReady = true;
+					}
+                }
+                else
                 {
 					pendingPlayers.Clear();
 					allPlayersReady = true;
 				}
-               
-            }
+			}
             else
                 allPlayersReady = false;
         }

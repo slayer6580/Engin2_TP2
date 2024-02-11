@@ -365,9 +365,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ed0379b3712d514f83a957919eae975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushForce: 1000
+  pushForce: 5000
   bumperForceReduction: 2
-  addedUpForce: 0.25
+  addedUpForce: 1
   bumperObjectMovesOnImpact: 1
   canBeMovedByGameMaster: 0
   touchEffect: {fileID: 0}
@@ -14387,7 +14387,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  m_staminaCost: 5
+  m_staminaCost: 10
   m_changingColorObject: []
   m_baseRed: {r: 0.8156863, g: 0.28235295, b: 0.28235295, a: 0}
   m_inUseColor: {r: 1, g: 1, b: 1, a: 0}
@@ -14408,7 +14408,7 @@ MonoBehaviour:
   syncInterval: 0
   m_obstacleManager: {fileID: 3170737466199217635}
   m_toRotate: {fileID: 1140247215240549918}
-  m_rotatingSpeed: 150
+  m_rotatingSpeed: 300
 --- !u!114 &3671626429624998941
 MonoBehaviour:
   m_ObjectHideFlags: 0

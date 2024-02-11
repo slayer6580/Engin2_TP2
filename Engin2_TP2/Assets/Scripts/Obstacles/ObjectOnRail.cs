@@ -32,13 +32,13 @@ public class ObjectOnRail : NetworkBehaviour
 	//Called if enough stamina and not already in use by other player
 	public void Move(int dir)
     {
-		m_staminaCost = m_obstacleManager.m_staminaCost;
 		MoveCommand(dir);				
 	}
 
 	[Command(requiresAuthority = false)]
 	public void MoveCommand(int dir)
 	{
+		m_staminaCost = m_obstacleManager.m_staminaCost;
 		GmStaminaManager.GetInstance().StartOverTimeCostCommand(m_staminaCost);
 		m_isManual = true;
 		m_direction = dir;

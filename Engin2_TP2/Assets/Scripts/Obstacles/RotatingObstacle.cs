@@ -16,15 +16,14 @@ public class RotatingObstacle : NetworkBehaviour
 	private float m_staminaCost;
 
 	public void Rotate()
-    {
-		m_staminaCost = m_obstacleManager.m_staminaCost;
+    {	
 		RotateCommand();
-
 	}
 
 	[Command(requiresAuthority = false)]
 	public void RotateCommand()
 	{
+		m_staminaCost = m_obstacleManager.m_staminaCost;
 		GmStaminaManager.GetInstance().StartOverTimeCostCommand(m_staminaCost);
 		RotateRcp();
 	}

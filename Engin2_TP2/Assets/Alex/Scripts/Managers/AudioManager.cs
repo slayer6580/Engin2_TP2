@@ -12,7 +12,8 @@ public class AudioManager : NetworkBehaviour
         canon,
         checkpoint,
         deathZone,
-        timer
+        timer,
+        noStamina
     }
 
     [Header("Mettre tout les audios ici, regarder le Tooltip pour savoir l'ordre")]

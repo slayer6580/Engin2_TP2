@@ -80,30 +80,17 @@ public class GmStaminaManager : NetworkBehaviour
  
     private void Update()
     {
-    // if(isServer)
-       // {
-           //UpdateStaminaRpc();
-		
 		if (m_currentState == EStaminaState.recover)
-				RecoverStamina();
-			else if (m_currentState == EStaminaState.waitToRecover)
-				WaitToRecover();
+			RecoverStamina();
+		else if (m_currentState == EStaminaState.waitToRecover)
+			WaitToRecover();
 
-			if (m_isLosingStamina)
-			{
-				CurrentStamina -= m_staminaLost * Time.deltaTime;
-				ResetTimer();
-				StaminaCheck();
-				//SetStaminaUI();
-			}
-
-	//	}   
-    }
-
-    [ClientRpc]
-    public void UpdateStaminaRpc()
-    {
-		
+		if (m_isLosingStamina)
+		{
+			CurrentStamina -= m_staminaLost * Time.deltaTime;
+			ResetTimer();
+			StaminaCheck();
+		}
 	}
 
     public bool CanUseStamina(float cost)
@@ -112,7 +99,6 @@ public class GmStaminaManager : NetworkBehaviour
 	}
 
 
-	
     public bool CanUseStaminaOverTime(float cost)
     {
         return CurrentStamina > cost * Time.deltaTime;
@@ -149,6 +135,7 @@ public class GmStaminaManager : NetworkBehaviour
 	[Command(requiresAuthority = false)]
 	public void InstantCostCommand(float cost)
     {
+       
         InstantCostRcp(cost);
 	}
 
@@ -204,6 +191,7 @@ public class GmStaminaManager : NetworkBehaviour
     }
 
 
+    
 
 
 }

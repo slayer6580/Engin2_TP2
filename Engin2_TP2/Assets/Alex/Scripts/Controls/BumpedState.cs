@@ -11,7 +11,7 @@ public class BumpedState : CharacterState
 
 	public override void OnEnter()
 	{
-		
+		m_stateMachine.m_JumpLeft = 1;
 		m_bumbedTimer = m_bumpedTime;
 		m_stateMachine.m_InAir = true;
 		m_stateMachine.RB.drag = m_stateMachine.DragOnAir;
@@ -32,12 +32,6 @@ public class BumpedState : CharacterState
 		m_bumbedTimer -= Time.deltaTime;
 		SetMaxVelocityInAir();
 		m_stateMachine.BeingBumped(false);
-
-		//
-		//VOIR POUR PERMETTRE UN PEU DE CONTROLE DANS LES AIRS (PEUT-ETRE)
-		//
-
-
 	}
 
 	public override void OnFixedUpdate()

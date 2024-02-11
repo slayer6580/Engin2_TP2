@@ -24,8 +24,7 @@ public class TrapDoor : NetworkBehaviour
 	public void ActivateTrap()
 	{
 		if (m_canBeClickedOn)
-		{
-			m_staminaCost = m_obstacleManager.m_staminaCost;
+		{		
 			ActivateTrapCommand();
 		}	
 	}
@@ -33,6 +32,7 @@ public class TrapDoor : NetworkBehaviour
 	[Command(requiresAuthority = false)]
 	public void ActivateTrapCommand()
 	{
+		m_staminaCost = m_obstacleManager.m_staminaCost;
 		GmStaminaManager.GetInstance().InstantCostCommand(m_staminaCost);
 		m_canBeClickedOn = false;
 		m_isOpen = true;
