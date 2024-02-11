@@ -52,11 +52,8 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void BeingBumped(bool value)
     {
-      
-
         print("Bump: " + value);
         m_JustBeenBumped = value;
-
 	}
 
 	// regarder si un objet bumper nous a toucher
@@ -107,7 +104,6 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void Update()
     {
-        Debug.LogWarning(RB.velocity.y);
         m_currentState.OnUpdate();
         TryStateTransition();
         UpdateAnimatorInAirBool();
@@ -129,7 +125,6 @@ public class PlayerStateMachine : MonoBehaviour
     }
 	
 	
-
 	private void TryStateTransition()
     {
         if (!m_currentState.CanExit())

@@ -2304,6 +2304,7 @@ MonoBehaviour:
   m_runCostOverTime: 3
   m_jumpCost: 15
   m_frontBarStaminaUI: {fileID: 2568737049241801753}
+  m_staminaMultiplier: 1
 --- !u!114 &-8461691068733855158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2320,9 +2321,9 @@ MonoBehaviour:
   m_speedMultiplierDuringPower: 1.5
   m_invisibilityPowerDuration: 0
   m_jumpPowerDuration: 4
-  m_jumpForceDuringPower: 400
-  m_staminaPowerDuration: 0
-  m_blockerPowerDuration: 0
+  m_jumpForceDuringPower: 600
+  m_staminaPowerDuration: 5
+  m_staminaMultiplierDuringPower: 0.5
 --- !u!114 &7629952169162205861
 MonoBehaviour:
   m_ObjectHideFlags: 0

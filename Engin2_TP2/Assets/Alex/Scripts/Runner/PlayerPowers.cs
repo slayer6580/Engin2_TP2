@@ -27,9 +27,7 @@ public class PlayerPowers : MonoBehaviour
 
     [Header("Stamina Power")]
     [SerializeField] private float m_staminaPowerDuration;
-
-    [Header("Speed Power")]
-    [SerializeField] private float m_blockerPowerDuration;
+    [SerializeField] private float m_staminaMultiplierDuringPower;
 
     private EPowers m_currentPower = EPowers.none;
     private PlayerStateMachine m_playerFSM;
@@ -79,7 +77,9 @@ public class PlayerPowers : MonoBehaviour
                 break;
 
             case EPowers.stamina:
-
+                m_lastData = m_playerFSM.StaminaPlayer.GetStaminaMultiplier();
+                m_playerFSM.StaminaPlayer.SetStaminaMultiplier(m_staminaMultiplierDuringPower);
+                StartCoroutine(WaitAndBackToNormal(m_staminaPowerDuration));
                 break;
 
             case EPowers.blocker:
@@ -117,6 +117,10 @@ public class PlayerPowers : MonoBehaviour
         else if (m_currentPower == EPowers.jump)
         {
             m_playerFSM.SetJumpForce(m_lastData);
+        }
+        else if (m_currentPower == EPowers.stamina)
+        {
+            m_playerFSM.StaminaPlayer.SetStaminaMultiplier(m_lastData);
         }
 
         m_currentPower = EPowers.none;

@@ -37,6 +37,7 @@ public class PowerUp : MonoBehaviour
             // Le powerUp ne devrait pas gérer son propre respawn. SOLID.
             // On verra si on a le temps?
             //
+
         }
 
     }

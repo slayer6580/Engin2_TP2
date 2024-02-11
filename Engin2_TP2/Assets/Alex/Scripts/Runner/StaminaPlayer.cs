@@ -35,6 +35,9 @@ public class StaminaPlayer : MonoBehaviour
     [Header("Le cout en stamina de sauter")]
     [SerializeField] private float m_jumpCost;
 
+    [Header("Stamina Multiplier Power")]
+    [SerializeField] private float m_staminaMultiplier = 1.0f;
+
     [SerializeField] private Image m_frontBarStaminaUI;
 
     private float m_currentStamina;
@@ -71,7 +74,7 @@ public class StaminaPlayer : MonoBehaviour
     /// <summary> Fonction a mettre dans le code du PlayerStateMachine quand CanRun es a true </summary>
     public void RunCost()
     {
-        m_currentStamina -= m_runCostOverTime * Time.fixedDeltaTime;
+        m_currentStamina -= m_runCostOverTime * Time.fixedDeltaTime * m_staminaMultiplier;
         ResetTimer();
         StaminaCheck();
         SetStaminaUI();
@@ -80,7 +83,7 @@ public class StaminaPlayer : MonoBehaviour
     /// <summary> Fonction a mettre dans le code du PlayerStateMachine quand CanJump es a true </summary>
     public void JumpCost()
     {
-        m_currentStamina -= m_jumpCost;
+        m_currentStamina -= m_jumpCost * m_staminaMultiplier;
         ResetTimer();
         StaminaCheck();
         SetStaminaUI();
@@ -170,5 +173,15 @@ public class StaminaPlayer : MonoBehaviour
     public void ResetStamina()
     {
         m_currentStamina = m_maxStamina;
+    }
+
+    public void SetStaminaMultiplier(float multiplier)
+    {
+        m_staminaMultiplier = multiplier;
+    }
+
+    public float GetStaminaMultiplier()
+    {
+        return m_staminaMultiplier;
     }
 }

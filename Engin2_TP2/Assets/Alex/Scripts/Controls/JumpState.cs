@@ -1,4 +1,7 @@
 using UnityEngine;
+using static AudioManager;
+using UnityEngine.UIElements;
+using System;
 
 public class JumpState : CharacterState
 {
@@ -6,11 +9,24 @@ public class JumpState : CharacterState
     private float m_currentStateTimer = 0.0f;
 	private bool m_isSprinting = false; //Added
 	private float m_maxSpeed;//Added
+	private bool m_jumpFromGround;
+
+	private float frames = 0;
 	public override void OnEnter()
     {
-        m_stateMachine.m_InAir = true;
+        if (m_stateMachine.IsInContactWithFloor())
+        {
+			m_jumpFromGround = true;
+        }
+
+            m_stateMachine.m_InAir = true;
         m_stateMachine.RB.drag = m_stateMachine.DragOnAir;
         m_stateMachine.Animator.SetBool("Jump", true);
+		//Reset Y velocity 
+		m_stateMachine.RB.velocity = new Vector3(m_stateMachine.RB.velocity.x, 0, m_stateMachine.RB.velocity.z);
+
+		//Play sound
+		//AudioManager.GetInstance().CmdPlaySoundEffectsOneShot(ESound.jump, m_stateMachine.transform.position);
 
         //Check if its the first jump, the first jump is free
         if (m_stateMachine.m_JumpLeft != m_stateMachine.MaxJump) 
@@ -20,20 +36,28 @@ public class JumpState : CharacterState
         m_stateMachine.m_JumpLeft--;
         Debug.LogWarning("Jump Left: " + m_stateMachine.m_JumpLeft);
 
-        // Force du saut
+		// Force du saut
+
+		if (m_jumpFromGround == true) 
+		{
+            if (Input.GetKey(KeyCode.W) == false && Input.GetKey(KeyCode.A) == false && Input.GetKey(KeyCode.S) == false && Input.GetKey(KeyCode.D) == false)
+            {
+                m_stateMachine.RB.velocity = Vector3.zero;
+            }
+        }
         m_stateMachine.RB.AddForce(Vector3.up * m_stateMachine.JumpIntensity, ForceMode.Acceleration);
         // pour le la durée du state jump
 
         m_currentStateTimer = STATE_EXIT_TIMER;
 
         Debug.Log("Enter state: JumpState\n");
-
+		frames = 0;
     }
 
     public override void OnExit()
     {
         m_currentStateTimer = 0;
- 
+        Debug.LogWarning("Frames: " + frames);
         Debug.Log("Exit state: JumpState\n");
     }
 
@@ -102,6 +126,7 @@ public class JumpState : CharacterState
 		SetMaxVelocityInAir();
 		m_currentStateTimer -= Time.deltaTime;
 		Sprint();
+		frames++;
 	}
 
 	// pour avoir une vitesse dans les airàrs maximal
