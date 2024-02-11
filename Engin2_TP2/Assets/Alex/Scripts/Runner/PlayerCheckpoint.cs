@@ -5,8 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerTimer))]
 public class PlayerCheckpoint : NetworkBehaviour
 {
-    private Vector3 m_startPoint;
-    private Vector3 m_spawnPoint;
+    private Transform m_startPoint;
+    private Transform m_spawnPoint;
     private Rigidbody m_rb;
 
     private int m_checkpointReached = 0;
@@ -26,12 +26,12 @@ public class PlayerCheckpoint : NetworkBehaviour
     /// <summary> Pour la réapparition du joueur à son point de départ </summary>
     public void GoToSpawnPoint()
     {
-        transform.SetPositionAndRotation(m_spawnPoint, Quaternion.identity);
+        transform.SetPositionAndRotation(m_spawnPoint.position, Quaternion.identity);
         m_rb.velocity = Vector3.zero;
     }
 
     /// <summary> Changer le point de réapparition </summary>
-    public void SetSpawnPoint(Vector3 newPosition)
+    public void SetSpawnPoint(Transform newPosition)
     {
         m_spawnPoint = newPosition;
     }
