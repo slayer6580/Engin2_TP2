@@ -26,7 +26,7 @@ public class JumpState : CharacterState
 		m_stateMachine.RB.velocity = new Vector3(m_stateMachine.RB.velocity.x, 0, m_stateMachine.RB.velocity.z);
 
 		//Play sound
-		//AudioManager.GetInstance().CmdPlaySoundEffectsOneShot(ESound.jump, m_stateMachine.transform.position);
+		AudioManager.GetInstance().CmdPlaySoundEffectsOneShotAll(ESound.jump, m_stateMachine.transform.position);
 
         //Check if its the first jump, the first jump is free
         if (m_stateMachine.m_JumpLeft != m_stateMachine.MaxJump) 

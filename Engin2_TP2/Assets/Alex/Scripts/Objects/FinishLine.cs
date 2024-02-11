@@ -28,8 +28,9 @@ public class FinishLine : MonoBehaviour
         character.gameObject.GetComponent<PlayerTimer>().ResetTimer();
         character.ResetCheckpointReached();
 
-		ScoreManager.GetInstance().CmdUpdateScore(ScoreManager.ETeam.runner, character.gameObject.GetComponent<NetworkIdentity>());
-        AudioManager.GetInstance().CmdPlaySoundEffectsOneShot(AudioManager.ESound.checkpoint, other.gameObject.transform.position);
+        NetworkIdentity identity = character.gameObject.GetComponent<NetworkIdentity>();
+        ScoreManager.GetInstance().CmdUpdateScore(ScoreManager.ETeam.runner, identity);
+        AudioManager.GetInstance().CmdPlaySoundEffectsOneShotTarget(AudioManager.ESound.checkpoint, character.transform.position, identity);
 	}
 
     /// <summary> Pour désactiver le renderer de l'objet </summary>

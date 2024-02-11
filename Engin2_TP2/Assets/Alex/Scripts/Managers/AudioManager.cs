@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using Mirror;
+using static ScoreManager;
 
 public class AudioManager : NetworkBehaviour
 {
@@ -48,14 +49,21 @@ public class AudioManager : NetworkBehaviour
 
     }
 
-    /// <summary> Pour dire de jouer un son une fois </summary>
+    /// <summary> Pour dire de jouer un son une fois pour tout les clients </summary>
     [Command(requiresAuthority = false)]
-    public void CmdPlaySoundEffectsOneShot(ESound sound, Vector3 newPosition)
+    public void CmdPlaySoundEffectsOneShotAll(ESound sound, Vector3 newPosition)
     {
         RpcPlaySoundEffectsOneShot(sound, newPosition);
     }
 
-    /// <summary> Pour dire de jouer un son en boucle </summary>
+    /// <summary> Pour dire de jouer un son une fois pour seulement le joueur client </summary>
+    [Command(requiresAuthority = false)]
+    public void CmdPlaySoundEffectsOneShotTarget(ESound sound, Vector3 newPosition, NetworkIdentity player)
+    {
+        TargetPlaySoundEffectsOneShot(player.connectionToClient, sound, newPosition);
+    }
+
+    /// <summary> Pour dire de jouer un son en boucle (tout client) </summary>
     [Command(requiresAuthority = false)]
     public void CmdPlaySoundEffectsLoop(ESound sound, Vector3 newPosition)
     {
@@ -66,12 +74,28 @@ public class AudioManager : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CmdStopSoundEffectsLoop(ESound sound, Vector3 newPosition)
     {
-        RpcPlaySoundEffectsLoop(sound, newPosition);
+        RpcStopSoundEffectsLoop(sound, newPosition);
     }
 
     /// <summary> Tout les clients va jouer un son une fois </summary>
     [ClientRpc]
     public void RpcPlaySoundEffectsOneShot(ESound sound, Vector3 newPosition)
+    {
+        AudioBox audiobox = FindAValidAudioBox();
+
+        if (audiobox == null)
+            return;
+
+        AudioClip clip = m_sounds[(int)sound];
+        audiobox.m_isPlaying = true;
+        MoveAudioBox(audiobox, newPosition);
+        PlayClipOneShot(audiobox, sound);
+        StartCoroutine(ReActivateAudioBox(audiobox, clip));
+    }
+
+    /// <summary> Le client va jouer un son une fois </summary>
+    [TargetRpc]
+    private void TargetPlaySoundEffectsOneShot(NetworkConnectionToClient target, ESound sound, Vector3 newPosition)
     {
         AudioBox audiobox = FindAValidAudioBox();
 
@@ -166,5 +190,7 @@ public class AudioManager : NetworkBehaviour
     {
         GetComponent<AudioSource>().Stop();
     }
+
+
 
 }

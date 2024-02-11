@@ -1,5 +1,6 @@
 using Mirror;
 using System.Collections.Generic;
+using System.Security.Principal;
 using UnityEngine;
 
 public class CheckPoint : NetworkBehaviour
@@ -43,10 +44,11 @@ public class CheckPoint : NetworkBehaviour
 
         character.CheckpointReached();
 
-		ScoreManager.GetInstance().CmdUpdateScore(ScoreManager.ETeam.runner, character.gameObject.GetComponent<NetworkIdentity>());
-        AudioManager.GetInstance().CmdPlaySoundEffectsOneShot(AudioManager.ESound.checkpoint, other.gameObject.transform.position);
-		
-		character.GetComponent<PlayerTimer>().AddBonusToTimer(m_bonusToAdd);
+        NetworkIdentity identity = character.gameObject.GetComponent<NetworkIdentity>();
+        ScoreManager.GetInstance().CmdUpdateScore(ScoreManager.ETeam.runner, identity);
+        AudioManager.GetInstance().CmdPlaySoundEffectsOneShotTarget(AudioManager.ESound.checkpoint, character.transform.position, identity);
+
+        character.GetComponent<PlayerTimer>().AddBonusToTimer(m_bonusToAdd);
         character.SetSpawnPoint(GetRandomSpawnPosition());
     }
 
