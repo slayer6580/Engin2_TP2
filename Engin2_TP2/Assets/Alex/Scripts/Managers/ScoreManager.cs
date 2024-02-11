@@ -1,10 +1,10 @@
 using Mirror;
 using TMPro;
 using UnityEngine;
+using System.Collections;
 
 public class ScoreManager : NetworkBehaviour
 {
-
     public enum ETeam
     {
         gameMaster,
@@ -17,11 +17,15 @@ public class ScoreManager : NetworkBehaviour
     [Header("Dans le canvas du GameManager")]
     [SerializeField] private GameObject m_gameOverPanel;
     [SerializeField] private TextMeshProUGUI m_winnerText;
+    [SerializeField] private TextMeshProUGUI m_timeText;
     [Header("Le score a atteindre pour finir la partie")]
     [SerializeField] private int m_maxScore;
+    [Header("Le nombre de secondes restants pour retourner au menu une fois la partie terminé")]
+    [SerializeField] private int m_secondBeforeExit;
 
     private int m_gamemasterScore = 0;
-	private int m_runnerScore = 0;
+    private int m_runnerScore = 0;
+    private GameObject m_localPlayer;
 
     private static ScoreManager s_instance = null;
 
@@ -50,7 +54,7 @@ public class ScoreManager : NetworkBehaviour
     {
         RpcUpdateScore(team);
         TargetCheckForWinners(player.connectionToClient);
-	}
+    }
 
 
     /// <summary> Pour augmenter le score d'une équipe et le gerer dans le UI </summary>
@@ -64,14 +68,14 @@ public class ScoreManager : NetworkBehaviour
 
         m_gamemasterScoreText.text = m_gamemasterScore.ToString();
         m_runnerScoreText.text = m_runnerScore.ToString();
-     
+
     }
 
     /// <summary> Pour regarder si la partie est finie </summary>
     [TargetRpc]
     private void TargetCheckForWinners(NetworkConnectionToClient target)
     {
-        if (m_gamemasterScore == m_maxScore) 
+        if (m_gamemasterScore == m_maxScore)
         {
             CmdShowWinners(ETeam.gameMaster);
         }
@@ -101,8 +105,33 @@ public class ScoreManager : NetworkBehaviour
 
         m_gameOverPanel.SetActive(true);
         m_winnerText.text = winText + " wins!";
-        // TODO Desactivate Scripts that players cant run anymore
-        Time.timeScale = 0;
+        m_timeText.text = m_secondBeforeExit.ToString();
+
+        DesactivateEndGameComponents();
+        StartCoroutine(WaitToQuitGame());
+    }
+
+
+    void DesactivateEndGameComponents()
+    {
+        m_localPlayer.GetComponent<PlayerSetup>().DesactivateEndGameComponents();
+    }
+
+    public void SetLocalPlayer(NetworkIdentity clientObject)
+    {
+        m_localPlayer = clientObject.gameObject;
+    }
+
+    IEnumerator WaitToQuitGame()
+    {
+        while (m_secondBeforeExit > 0)
+        {
+            yield return new WaitForSeconds(1);
+            m_secondBeforeExit--;
+            m_timeText.text = m_secondBeforeExit.ToString();
+        }
+
+        m_localPlayer.GetComponent<PlayerPause>().Lobby();
     }
 
 

@@ -756,13 +756,19 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  componentsToDisable:
-  - {fileID: 3949427277898979726}
+  m_componentsToDisable:
   - {fileID: 8546592569104777252}
   - {fileID: 7496175294936286363}
   - {fileID: -4715370566940497690}
   - {fileID: 7153593710348356532}
+  - {fileID: 3949427277898979726}
   m_canvas: {fileID: 2549058418910379108}
+  m_endGameComponentsToDisable:
+  - {fileID: 8546592569104777252}
+  - {fileID: 7153593710348356532}
+  - {fileID: -4715370566940497690}
+  - {fileID: 6103016371225899180}
+  m_rigidbody: {fileID: 0}
 --- !u!114 &6103016371225899180
 MonoBehaviour:
   m_ObjectHideFlags: 0
