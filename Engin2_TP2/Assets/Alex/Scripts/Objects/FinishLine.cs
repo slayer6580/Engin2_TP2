@@ -25,7 +25,6 @@ public class FinishLine : MonoBehaviour
             return; //Manque des checkpoints
         
         character.SetSpawnPointToStart();
-        character.GoToSpawnPoint();  
         character.gameObject.GetComponent<PlayerTimer>().ResetTimer();
         character.ResetCheckpointReached();
 

@@ -20,11 +20,11 @@ public class DeathZone : MonoBehaviour
 
 		if (character.enabled == false)
 			return;
-		
-		
 
 		character.GoToSpawnPoint();
         character.gameObject.GetComponent<PlayerTimer>().ResetTimer();
+        character.gameObject.GetComponent<StaminaPlayer>().ResetStamina();
+        character.gameObject.GetComponent<StaminaPlayer>().SetStaminaUI();
         ScoreManager.GetInstance().CmdUpdateScore(ScoreManager.ETeam.gameMaster, character.gameObject.GetComponent<NetworkIdentity>());
         AudioManager.GetInstance().CmdPlaySoundEffectsOneShot(AudioManager.ESound.deathZone, other.gameObject.transform.position);
     }

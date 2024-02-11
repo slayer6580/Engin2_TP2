@@ -46,7 +46,7 @@ public class StaminaPlayer : MonoBehaviour
 
     private void Awake()
     {
-        m_currentStamina = m_maxStamina;
+       ResetStamina();
     }
 
     private void Update()
@@ -160,9 +160,15 @@ public class StaminaPlayer : MonoBehaviour
     }
 
     /// <summary> Update le StaminaBar sur le UI </summary>
-    private void SetStaminaUI()
+    public void SetStaminaUI()
     {
         float currentStamina = (m_currentStamina / m_maxStamina);
-        m_frontBarStaminaUI.rectTransform.localScale = new Vector3(currentStamina, 1, 1); ;
+        m_frontBarStaminaUI.rectTransform.localScale = new Vector3(currentStamina, 1, 1);
+    }
+
+    /// <summary> Reset le stamina du joueur </summary>
+    public void ResetStamina()
+    {
+        m_currentStamina = m_maxStamina;
     }
 }

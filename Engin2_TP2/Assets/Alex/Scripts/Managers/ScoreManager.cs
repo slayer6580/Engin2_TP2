@@ -111,7 +111,6 @@ public class ScoreManager : NetworkBehaviour
         StartCoroutine(WaitToQuitGame());
     }
 
-
     void DesactivateEndGameComponents()
     {
         m_localPlayer.GetComponent<PlayerSetup>().DesactivateEndGameComponents();
