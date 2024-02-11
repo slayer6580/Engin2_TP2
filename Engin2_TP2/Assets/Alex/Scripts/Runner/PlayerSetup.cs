@@ -10,7 +10,6 @@ public class PlayerSetup : NetworkBehaviour
     [SerializeField] Behaviour[] m_endGameComponentsToDisable;
     [SerializeField] private Rigidbody m_rigidbody;
 
-
     void Start()
     {
         if (!isLocalPlayer)

@@ -1362,8 +1362,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3460733662934036045, guid: 02255a02044dab9499e03bb595841d65,
         type: 3}
+      propertyPath: m_Volume
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460733662934036045, guid: 02255a02044dab9499e03bb595841d65,
+        type: 3}
       propertyPath: m_PlayOnAwake
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3515953103498081551, guid: 02255a02044dab9499e03bb595841d65,
         type: 3}
@@ -1893,7 +1898,7 @@ PrefabInstance:
     - target: {fileID: 9061067330955994620, guid: ac51789da47c801469805d29d82b1dc2,
         type: 3}
       propertyPath: m_maxScore
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9061067330955994620, guid: ac51789da47c801469805d29d82b1dc2,
         type: 3}

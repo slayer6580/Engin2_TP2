@@ -1,6 +1,8 @@
 using Mirror;
+using System.Security.Principal;
 using TMPro;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 [RequireComponent(typeof(PlayerCheckpoint))]
 public class PlayerTimer : NetworkBehaviour
@@ -25,6 +27,11 @@ public class PlayerTimer : NetworkBehaviour
         {
             m_characterSpawnPoint.GoToSpawnPoint();
             ResetTimer();
+            GetComponent<StaminaPlayer>().ResetStamina();
+            GetComponent<StaminaPlayer>().SetStaminaUI();
+            NetworkIdentity identity = GetComponent<NetworkIdentity>(); 
+            ScoreManager.GetInstance().CmdUpdateScore(ScoreManager.ETeam.gameMaster, identity);
+            AudioManager.GetInstance().CmdPlaySoundEffectsOneShotTarget(AudioManager.ESound.deathZone, transform.position, identity);
         }
 
         m_timeText.text = "Time: " + ((int)m_currentTime).ToString();        

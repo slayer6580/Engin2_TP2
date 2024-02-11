@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using Mirror;
-using static ScoreManager;
 
 public class AudioManager : NetworkBehaviour
 {
