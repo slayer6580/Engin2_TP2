@@ -1887,5 +1887,5 @@ MonoBehaviour:
   syncInterval: 0
   m_obstacleManager: {fileID: 275206207082661009}
   m_trapAnimator: {fileID: 865037186509695271}
-  m_timeOpen: 4
-  m_timeToResetAfterClose: 7
+  m_timeOpen: 3
+  m_timeToResetAfterClose: 6

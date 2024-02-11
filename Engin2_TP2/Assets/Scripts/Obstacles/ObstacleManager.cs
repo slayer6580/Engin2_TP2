@@ -71,7 +71,7 @@ public class ObstacleManager : NetworkBehaviour
 
 	public void ReleaseObstacleLocal()
 	{
-		m_toReleaseObstacle.Invoke();
+		m_toReleaseObstacle?.Invoke();
 	}
 
 	//
