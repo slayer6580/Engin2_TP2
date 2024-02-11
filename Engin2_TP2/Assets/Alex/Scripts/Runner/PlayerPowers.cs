@@ -1,4 +1,7 @@
+using Mirror;
 using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerStateMachine))]
@@ -29,6 +32,24 @@ public class PlayerPowers : MonoBehaviour
     [SerializeField] private float m_staminaPowerDuration;
     [SerializeField] private float m_staminaMultiplierDuringPower;
 
+    [Header("Body Parts")]
+    [SerializeField] private List<SkinnedMeshRenderer> m_bodyPartsRenderer = new List<SkinnedMeshRenderer>();
+
+    [Header("Materials")]
+    [SerializeField] private Material m_redMaterial;
+    [SerializeField] private Material m_greenMaterial;
+    [SerializeField] private Material m_blueMaterial;
+    [SerializeField] private Material m_yellowMaterial;
+
+    [Header("Power Text Canvas")]
+    [SerializeField] private TextMeshProUGUI m_powerText;
+    [SerializeField] private float m_startFontSize;
+    [SerializeField] private float m_endFontSize;
+    [SerializeField] private float m_vfxDuration;
+    private float m_currentTimer;
+    private bool m_showPowerText = false;
+
+
     private EPowers m_currentPower = EPowers.none;
     private PlayerStateMachine m_playerFSM;
     private float m_lastData;
@@ -36,6 +57,29 @@ public class PlayerPowers : MonoBehaviour
     private void Awake()
     {
         m_playerFSM = GetComponent<PlayerStateMachine>();
+    }
+
+    private void Update()
+    {
+        TextVFX();
+    }
+
+    private void TextVFX()
+    {
+        if (m_showPowerText)
+        {
+            m_currentTimer -= Time.deltaTime;
+
+            if (m_currentTimer <= 0)
+            {
+                HidePowerText();
+                return;
+            }
+
+            float lerp = m_currentTimer / m_vfxDuration;
+            float TextFontSize = Mathf.Lerp(m_endFontSize, m_startFontSize, lerp);
+            m_powerText.fontSize = TextFontSize;
+        }
     }
 
     /// <summary> Retourne vrai si le joueur na pas de pouvoir actuel </summary>
@@ -64,6 +108,8 @@ public class PlayerPowers : MonoBehaviour
                 m_lastData = m_playerFSM.SpeedMultiplier;
                 m_playerFSM.SetSprintMultiplier(m_speedMultiplierDuringPower);
                 StartCoroutine(WaitAndBackToNormal(m_speedPowerDuration));
+                SetRunnerColor(m_greenMaterial);
+                ShowPowerText("Speed Power");
                 break;
 
             case EPowers.invisibility:
@@ -74,26 +120,24 @@ public class PlayerPowers : MonoBehaviour
                 m_lastData = m_playerFSM.JumpIntensity;
                 m_playerFSM.SetJumpForce(m_jumpForceDuringPower);
                 StartCoroutine(WaitAndBackToNormal(m_jumpPowerDuration));
+                SetRunnerColor(m_yellowMaterial);
+                ShowPowerText("Jump Power");
                 break;
 
             case EPowers.stamina:
                 m_lastData = m_playerFSM.StaminaPlayer.GetStaminaMultiplier();
                 m_playerFSM.StaminaPlayer.SetStaminaMultiplier(m_staminaMultiplierDuringPower);
                 StartCoroutine(WaitAndBackToNormal(m_staminaPowerDuration));
+                SetRunnerColor(m_blueMaterial);
+                ShowPowerText("Stamina Power");
                 break;
 
             case EPowers.blocker:
-
                 break;
 
             case EPowers.none:
-
-                // Code Review:
-                // En théorie, ça ne devrait jamais être appelé... 
-                // On pourrait faire du proofing en rajoutant une fonction qui clean tout
-               
-
                 break;
+
             default:
                 break;
         }
@@ -102,11 +146,6 @@ public class PlayerPowers : MonoBehaviour
     /// <summary> Attend la durée du pouvoir pour tout réinitialiser </summary>
     IEnumerator WaitAndBackToNormal(float time)
     {
-
-        // Code Review:
-        // On pourrait sauver potentiellement beaucoup de coroutines avec un PowerupManager qui gère les powerups sur le map.
-        // On aurait un seul timer et à chaque x frames, le manager check ce qu'il doit respawn
-      
 
         yield return new WaitForSeconds(time);
 
@@ -124,5 +163,28 @@ public class PlayerPowers : MonoBehaviour
         }
 
         m_currentPower = EPowers.none;
+        SetRunnerColor(m_redMaterial);
+    }
+
+    private void SetRunnerColor(Material material)
+    {
+        foreach (SkinnedMeshRenderer bodyPart in m_bodyPartsRenderer)
+        {
+            bodyPart.material = material;
+        }
+    }
+
+    private void ShowPowerText(string powerName)
+    {
+        m_powerText.text = powerName;
+        m_showPowerText = true;
+        m_currentTimer = m_vfxDuration;
+    }
+
+    private void HidePowerText()
+    {
+        m_powerText.text = " ";
+        m_showPowerText = false;
+  
     }
 }
