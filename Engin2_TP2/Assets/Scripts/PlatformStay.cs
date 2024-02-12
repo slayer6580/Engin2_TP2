@@ -9,7 +9,7 @@ public class PlatformStay : MonoBehaviour
     {
         if (m_playerTransform != null)
         {
-            Vector3 translation = (m_platform.GetNewPosition() - m_platform.GetLastPosition()) * Time.deltaTime;
+            Vector3 translation = m_platform.GetNewPosition() - m_platform.GetLastPosition();
             m_playerTransform.Translate(translation);   
         }
     }
