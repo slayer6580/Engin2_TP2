@@ -28,6 +28,9 @@ public class ObjectOnRail : NetworkBehaviour
 	private bool m_isManual;
 	private int m_direction = 0;
 	private float m_staminaCost;
+	private Vector3 m_lastPosition;
+	private Vector3 m_newPosition;
+
 
 	//Called if enough stamina and not already in use by other player
 	public void Move(int dir)
@@ -142,7 +145,23 @@ public class ObjectOnRail : NetworkBehaviour
 
 		float percentBetween2Points = m_positionOnRailPercent - m_railPointsPercentage[i - 1];
         percentBetween2Points = (percentBetween2Points * 100) / (m_railPointsPercentage[i] - m_railPointsPercentage[i-1]);
+		m_lastPosition = m_objectToMove.transform.position;
+			
 
-		m_objectToMove.transform.position = m_railPoints[i - 1].position + (direction * (percentBetween2Points / 100));
+        m_objectToMove.transform.position = m_railPoints[i - 1].position + (direction * (percentBetween2Points / 100));
+		m_newPosition = m_objectToMove.transform.position;
+
+    }
+
+	public Vector3 GetLastPosition()
+	{
+		return m_lastPosition;
 	}
+
+	public Vector3 GetNewPosition()
+	{
+		return m_newPosition;
+	}
+
+
 }
