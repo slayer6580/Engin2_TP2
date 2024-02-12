@@ -34,12 +34,20 @@ public class PlayerPowers : MonoBehaviour
 
     [Header("Body Parts")]
     [SerializeField] private List<SkinnedMeshRenderer> m_bodyPartsRenderer = new List<SkinnedMeshRenderer>();
+    [SerializeField] private SkinnedMeshRenderer m_bigEyes;
+    [SerializeField] private SkinnedMeshRenderer m_smallEyes;
 
     [Header("Materials")]
     [SerializeField] private Material m_redMaterial;
     [SerializeField] private Material m_greenMaterial;
     [SerializeField] private Material m_blueMaterial;
     [SerializeField] private Material m_yellowMaterial;
+    [SerializeField] private Material m_purpleMaterial;
+
+    [Header("Materials for invisible power")]
+    [SerializeField] private Material m_blackEye;
+    [SerializeField] private Material m_whiteEye;
+    [SerializeField] private Material m_completeInvisible;
 
     [Header("Power Text Canvas")]
     [SerializeField] private TextMeshProUGUI m_powerText;
@@ -113,7 +121,9 @@ public class PlayerPowers : MonoBehaviour
                 break;
 
             case EPowers.invisibility:
-
+                SetRunnerColor(m_purpleMaterial);
+                SetRunnerInvisible(true);
+                StartCoroutine(WaitAndBackToNormal(m_invisibilityPowerDuration));
                 break;
 
             case EPowers.jump:     
@@ -161,6 +171,10 @@ public class PlayerPowers : MonoBehaviour
         {
             m_playerFSM.StaminaPlayer.SetStaminaMultiplier(m_lastData);
         }
+        else if (m_currentPower == EPowers.invisibility)
+        {
+            SetRunnerInvisible(false);
+        }
 
         m_currentPower = EPowers.none;
         SetRunnerColor(m_redMaterial);
@@ -171,6 +185,14 @@ public class PlayerPowers : MonoBehaviour
         foreach (SkinnedMeshRenderer bodyPart in m_bodyPartsRenderer)
         {
             bodyPart.material = material;
+        }
+    }
+
+    private void SetRunnerInvisible(bool isInvisible) 
+    {
+        foreach (SkinnedMeshRenderer bodyPart in m_bodyPartsRenderer)
+        {
+            bodyPart.enabled = !isInvisible;
         }
     }
 
