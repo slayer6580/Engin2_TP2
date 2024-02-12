@@ -18,6 +18,7 @@ public class ObstacleManager : NetworkBehaviour
 	private UnityEvent m_toReleaseObstacle;
 	private bool m_isBeingUsed;
 	private NetworkIdentity m_netId;
+	private NetworkConnectionToClient m_usedBy;
 
 	public void Start()
 	{
@@ -37,7 +38,8 @@ public class ObstacleManager : NetworkBehaviour
 	public void IsFreeToUseCommand(NetworkConnectionToClient target)
 	{
 		if (m_isBeingUsed == false)
-		{ 
+		{
+			m_usedBy = target;
 			SetIsBeingUsedCommand(true);
 			TargetWasFreeToUseClient(target);
 		}
@@ -71,14 +73,16 @@ public class ObstacleManager : NetworkBehaviour
 	[Command(requiresAuthority = false)]
 	public void ReleaseObstacleCommand(NetworkConnectionToClient target)
 	{
-		SetIsBeingUsedCommand(false);
-		TargetReleaseObstacle(target);
+		if(target == m_usedBy)
+		{
+			SetIsBeingUsedCommand(false);
+			TargetReleaseObstacle(target);
+		}	
 	}
 
 	[TargetRpc]
 	public void TargetReleaseObstacle(NetworkConnectionToClient target)
 	{
-		print("IS THIS THE BUG???!");
 		ReleaseObstacleLocal();
 	}
 

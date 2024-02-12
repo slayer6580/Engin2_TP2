@@ -1,4 +1,5 @@
 using UnityEngine;
+using static AudioManager;
 
 public class GreenShell02 : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class GreenShell02 : MonoBehaviour
 	private PlayerStateMachine playerStateMachine;
 	private void Awake()
 	{
+		AudioManager.GetInstance().CmdPlaySoundEffectsOneShotAll(ESound.throwShell, gameObject.transform.position);
 		FindTarget();
 	}
 

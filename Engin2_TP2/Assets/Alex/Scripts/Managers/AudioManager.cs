@@ -16,7 +16,8 @@ public class AudioManager : NetworkBehaviour
         noStamina,
         slideMiddle,
         spinning,
-        Trap
+        trap,
+        throwShell
         
     }
 
@@ -139,7 +140,7 @@ public class AudioManager : NetworkBehaviour
             {
                 audioBox.m_isPlaying = false;
                 audioSource.Stop();
-                return;
+               // return;
             }
         }
         Debug.LogError("Pas d'audio a désactivé, AUDIO MANAGER script");

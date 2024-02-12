@@ -5,6 +5,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UIElements;
+using static AudioManager;
 
 [RequireComponent(typeof(NetworkIdentity))]
 public class TerrainLever : NetworkBehaviour, IInteractable
@@ -51,11 +52,13 @@ public class TerrainLever : NetworkBehaviour, IInteractable
 
 	public void FreeToUse()
 	{
+		AudioManager.GetInstance().CmdPlaySoundEffectsLoop(ESound.slideMiddle, gameObject.transform.position);
 		m_isHoldingOn = true;
 	}
 
 	public void ReleaseObstacle()
 	{
+		AudioManager.GetInstance().CmdStopSoundEffectsLoop(ESound.slideMiddle, gameObject.transform.position);
 		m_isHoldingOn = false;
 		GmStaminaManager.GetInstance().StopOverTimeCostCommand();
 	}
@@ -64,25 +67,32 @@ public class TerrainLever : NetworkBehaviour, IInteractable
     {
 		if (m_isHoldingOn)
 		{
-			//Make the lever up or down
-			float mouseMovement = Input.GetAxis("Mouse Y");
-			transform.Rotate(Vector3.right, mouseMovement * m_leverMovementSpeed * Time.deltaTime);
 
-			//Limit the rotation of the lever
-			currentRotation = GetAccurateRotationValue(transform.localEulerAngles.x);
-			float clampedRotation = Mathf.Clamp(currentRotation, -m_rotationLimit, m_rotationLimit);
-			transform.localEulerAngles = new Vector3(clampedRotation, 0, 0);
+			if (GmStaminaManager.GetInstance().CanUseStaminaOverTime(m_staminaCost))
+			{
+				//Make the lever up or down
+				float mouseMovement = Input.GetAxis("Mouse Y");
+				transform.Rotate(Vector3.right, mouseMovement * m_leverMovementSpeed * Time.deltaTime);
 
-			//Called method to move the terrain if the lever is at it's limit position
-			if (currentRotation >= m_rotationLimit)
-			{
-				m_GoUP.Invoke();
-			}
-			else if (currentRotation <= -m_rotationLimit)
-			{
-				m_GoDown.Invoke();
+				//Limit the rotation of the lever
+				currentRotation = GetAccurateRotationValue(transform.localEulerAngles.x);
+				float clampedRotation = Mathf.Clamp(currentRotation, -m_rotationLimit, m_rotationLimit);
+				transform.localEulerAngles = new Vector3(clampedRotation, 0, 0);
+
+				//Called method to move the terrain if the lever is at it's limit position
+				if (currentRotation >= m_rotationLimit)
+				{
+					m_GoUP.Invoke();
+				}
+				else if (currentRotation <= -m_rotationLimit)
+				{
+					m_GoDown.Invoke();
+				}
+				return;
 			}
 			
+			m_obstacleManager.ReleaseObstacle();
+				
 		}
 		else
 		{		

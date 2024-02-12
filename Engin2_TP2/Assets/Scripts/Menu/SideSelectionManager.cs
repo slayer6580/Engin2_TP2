@@ -274,12 +274,10 @@ public class SideSelectionManager : NetworkBehaviour
 
 		if(atLeastOneGameMaster && atLeastOneRunner)
 		{
-			print("AA");
 			NetworkManager.singleton.HasOneInEachTeam = true;
 		}
 		else
 		{
-			print("BB");
 			NetworkManager.singleton.HasOneInEachTeam = false;
 		}
 	

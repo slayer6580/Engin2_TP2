@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class PlatformStay : MonoBehaviour
 {
-    private Transform m_playerTransform = null;
-    [SerializeField] private ObjectOnRail m_platform;
+	[SerializeField] private ObjectOnRail m_platform;
+	private Transform m_playerTransform = null;
+    
 
     private void Update()
     {

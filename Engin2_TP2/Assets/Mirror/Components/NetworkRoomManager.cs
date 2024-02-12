@@ -206,25 +206,30 @@ namespace Mirror
                 {
                     if (HasOneInEachTeam)
                     {
-                        foreach(NetworkRoomPlayer roomPlayer in roomSlots)
-                        {
-							roomPlayer.gameObject.transform.GetChild(0).gameObject.SetActive(false);
-
-						}
-						pendingPlayers.Clear();
-						allPlayersReady = true;
+                        PrepareStart();
 					}
                 }
                 else
                 {
-					pendingPlayers.Clear();
-					allPlayersReady = true;
+					PrepareStart();
 				}
 			}
             else
                 allPlayersReady = false;
         }
 
+
+        private void PrepareStart()
+        {
+			foreach (NetworkRoomPlayer roomPlayer in roomSlots)
+			{
+				roomPlayer.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+
+			}
+
+			pendingPlayers.Clear();
+			allPlayersReady = true;
+		}
         #region server handlers
 
         /// <summary>

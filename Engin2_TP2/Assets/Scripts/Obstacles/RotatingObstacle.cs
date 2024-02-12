@@ -61,8 +61,16 @@ public class RotatingObstacle : NetworkBehaviour
 	public void Update()
 	{
 		if (m_isRotating)
-		{	
-			m_toRotate.transform.Rotate(Vector3.up, m_rotatingSpeed * Time.deltaTime);
+		{
+			if (GmStaminaManager.GetInstance().CanUseStaminaOverTime(m_staminaCost))
+			{
+				m_toRotate.transform.Rotate(Vector3.up, m_rotatingSpeed * Time.deltaTime);
+			}
+			else
+			{
+				m_obstacleManager.ReleaseObstacle();
+			}
+
 		}
 	}
 }

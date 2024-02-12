@@ -2,6 +2,7 @@ using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static AudioManager;
 
 // Spawns a shell at gamemaster with different properties (red, blue, green)
 public class SpawnAShell : NetworkBehaviour
@@ -31,7 +32,7 @@ public class SpawnAShell : NetworkBehaviour
 			if (GmStaminaManager.GetInstance().CanUseStamina(m_staminaCost))
             {
 				ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-				if (Physics.Raycast(ray, out hit))
+				if (Physics.Raycast(ray, out hit, Mathf.Infinity))
 				{
 					Vector3 target = hit.point;
 
@@ -47,8 +48,9 @@ public class SpawnAShell : NetworkBehaviour
 	[Command(requiresAuthority = false)]
 	void CmdSpawnRandomShell(Vector3 target, Vector3 spawnPosition)
     {
-        // Choose a random shell to spawn
-        int shellType = Random.Range(0, 3); // Random number between 0 and 2
+
+		// Choose a random shell to spawn
+		int shellType = Random.Range(0, 3); // Random number between 0 and 2
         GameObject shellToSpawn = null;
 
         switch (shellType)

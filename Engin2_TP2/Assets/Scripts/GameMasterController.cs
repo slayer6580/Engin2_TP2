@@ -5,14 +5,13 @@ using Cinemachine;
 
 public class GameMasterController : MonoBehaviour
 {
-    private Player m_parent;
 	[SerializeField] private CinemachineVirtualCamera m_currentCamera;
     [SerializeField][Range (0.5f,5)] private float m_camMovementSpeed;
+   
     private CinemachineTrackedDolly m_trackedDolly;
-
     private GameObject m_lastSelectedObject;
-	Ray ray;
-	RaycastHit hit;
+	private Ray ray;
+	private RaycastHit hit;
 
 	void Start()
     {
@@ -32,26 +31,26 @@ public class GameMasterController : MonoBehaviour
 			m_trackedDolly.m_PathPosition -= 0.001f * m_camMovementSpeed;
 		}
 
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if(Physics.Raycast(ray,out hit))
-        {
-            if(Input.GetMouseButtonDown(0))
-            {
-               if(hit.collider.gameObject.GetComponent<IInteractable>() != null)        //To Replace by if Interactable
-                {
+      
+		if (Input.GetMouseButtonDown(0))
+		{
+			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			if (Physics.Raycast(ray, out hit))
+			{
+
+				if (hit.collider.gameObject.GetComponent<IInteractable>() != null)        //To Replace by if Interactable
+				{
 					m_lastSelectedObject = hit.collider.gameObject;
 					m_lastSelectedObject.GetComponent<IInteractable>().OnPlayerClicked(this);
-					
 				}
-            }
-        }
+			}
+		}
 
         if (Input.GetMouseButtonUp(0))
         {
             if(m_lastSelectedObject != null)
             {
 				m_lastSelectedObject.GetComponent<IInteractable>().OnPlayerClickUp(this);
-
 			}
         }
 	}

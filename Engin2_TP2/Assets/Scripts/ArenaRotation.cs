@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static AudioManager;
 
 public class ArenaRotation : NetworkBehaviour
 {
@@ -24,7 +25,6 @@ public class ArenaRotation : NetworkBehaviour
 	private bool m_isSelected;
 	private const float ADJUST_SPEED = 100;
 	private float m_staminaCost;
-
 	[SyncVar] private Vector3 m_arenaRotation = Vector3.zero;
 
 	//Call the good movement on the server depending of which switch has been activated
@@ -56,19 +56,17 @@ public class ArenaRotation : NetworkBehaviour
 	[Command(requiresAuthority = false)]
 	public void MoveArena(float upOrDown, Vector3 direction)
 	{
+		
 		GmStaminaManager.GetInstance().StartOverTimeCostCommand(m_staminaCost);
 
 		if (direction.x == 1)
 		{
 			RotateCommand(upOrDown, direction, m_arena.transform.localEulerAngles.z, true);
-			//ResetAngleCommand(m_arena.transform.localEulerAngles.z, true);
 		}
 		else
 		{
 			RotateCommand(upOrDown, direction, m_arena.transform.localEulerAngles.x, false);
-			//ResetAngleCommand(m_arena.transform.localEulerAngles.x, false);
 		}
-
 	}
 
 	[Command(requiresAuthority = false)]
