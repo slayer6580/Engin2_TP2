@@ -2798,12 +2798,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6911063b9528c354f855718a3f7a935d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_speedPowerDuration: 5
+  m_speedPowerDuration: 10
   m_speedMultiplierDuringPower: 1.5
   m_invisibilityPowerDuration: 8
-  m_jumpPowerDuration: 4
+  m_jumpPowerDuration: 10
   m_jumpForceDuringPower: 600
-  m_staminaPowerDuration: 5
+  m_staminaPowerDuration: 15
   m_staminaMultiplierDuringPower: 0.5
   m_bodyPartsRenderer:
   - {fileID: 6034792336090441589}

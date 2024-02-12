@@ -19,7 +19,7 @@ public class PowerUp : MonoBehaviour
         m_sphereCollider = GetComponent<SphereCollider>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         PlayerPowers character = other.GetComponent<PlayerPowers>();
 
