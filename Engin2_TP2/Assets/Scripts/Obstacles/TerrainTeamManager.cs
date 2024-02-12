@@ -7,6 +7,7 @@ public class TerrainTeamManager : NetworkBehaviour
 {
     private GameObject m_localPlayer;
     [SerializeField] private List<MeshRenderer> m_toRemoveFromRunnerPlayers = new List<MeshRenderer>();
+    [SerializeField] private List<MeshRenderer> m_toRemoveFromGameMasters = new List<MeshRenderer>();
     // Start is called before the first frame update
     void Start()
     {
@@ -27,12 +28,21 @@ public class TerrainTeamManager : NetworkBehaviour
 
 			if (NetworkClient.localPlayer.gameObject.GetComponent<PlayerStateMachine>() != null)
 			{
+				//Runner
 				foreach (MeshRenderer obj in m_toRemoveFromRunnerPlayers)
 				{
 					obj.enabled = false;
 				}
 			}
-			print("FOUND");
+			else
+			{
+				//GameMaster
+				foreach (MeshRenderer obj in m_toRemoveFromGameMasters)
+				{
+					obj.enabled = false;
+				}
+			}
+			
 		}	
 	}
 }

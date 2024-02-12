@@ -1238,7 +1238,7 @@ MonoBehaviour:
   autoConnectClientBuild: 0
   offlineScene: Assets/Scenes/MainMenu.unity
   onlineScene: Assets/Scenes/Room.unity
-  transport: {fileID: 1537272969}
+  transport: {fileID: 1537272972}
   networkAddress: localhost
   maxConnections: 100
   disconnectInactiveConnections: 0

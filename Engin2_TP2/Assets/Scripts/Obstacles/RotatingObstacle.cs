@@ -2,6 +2,7 @@ using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static AudioManager;
 
 public class RotatingObstacle : NetworkBehaviour
 {
@@ -23,6 +24,7 @@ public class RotatingObstacle : NetworkBehaviour
 	[Command(requiresAuthority = false)]
 	public void RotateCommand()
 	{
+		AudioManager.GetInstance().CmdPlaySoundEffectsLoop(ESound.spinning, gameObject.transform.position);
 		m_staminaCost = m_obstacleManager.m_staminaCost;
 		GmStaminaManager.GetInstance().StartOverTimeCostCommand(m_staminaCost);
 		RotateRcp();
@@ -43,6 +45,7 @@ public class RotatingObstacle : NetworkBehaviour
 	[Command(requiresAuthority = false)]
 	public void StopRotatingCommand()
 	{
+		AudioManager.GetInstance().CmdStopSoundEffectsLoop(ESound.spinning, gameObject.transform.position);
 		GmStaminaManager.GetInstance().StopOverTimeCostCommand();
 		StopRotatingRcp();
 	}
@@ -50,6 +53,7 @@ public class RotatingObstacle : NetworkBehaviour
 	[ClientRpc]
 	public void StopRotatingRcp()
 	{
+		
 		m_isRotating = false;
 	}
 

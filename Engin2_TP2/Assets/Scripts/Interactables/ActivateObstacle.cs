@@ -5,6 +5,7 @@ using static UnityEngine.UI.Button;
 using UnityEngine.Serialization;
 using UnityEngine.Events;
 using Mirror;
+using static AudioManager;
 
 [RequireComponent(typeof(NetworkIdentity))]
 
@@ -32,7 +33,8 @@ public class ActivateObstacle : NetworkBehaviour, IInteractable
 					m_obstacleManager.CheckIfFreeToUse(m_toCallIfFree, m_toReleaseObstacle);
 					return;
 				}
-				
+				AudioManager.GetInstance().CmdPlaySoundEffectsOneShotTarget(ESound.noStamina, NetworkClient.localPlayer.gameObject.transform.position, NetworkClient.localPlayer.gameObject.GetComponent<NetworkIdentity>());
+
 			}
 			else
 			{
@@ -41,7 +43,8 @@ public class ActivateObstacle : NetworkBehaviour, IInteractable
 					m_obstacleManager.CheckIfFreeToUse(m_toCallIfFree, m_toReleaseObstacle);
 					return;
 				}
-				
+				AudioManager.GetInstance().CmdPlaySoundEffectsOneShotTarget(ESound.noStamina, NetworkClient.localPlayer.gameObject.transform.position, NetworkClient.localPlayer.gameObject.GetComponent<NetworkIdentity>());
+
 			}
 			print("ERROR: NOT ENOUGH STAMINA!!! !! ! !!");
 		}

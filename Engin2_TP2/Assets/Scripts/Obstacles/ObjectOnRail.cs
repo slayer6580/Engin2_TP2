@@ -2,6 +2,7 @@ using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static AudioManager;
 
 [RequireComponent(typeof(NetworkIdentity))]
 
@@ -41,15 +42,16 @@ public class ObjectOnRail : NetworkBehaviour
 	[Command(requiresAuthority = false)]
 	public void MoveCommand(int dir)
 	{
+		AudioManager.GetInstance().CmdPlaySoundEffectsLoop(ESound.slideMiddle, gameObject.transform.position);
 		m_staminaCost = m_obstacleManager.m_staminaCost;
 		GmStaminaManager.GetInstance().StartOverTimeCostCommand(m_staminaCost);
-		m_isManual = true;
-		m_direction = dir;
+		MoveRPC(dir);
 	}
-
-	[Client]
+	
+	[ClientRpc]
 	public void MoveRPC(int dir)
 	{
+		
 		m_isManual = true;
 		m_direction = dir;
 	}
@@ -63,14 +65,16 @@ public class ObjectOnRail : NetworkBehaviour
 	[Command(requiresAuthority = false)]
 	public void StopMoveCommand()
 	{
+		AudioManager.GetInstance().CmdStopSoundEffectsLoop(ESound.slideMiddle, gameObject.transform.position);
 		GmStaminaManager.GetInstance().StopOverTimeCostCommand();
-		m_isManual = false;
-		m_direction = 0;
+		StopMoveRPC();
+
 	}
 
-	[Client]
+	[ClientRpc]
 	public void StopMoveRPC()
 	{
+		
 		m_isManual = false;
 		m_direction = 0;
 	}

@@ -2,6 +2,7 @@ using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static AudioManager;
 /* 
      * Note: Le script va repousser tout ce qui a un PlayerStateMachine et un rigidbody
      * Attention: l'objet sur lequel ce script est mis doit avoir un rigidbody!!
@@ -27,6 +28,7 @@ public class Bumper : MonoBehaviour
         PlayerStateMachine stateMachine = collision.gameObject.GetComponent<PlayerStateMachine>();
         if (stateMachine != null)
         {
+			AudioManager.GetInstance().CmdPlaySoundEffectsOneShotAll(ESound.bumper, gameObject.transform.position);
 			stateMachine.BeingBumped(true);
 		}
        

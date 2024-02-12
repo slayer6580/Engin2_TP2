@@ -494,7 +494,7 @@ SkinnedMeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1400470791821501621}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -1607,7 +1607,7 @@ SkinnedMeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4219473622018735249}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -2777,13 +2777,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_maxStamina: 100
-  m_staminaRecoverOverTime: 3
-  m_exaustedStaminaRecoverOverTime: 4
+  m_staminaRecoverOverTime: 10
+  m_exaustedStaminaRecoverOverTime: 15
   m_notExaustedStamina: 15
   m_recoverDelay: 1
-  m_exaustedRecoverDelay: 3
-  m_runCostOverTime: 3
-  m_jumpCost: 15
+  m_exaustedRecoverDelay: 1
+  m_runCostOverTime: 6
+  m_jumpCost: 10
   m_staminaMultiplier: 1
   m_frontBarStaminaUI: {fileID: 2568737049241801753}
 --- !u!114 &-8461691068733855158
@@ -2799,12 +2799,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_speedPowerDuration: 10
-  m_speedMultiplierDuringPower: 1.5
-  m_invisibilityPowerDuration: 8
+  m_speedMultiplierDuringPower: 2.5
+  m_invisibilityPowerDuration: 15
   m_jumpPowerDuration: 10
-  m_jumpForceDuringPower: 600
+  m_jumpForceDuringPower: 1500
   m_staminaPowerDuration: 15
-  m_staminaMultiplierDuringPower: 0.5
+  m_staminaMultiplierDuringPower: 0
   m_bodyPartsRenderer:
   - {fileID: 6034792336090441589}
   - {fileID: 3828004903496265287}
@@ -3441,7 +3441,7 @@ SkinnedMeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7653023898260734643}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -3554,7 +3554,7 @@ SkinnedMeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7935035308044868299}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -4001,7 +4001,7 @@ SkinnedMeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8523887613985485501}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0

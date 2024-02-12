@@ -2,6 +2,7 @@ using Mirror;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using static AudioManager;
 
 public class CannonShooter : NetworkBehaviour
 {
@@ -41,6 +42,7 @@ public class CannonShooter : NetworkBehaviour
     public void ShootCannonball()
     {	
         ShootCannonballCommand();
+		AudioManager.GetInstance().CmdPlaySoundEffectsOneShotAll(ESound.canon, gameObject.transform.position);
 	}
 
 	[Command(requiresAuthority = false)]

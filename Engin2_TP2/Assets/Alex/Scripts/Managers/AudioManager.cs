@@ -13,7 +13,11 @@ public class AudioManager : NetworkBehaviour
         checkpoint,
         deathZone,
         timer,
-        noStamina
+        noStamina,
+        slideMiddle,
+        spinning,
+        Trap
+        
     }
 
     [Header("Mettre tout les audios ici, regarder le Tooltip pour savoir l'ordre")]

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UIElements.Experimental;
+using static AudioManager;
 
 [RequireComponent(typeof(NetworkIdentity))]
 public class ObstacleManager : NetworkBehaviour
@@ -40,12 +41,24 @@ public class ObstacleManager : NetworkBehaviour
 			SetIsBeingUsedCommand(true);
 			TargetWasFreeToUseClient(target);
 		}
+		else 
+		{
+			TargetNotFreeToUse(target);
+		}
 	}
 
 	[TargetRpc]
 	public void TargetWasFreeToUseClient(NetworkConnectionToClient target)
 	{
 		m_toCallIfFree.Invoke();	
+	}
+
+	[TargetRpc]
+	public void TargetNotFreeToUse(NetworkConnectionToClient target)
+	{
+		print("USED");
+		//Play sound
+		AudioManager.GetInstance().CmdPlaySoundEffectsOneShotTarget(ESound.noStamina, NetworkClient.localPlayer.gameObject.transform.position, NetworkClient.localPlayer.gameObject.GetComponent<NetworkIdentity>());
 	}
 
 

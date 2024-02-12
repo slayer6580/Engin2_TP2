@@ -125,6 +125,13 @@ public class StaminaPlayer : MonoBehaviour
         }
     }
 
+	/// <summary> Pour recommencer à gagner de la stamina sans attendre le cooldown </summary>
+	public void GiveBackStamina()
+    {
+        m_currentStamina = m_maxStamina;
+
+	}
+
     /// <summary> Un Décompte du coolDown pour récupérer de la stamina apres un épuisement </summary>
     private void TakeABreak()
     {

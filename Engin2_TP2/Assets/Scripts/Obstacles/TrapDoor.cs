@@ -2,6 +2,7 @@ using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static AudioManager;
 
 [RequireComponent(typeof(NetworkIdentity))]
 
@@ -32,6 +33,7 @@ public class TrapDoor : NetworkBehaviour
 	[Command(requiresAuthority = false)]
 	public void ActivateTrapCommand()
 	{
+		AudioManager.GetInstance().CmdPlaySoundEffectsOneShotAll(ESound.Trap, gameObject.transform.position);
 		m_staminaCost = m_obstacleManager.m_staminaCost;
 		GmStaminaManager.GetInstance().InstantCostCommand(m_staminaCost);
 		m_canBeClickedOn = false;

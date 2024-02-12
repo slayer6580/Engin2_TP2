@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BlueToon
-  m_Shader: {fileID: 4800000, guid: 48dca5b99d113b8d11006bab44295342, type: 3}
+  m_Shader: {fileID: 4800000, guid: 054a31a99d11e49d110086ba44295342, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -41,13 +41,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Outline: 0.008075472
+    - _Outline: 0.0062
     - _Shininess: 0.7
     m_Colors:
-    - _Color: {r: 0.20784314, g: 0.3647059, b: 0.62352943, a: 1}
+    - _Color: {r: 0.2930758, g: 0.44592005, b: 0.6981132, a: 1}
     - _Emission: {r: 0, g: 0, b: 0, a: 0}
     - _MainTex_ST: {r: 1, g: 1, b: 0, a: 0}
-    - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
+    - _OutlineColor: {r: 1, g: 0.99296916, b: 0, a: 1}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
     - _ToonShade_ST: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []

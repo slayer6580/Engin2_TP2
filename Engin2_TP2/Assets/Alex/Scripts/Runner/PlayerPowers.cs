@@ -154,7 +154,8 @@ public class PlayerPowers : MonoBehaviour
             case EPowers.stamina:
                 m_lastData = m_playerFSM.StaminaPlayer.GetStaminaMultiplier();
                 m_playerFSM.StaminaPlayer.SetStaminaMultiplier(m_staminaMultiplierDuringPower);
-                StartCoroutine(WaitAndBackToNormal(m_staminaPowerDuration));
+                m_playerFSM.StaminaPlayer.GiveBackStamina();
+				StartCoroutine(WaitAndBackToNormal(m_staminaPowerDuration));
                 StartCoolDown(m_staminaPowerDuration);
                 SetRunnerColor(m_blueMaterial);
                 ShowPowerText("Stamina Power");
