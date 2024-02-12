@@ -6,18 +6,19 @@ public class CharacterFloorTrigger : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-
-        if (!IsOnFloor)
+        if (!IsOnFloor && other.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             Debug.Log("Vient de toucher le sol");
             IsOnFloor = true;
         }
-      
     }
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log("Vient de quitter le sol");
-        IsOnFloor = false;
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            Debug.Log("Vient de quitter le sol");
+            IsOnFloor = false;
+        }
     }
 }
