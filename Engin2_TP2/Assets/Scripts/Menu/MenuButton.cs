@@ -9,7 +9,6 @@ using UnityEngine.UI;
 
 public class MenuButton : NetworkBehaviour
 {
-	NetworkManager manager;
 
 	public InputField m_adress;
 	public InputField m_port;
@@ -17,10 +16,9 @@ public class MenuButton : NetworkBehaviour
 
 	public GameObject m_portActive;
 
-	void Awake()
+	void Start()
 	{
-		manager = GetComponent<NetworkManager>();
-		m_adress.text = manager.networkAddress;
+		m_adress.text = NetworkManager.singleton.networkAddress;
 
 		//Port
 		if (Transport.active is PortTransport portTransport)
@@ -37,7 +35,7 @@ public class MenuButton : NetworkBehaviour
 
 	public void UpdateIp()
 	{
-		manager.networkAddress = m_adress.text;
+		NetworkManager.singleton.networkAddress = m_adress.text;
 	}
 
 	public void UpdatePort()
@@ -56,12 +54,12 @@ public class MenuButton : NetworkBehaviour
 
 	public void StartHostButton()
 	{
-		manager.StartHost();
+		NetworkManager.singleton.StartHost();
 	}
 
 	public void StartJoinButton()
 	{
-		manager.StartClient();
+		NetworkManager.singleton.StartClient();
 	}
 
 

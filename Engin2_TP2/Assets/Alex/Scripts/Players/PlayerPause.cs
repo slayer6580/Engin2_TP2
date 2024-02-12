@@ -31,6 +31,6 @@ public class PlayerPause : NetworkBehaviour
     /// <summary> Pour retourner au lobby </summary>
     public void Lobby()
     {
-		NetworkManager.singleton.gameObject.GetComponent<MenuButton>().ToMainMenu();
+		NetworkManager.singleton.gameObject.transform.GetChild(0).GetComponent<MenuButton>().ToMainMenu();
 	}
 }

@@ -181,7 +181,7 @@ public class SideSelectionManager : NetworkBehaviour
 
 	public void BackToMainMenu()
 	{
-		NetworkManager.singleton.gameObject.GetComponent<MenuButton>().ToMainMenu();
+		NetworkManager.singleton.gameObject.transform.GetChild(0).GetComponent<MenuButton>().ToMainMenu();
 	}
 
 	//Toggle the ready button under the local player to set If ready or not to start le match
