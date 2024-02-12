@@ -52,6 +52,12 @@ public class RunnerManager : NetworkBehaviour
         
     }
 
+
+
+ 
+
+
+
 	/// <summary> Désactive le texte des spawnPoints </summary>
 	private void DeactivateSpawnPointText()
     {

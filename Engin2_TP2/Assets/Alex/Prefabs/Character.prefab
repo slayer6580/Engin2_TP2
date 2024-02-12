@@ -2841,6 +2841,8 @@ MonoBehaviour:
   syncDirection: 1
   syncMode: 0
   syncInterval: 0
+  m_lookAt: {fileID: 2133066540298799390}
+  m_body: {fileID: 8678863901112323493}
 --- !u!114 &6995509101826970643
 MonoBehaviour:
   m_ObjectHideFlags: 0
