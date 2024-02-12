@@ -19,7 +19,7 @@ public class PowerUp : MonoBehaviour
         m_sphereCollider = GetComponent<SphereCollider>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         PlayerPowers character = other.GetComponent<PlayerPowers>();
 
@@ -31,13 +31,6 @@ public class PowerUp : MonoBehaviour
             character.GetPower(power); // lui donner ce pouvoir
             DisablePowerUp();
             StartCoroutine(DelayBeforeRespawn(m_respawnTime));
-
-            // Code Review
-            // Penser à créer un objet powerup manager qui gère le respawn d'items. 
-            // Le powerUp ne devrait pas gérer son propre respawn. SOLID.
-            // On verra si on a le temps?
-            //
-
         }
 
     }

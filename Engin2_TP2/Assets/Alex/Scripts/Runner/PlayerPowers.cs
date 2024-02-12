@@ -1,4 +1,3 @@
-using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -14,7 +13,6 @@ public class PlayerPowers : MonoBehaviour
         invisibility,
         jump,
         stamina,
-        blocker,
         none
     }
 
@@ -162,9 +160,6 @@ public class PlayerPowers : MonoBehaviour
                 ShowPowerText("Stamina Power");
                 break;
 
-            case EPowers.blocker:
-                break;
-
             case EPowers.none:
                 break;
 
@@ -201,6 +196,7 @@ public class PlayerPowers : MonoBehaviour
         SetRunnerColor(m_redMaterial);
     }
 
+    /// <summary> Pour changer la couleur du runner </summary>
     private void SetRunnerColor(Material material)
     {
         foreach (SkinnedMeshRenderer bodyPart in m_bodyPartsRenderer)
@@ -217,6 +213,7 @@ public class PlayerPowers : MonoBehaviour
         }
     }
 
+    /// <summary> Pour montrer le VFX du pouvoir obtenue </summary>
     private void ShowPowerText(string powerName)
     {
         m_powerText.text = powerName;
@@ -224,12 +221,14 @@ public class PlayerPowers : MonoBehaviour
         m_currentTimerVFX = m_vfxDuration;
     }
 
+    /// <summary> Pour arreter de montrer le VFX du pouvoir obtenue </summary>
     private void HidePowerText()
     {
         m_powerText.text = " ";
         m_showPowerText = false;  
     }
 
+    /// <summary> Pour partir le cooldown du powerUp </summary>
     private void StartCoolDown(float time)
     {
         m_powerCoolDownPanel.SetActive(true);
@@ -238,6 +237,7 @@ public class PlayerPowers : MonoBehaviour
         m_powerDuration = time;
     }
 
+    /// <summary> Pour arreter le cooldown du powerUp </summary>
     private void StopCoolDown()
     {
         m_powerCoolDownPanel.SetActive(false);
