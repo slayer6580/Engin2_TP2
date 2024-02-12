@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(PlayerStateMachine))]
 public class PlayerPowers : MonoBehaviour
@@ -51,12 +52,15 @@ public class PlayerPowers : MonoBehaviour
 
     [Header("Power Text Canvas")]
     [SerializeField] private TextMeshProUGUI m_powerText;
+    [SerializeField] private GameObject m_powerCoolDownPanel;
+    [SerializeField] private Image m_powerCoolDownFront;
     [SerializeField] private float m_startFontSize;
     [SerializeField] private float m_endFontSize;
     [SerializeField] private float m_vfxDuration;
-    private float m_currentTimer;
+    private float m_currentTimerVFX;
+    private float m_currentTimerCoolDown;
+    private float m_powerDuration;
     private bool m_showPowerText = false;
-
 
     private EPowers m_currentPower = EPowers.none;
     private PlayerStateMachine m_playerFSM;
@@ -70,21 +74,33 @@ public class PlayerPowers : MonoBehaviour
     private void Update()
     {
         TextVFX();
+        PowerCooldown();
+    }
+
+    private void PowerCooldown()
+    {
+        if (m_currentPower != EPowers.none)
+        {
+            m_currentTimerCoolDown -= Time.deltaTime;
+
+            float currentPowerTime = (m_currentTimerCoolDown / m_powerDuration);
+            m_powerCoolDownFront.rectTransform.localScale = new Vector3(currentPowerTime, 1, 1);
+        }
     }
 
     private void TextVFX()
     {
         if (m_showPowerText)
         {
-            m_currentTimer -= Time.deltaTime;
+            m_currentTimerVFX -= Time.deltaTime;
 
-            if (m_currentTimer <= 0)
+            if (m_currentTimerVFX <= 0)
             {
                 HidePowerText();
                 return;
             }
 
-            float lerp = m_currentTimer / m_vfxDuration;
+            float lerp = m_currentTimerVFX / m_vfxDuration;
             float TextFontSize = Mathf.Lerp(m_endFontSize, m_startFontSize, lerp);
             m_powerText.fontSize = TextFontSize;
         }
@@ -116,6 +132,7 @@ public class PlayerPowers : MonoBehaviour
                 m_lastData = m_playerFSM.SpeedMultiplier;
                 m_playerFSM.SetSprintMultiplier(m_speedMultiplierDuringPower);
                 StartCoroutine(WaitAndBackToNormal(m_speedPowerDuration));
+                StartCoolDown(m_speedPowerDuration);
                 SetRunnerColor(m_greenMaterial);
                 ShowPowerText("Speed Power");
                 break;
@@ -124,12 +141,14 @@ public class PlayerPowers : MonoBehaviour
                 SetRunnerColor(m_purpleMaterial);
                 SetRunnerInvisible(true);
                 StartCoroutine(WaitAndBackToNormal(m_invisibilityPowerDuration));
+                StartCoolDown(m_invisibilityPowerDuration);
                 break;
 
             case EPowers.jump:     
                 m_lastData = m_playerFSM.JumpIntensity;
                 m_playerFSM.SetJumpForce(m_jumpForceDuringPower);
                 StartCoroutine(WaitAndBackToNormal(m_jumpPowerDuration));
+                StartCoolDown(m_jumpPowerDuration);
                 SetRunnerColor(m_yellowMaterial);
                 ShowPowerText("Jump Power");
                 break;
@@ -138,6 +157,7 @@ public class PlayerPowers : MonoBehaviour
                 m_lastData = m_playerFSM.StaminaPlayer.GetStaminaMultiplier();
                 m_playerFSM.StaminaPlayer.SetStaminaMultiplier(m_staminaMultiplierDuringPower);
                 StartCoroutine(WaitAndBackToNormal(m_staminaPowerDuration));
+                StartCoolDown(m_staminaPowerDuration);
                 SetRunnerColor(m_blueMaterial);
                 ShowPowerText("Stamina Power");
                 break;
@@ -177,6 +197,7 @@ public class PlayerPowers : MonoBehaviour
         }
 
         m_currentPower = EPowers.none;
+        StopCoolDown();
         SetRunnerColor(m_redMaterial);
     }
 
@@ -200,13 +221,25 @@ public class PlayerPowers : MonoBehaviour
     {
         m_powerText.text = powerName;
         m_showPowerText = true;
-        m_currentTimer = m_vfxDuration;
+        m_currentTimerVFX = m_vfxDuration;
     }
 
     private void HidePowerText()
     {
         m_powerText.text = " ";
-        m_showPowerText = false;
-  
+        m_showPowerText = false;  
+    }
+
+    private void StartCoolDown(float time)
+    {
+        m_powerCoolDownPanel.SetActive(true);
+        m_powerCoolDownFront.rectTransform.localScale = Vector3.one;
+        m_currentTimerCoolDown = time;
+        m_powerDuration = time;
+    }
+
+    private void StopCoolDown()
+    {
+        m_powerCoolDownPanel.SetActive(false);
     }
 }
