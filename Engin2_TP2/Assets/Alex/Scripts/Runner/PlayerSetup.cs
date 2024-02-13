@@ -19,6 +19,7 @@ public class PlayerSetup : NetworkBehaviour
         else
         {
             ScoreManager.GetInstance().SetLocalPlayer(GetComponent<NetworkIdentity>());
+            AudioManager.GetInstance().GetComponent<AudioSource>().Play();
         }
 
         RunnerManager.GetInstance().SetParent(this.gameObject);  
