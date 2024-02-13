@@ -18,7 +18,6 @@ public class PlayerCheckpoint : NetworkBehaviour
         Transform startPoint = RunnerManager.GetInstance().FindAStartPoint();
         m_startPoint = startPoint;
         m_lookAt.rotation = startPoint.rotation;
-        m_body.rotation = startPoint.rotation;
         m_spawnPoint = m_startPoint;
         m_rb = GetComponent<Rigidbody>();       
     }
