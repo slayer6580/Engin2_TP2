@@ -8,15 +8,12 @@ public class PlayerCheckpoint : NetworkBehaviour
     private Transform m_startPoint;
     private Transform m_spawnPoint;
     private Rigidbody m_rb;
-    [SerializeField] private Transform m_lookAt;
-    [SerializeField] private Transform m_body;
 
     private int m_checkpointReached = 0;
 
     private void Awake()
     {
-        Transform startPoint = RunnerManager.GetInstance().FindAStartPoint();
-        m_startPoint = startPoint;
+        m_startPoint = RunnerManager.GetInstance().FindAStartPoint();
         m_spawnPoint = m_startPoint;
         m_rb = GetComponent<Rigidbody>();       
     }
