@@ -35,42 +35,42 @@ public class ArenaRotation : NetworkBehaviour
 		switch (m_rotationPoint)
 		{
 			case Point.North:
-				MoveArena(upOrDown, new Vector3(1, 0, 0));
+				CmdMoveArena(upOrDown, new Vector3(1, 0, 0));
 				break;
 
 			case Point.South:
-				MoveArena(upOrDown, new Vector3(1, 0, 0));
+				CmdMoveArena(upOrDown, new Vector3(1, 0, 0));
 				break;
 
 			case Point.East:
-				MoveArena(upOrDown, new Vector3(0, 0, 1));
+				CmdMoveArena(upOrDown, new Vector3(0, 0, 1));
 				break;
 
 			case Point.West:
-				MoveArena(upOrDown, new Vector3(0, 0, 1));
+				CmdMoveArena(upOrDown, new Vector3(0, 0, 1));
 				break;
 		}
 	}
 
 
 	[Command(requiresAuthority = false)]
-	public void MoveArena(float upOrDown, Vector3 direction)
+	public void CmdMoveArena(float upOrDown, Vector3 direction)
 	{
 		
 		GmStaminaManager.GetInstance().StartOverTimeCostCommand(m_staminaCost);
 
 		if (direction.x == 1)
 		{
-			RotateCommand(upOrDown, direction, m_arena.transform.localEulerAngles.z, true);
+			CmdRotate(upOrDown, direction, m_arena.transform.localEulerAngles.z, true);
 		}
 		else
 		{
-			RotateCommand(upOrDown, direction, m_arena.transform.localEulerAngles.x, false);
+			CmdRotate(upOrDown, direction, m_arena.transform.localEulerAngles.x, false);
 		}
 	}
 
 	[Command(requiresAuthority = false)]
-	public void RotateCommand(float upOrDown, Vector3 direction, float resetAngle, bool isX)
+	public void CmdRotate(float upOrDown, Vector3 direction, float resetAngle, bool isX)
 	{
 		//Move the arena
 		m_arena.transform.Rotate(direction, upOrDown * m_movementSpeed * Time.deltaTime);
@@ -87,7 +87,7 @@ public class ArenaRotation : NetworkBehaviour
 			m_arena.transform.localEulerAngles = new Vector3((clampedRotation * direction.x) + (m_arena.transform.localEulerAngles.x * direction.z), 0, (clampedRotation * direction.z) + (m_arena.transform.localEulerAngles.z * direction.x) );
 		}
 
-		ResetAngleCommand(resetAngle, isX);
+		CmdResetAngle(resetAngle, isX);
 	}
 
 
@@ -105,7 +105,7 @@ public class ArenaRotation : NetworkBehaviour
 
 	//If moving on X, replace Z to zero and vice versa
 	[Command(requiresAuthority = false)]
-	public void ResetAngleCommand(float angleToCheck, bool isX)
+	public void CmdResetAngle(float angleToCheck, bool isX)
 	{
 		angleToCheck = GetAccurateRotationValue(angleToCheck);
 
@@ -132,11 +132,11 @@ public class ArenaRotation : NetworkBehaviour
 			}
 		}
 
-		ReplaceRcp(m_arena.transform.localEulerAngles);
+		RpcReplace(m_arena.transform.localEulerAngles);
 	}
 
 	[ClientRpc]
-	public void ReplaceRcp(Vector3 newAngle)
+	public void RpcReplace(Vector3 newAngle)
 	{
 		m_arena.transform.localEulerAngles = newAngle;
 	}
