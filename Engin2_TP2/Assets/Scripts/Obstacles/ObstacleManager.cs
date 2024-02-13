@@ -58,7 +58,6 @@ public class ObstacleManager : NetworkBehaviour
 	[TargetRpc]
 	public void TargetNotFreeToUse(NetworkConnectionToClient target)
 	{
-		print("USED");
 		//Play sound
 		AudioManager.GetInstance().CmdPlaySoundEffectsOneShotTarget(ESound.noStamina, NetworkClient.localPlayer.gameObject.transform.position, NetworkClient.localPlayer.gameObject.GetComponent<NetworkIdentity>());
 	}

@@ -8,11 +8,6 @@ public class TerrainTeamManager : NetworkBehaviour
     private GameObject m_localPlayer;
     [SerializeField] private List<MeshRenderer> m_toRemoveFromRunnerPlayers = new List<MeshRenderer>();
     [SerializeField] private List<MeshRenderer> m_toRemoveFromGameMasters = new List<MeshRenderer>();
-    // Start is called before the first frame update
-    void Start()
-    {
-      
-    }
 
 	private void Update()
 	{
@@ -22,7 +17,6 @@ public class TerrainTeamManager : NetworkBehaviour
 
 			if (m_localPlayer == null)
             {
-                print("NOT FOUND");
                 return;
 			}
 

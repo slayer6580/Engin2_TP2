@@ -112,7 +112,6 @@ public class TerrainLever : NetworkBehaviour, IInteractable
 	//Be sure the angle is between  -180 et 180 degre
 	private float GetAccurateRotationValue(float rotationToClamp)
 	{
-
 		float clampedRotation = rotationToClamp;
 		if (clampedRotation > 180.0f)
 		{

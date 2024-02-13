@@ -10,17 +10,17 @@ using static AudioManager;
 public class Bumper : MonoBehaviour
 {
     
-    [SerializeField] private float pushForce = 1000f; // Adjustable force of the push
-    [SerializeField] private float bumperForceReduction = 2.0f; // le bumper bouge moins que le player sur impact
-    [SerializeField] private float addedUpForce = 0f; 
-    [SerializeField] private bool bumperObjectMovesOnImpact = true;
-    [SerializeField] private bool canBeMovedByGameMaster = false;
+    [SerializeField] private float m_pushForce = 1000f; // Adjustable force of the push
+    [SerializeField] private float m_bumperForceReduction = 2.0f; // le bumper bouge moins que le player sur impact
+    [SerializeField] private float m_addedUpForce = 0f; 
+    [SerializeField] private bool m_bumperObjectMovesOnImpact = true;
 
-    private Rigidbody bumperRigidbody;
-    public ParticleSystem touchEffect;
+
+    private Rigidbody m_bumperRigidbody;
+    public ParticleSystem m_touchEffect;
     public void Awake()
     {
-         bumperRigidbody = this.GetComponent<Rigidbody>();    
+		m_bumperRigidbody = this.GetComponent<Rigidbody>();    
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -34,29 +34,29 @@ public class Bumper : MonoBehaviour
        
         
 
-		if (stateMachine == null || bumperRigidbody==null)
+		if (stateMachine == null || m_bumperRigidbody == null)
             return;
 
         ContactPoint contactPoint = collision.contacts[0];
         Vector3 oppositeDirection = contactPoint.normal;
 
      
-		stateMachine.RB.AddForce(-oppositeDirection * pushForce, ForceMode.Impulse);
-		stateMachine.RB.AddForce(new Vector3(0, addedUpForce, 0) * pushForce, ForceMode.Impulse);
+		stateMachine.RB.AddForce(-oppositeDirection * m_pushForce, ForceMode.Impulse);
+		stateMachine.RB.AddForce(new Vector3(0, m_addedUpForce, 0) * m_pushForce, ForceMode.Impulse);
 
 		PlayParticleEffect();
-        if (bumperObjectMovesOnImpact)
-        { 
-            bumperRigidbody.AddForce(oppositeDirection * pushForce / bumperForceReduction, ForceMode.Impulse); 
+        if (m_bumperObjectMovesOnImpact)
+        {
+			m_bumperRigidbody.AddForce(oppositeDirection * m_pushForce / m_bumperForceReduction, ForceMode.Impulse); 
         }
     }
 
     
     void PlayParticleEffect()
     {
-        if (touchEffect != null)
+        if (m_touchEffect != null)
         {
-            touchEffect.Play();
+			m_touchEffect.Play();
         }
     }
 

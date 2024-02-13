@@ -11,16 +11,11 @@ using static AudioManager;
 
 public class ActivateObstacle : NetworkBehaviour, IInteractable
 {
-
 	[SerializeField] private ObstacleManager m_obstacleManager;
-
-	
     [SerializeField] private bool m_isInstantCost;
 
     [SerializeField] private UnityEvent m_toCallIfFree;
 	[SerializeField] private UnityEvent m_toReleaseObstacle;
-
-
 
 	public void OnPlayerClicked(GameMasterController player)
 	{
@@ -57,8 +52,5 @@ public class ActivateObstacle : NetworkBehaviour, IInteractable
 			m_obstacleManager.ReleaseObstacle();
 		}		
 	}
-
-
-
 
 }

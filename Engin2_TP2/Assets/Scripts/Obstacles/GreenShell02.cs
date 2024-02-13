@@ -3,33 +3,16 @@ using static AudioManager;
 
 public class GreenShell02 : MonoBehaviour
 {
-	[SerializeField] private float speed = 25f;
-	[SerializeField] private float timeToDie = 10f;
+	[SerializeField] private float m_speed = 25f;
+	[SerializeField] private float m_timeToDie = 10f;
 
-	private Rigidbody rb;
-	private PlayerStateMachine playerStateMachine;
-	private void Awake()
-	{
-		AudioManager.GetInstance().CmdPlaySoundEffectsOneShotAll(ESound.throwShell, gameObject.transform.position);
-		FindTarget();
-	}
+	private Rigidbody m_rb;
 
 	void Start()
 	{
-		rb = GetComponent<Rigidbody>();
-
-		rb.AddForce(transform.forward * speed, ForceMode.Impulse);
-		
-		Destroy(gameObject, timeToDie); // Destroys this game object after timeToDie seconds
-	}
-
-	void FindTarget()
-	{
-		PlayerStateMachine playerStateMachine = FindObjectOfType<PlayerStateMachine>();
-	}
-	void OnCollisionEnter(Collision collision)
-	{
-		//Destroy(gameObject);
+		m_rb = GetComponent<Rigidbody>();
+		m_rb.AddForce(transform.forward * m_speed, ForceMode.Impulse);		
+		Destroy(gameObject, m_timeToDie); // Destroys this game object after timeToDie seconds
 	}
 
 }

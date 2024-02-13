@@ -10,11 +10,9 @@ using UnityEngine.UI;
 public class MenuButton : NetworkBehaviour
 {
 
-	public InputField m_adress;
-	public InputField m_port;
-
-
-	public GameObject m_portActive;
+	[SerializeField] private InputField m_adress;
+	[SerializeField] private InputField m_port;
+	[SerializeField] private GameObject m_portActive;
 
 	void Start()
 	{
@@ -47,7 +45,6 @@ public class MenuButton : NetworkBehaviour
 			{
 				portTransport.Port = port;			
 			}
-
 			m_port.text = port.ToString();
 		}
 	}
@@ -62,7 +59,6 @@ public class MenuButton : NetworkBehaviour
 		NetworkManager.singleton.StartClient();
 	}
 
-
 	//Back
 	public void ToMainMenu()
 	{
@@ -72,7 +68,6 @@ public class MenuButton : NetworkBehaviour
 
 	IEnumerator StartExit()
 	{
-
 		yield return new WaitForSeconds(0.25f);
 
 		if (isServer)

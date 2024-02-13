@@ -140,8 +140,7 @@ public class ObjectOnRail : NetworkBehaviour
             {
 				destination = m_railPoints[i].position;
                 break;
-			}
-           
+			}       
         }
       
 		//Calculate movement
@@ -166,6 +165,4 @@ public class ObjectOnRail : NetworkBehaviour
 	{
 		return m_newPosition;
 	}
-
-
 }

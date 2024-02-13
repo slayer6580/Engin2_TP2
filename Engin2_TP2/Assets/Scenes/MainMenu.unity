@@ -1228,7 +1228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 615e6c6589cf9e54cad646b5a11e0529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_needOneInEachTeamToStart: 0
+  m_needOneInEachTeamToStart: 1
   dontDestroyOnLoad: 1
   runInBackground: 1
   headlessStartMode: 1

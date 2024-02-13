@@ -737,14 +737,14 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  greenShellPrefab: {fileID: 2134215851575004532, guid: 8fd43d2849010774eb09657ffca689fa,
+  m_greenShellPrefab: {fileID: 2134215851575004532, guid: 8fd43d2849010774eb09657ffca689fa,
     type: 3}
-  redShellPrefab: {fileID: 2134215851575004532, guid: 8fd43d2849010774eb09657ffca689fa,
+  m_redShellPrefab: {fileID: 2134215851575004532, guid: 8fd43d2849010774eb09657ffca689fa,
     type: 3}
-  blueShellPrefab: {fileID: 2134215851575004532, guid: 8fd43d2849010774eb09657ffca689fa,
+  m_blueShellPrefab: {fileID: 2134215851575004532, guid: 8fd43d2849010774eb09657ffca689fa,
     type: 3}
-  spawnInterval: 1
-  spawnCooldown: 1
+  m_spawnInterval: 2
+  m_spawnCooldown: 1
   m_staminaCost: 15
 --- !u!1 &2783433290607802420
 GameObject:

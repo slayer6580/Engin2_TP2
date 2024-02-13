@@ -145,9 +145,6 @@ public class SideSelectionManager : NetworkBehaviour
 			SetAsReady(false, "Ready");
 		}
 
-		//Deactivate the new selected slot
-		//SwitchSlotStateCommand(wantedSlot, false);
-
 		//The players has change his position so he's not ready anymore
 		ManageIsReadyTextCommand(m_slotSelected, false, false);
 
@@ -163,8 +160,7 @@ public class SideSelectionManager : NetworkBehaviour
 			SwitchSlotStateCommand(m_slotSelected, true);
 		}
 			CmdDoneDisconnecting(m_networkIdentity.connectionToClient);
-		
-			
+				
 	}
 
 	[Command(requiresAuthority = false)]
@@ -290,7 +286,6 @@ public class SideSelectionManager : NetworkBehaviour
 		m_selectSlotButtons[slot].SetActive(state);
 		m_isSlotFree[slot] = state;
 	}
-
 
 	//Change if the player in a slot is ready or not
 	[Command(requiresAuthority = false)]

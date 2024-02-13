@@ -7,38 +7,38 @@ using static AudioManager;
 // Spawns a shell at gamemaster with different properties (red, blue, green)
 public class SpawnAShell : NetworkBehaviour
 {
-    [SerializeField] private GameObject greenShellPrefab;
-    [SerializeField] private GameObject redShellPrefab;
-    [SerializeField] private GameObject blueShellPrefab;
-    [SerializeField] private float spawnInterval = 2f; // Time between spawns
-    [SerializeField] private float spawnCooldown = 1f;
+    [SerializeField] private GameObject m_greenShellPrefab;
+    [SerializeField] private GameObject m_redShellPrefab;
+    [SerializeField] private GameObject m_blueShellPrefab;
+    [SerializeField] private float m_spawnInterval = 2f; // Time between spawns
+    [SerializeField] private float m_spawnCooldown = 1f;
     [SerializeField] private float m_staminaCost;
 
-    private float timeSinceLastSpawn;
-	private Ray ray;
-	private RaycastHit hit;
+    private float m_timeSinceLastSpawn;
+	private Ray m_ray;
+	private RaycastHit m_hit;
 	private void Start()
     {
-        timeSinceLastSpawn = spawnCooldown; 
+        m_timeSinceLastSpawn = m_spawnCooldown; 
     }
 
     void Update()
     {
         
-        timeSinceLastSpawn += Time.deltaTime;
+        m_timeSinceLastSpawn += Time.deltaTime;
      
-        if (Input.GetMouseButtonDown(1) && timeSinceLastSpawn >= spawnCooldown)
+        if (Input.GetMouseButtonDown(1) && m_timeSinceLastSpawn >= m_spawnCooldown)
         {
 			if (GmStaminaManager.GetInstance().CanUseStamina(m_staminaCost))
             {
-				ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-				if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+				m_ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+				if (Physics.Raycast(m_ray, out m_hit, Mathf.Infinity))
 				{
-					Vector3 target = hit.point;
+					Vector3 target = m_hit.point;
 
 					GmStaminaManager.GetInstance().InstantCostCommand(m_staminaCost);
 					CmdSpawnRandomShell(target, Camera.main.transform.position);
-					timeSinceLastSpawn = 0; // Reset the timer
+					m_timeSinceLastSpawn = 0; // Reset the timer
 				}
 			}
 				
@@ -56,13 +56,13 @@ public class SpawnAShell : NetworkBehaviour
         switch (shellType)
         {
             case 0:
-                shellToSpawn = greenShellPrefab;
+                shellToSpawn = m_greenShellPrefab;
                 break;
             case 1:
-                shellToSpawn = redShellPrefab;
+                shellToSpawn = m_redShellPrefab;
                 break;
             case 2:
-                shellToSpawn = blueShellPrefab;
+                shellToSpawn = m_blueShellPrefab;
                 break;
         }
 
