@@ -67,20 +67,6 @@ public class AudioManager : NetworkBehaviour
         TargetPlaySoundEffectsOneShot(player.connectionToClient, sound, newPosition);
     }
 
-    /// <summary> Pour dire de jouer un son en boucle (tout client) </summary>
-    [Command(requiresAuthority = false)]
-    public void CmdPlaySoundEffectsLoop(ESound sound, Vector3 newPosition)
-    {
-        RpcPlaySoundEffectsLoop(sound, newPosition);
-    }
-
-    /// <summary> Pour dire d'arreter de jouer un son en boucle </summary>
-    [Command(requiresAuthority = false)]
-    public void CmdStopSoundEffectsLoop(ESound sound, Vector3 newPosition)
-    {
-        RpcStopSoundEffectsLoop(sound, newPosition);
-    }
-
     /// <summary> Tout les clients va jouer un son une fois </summary>
     [ClientRpc]
     public void RpcPlaySoundEffectsOneShot(ESound sound, Vector3 newPosition)
@@ -113,35 +99,6 @@ public class AudioManager : NetworkBehaviour
         StartCoroutine(ReActivateAudioBox(audiobox, clip));
     }
 
-    /// <summary> Tout les clients va jouer un son en boucle </summary>
-    [ClientRpc]
-    public void RpcPlaySoundEffectsLoop(ESound sound, Vector3 newPosition)
-    {
-        AudioBox audiobox = FindAValidAudioBox();
-
-        if (audiobox == null)
-            return;
-
-        audiobox.m_isPlaying = true;
-        MoveAudioBox(audiobox, newPosition);
-        PlayClipLoop(audiobox, sound);
-    }
-
-    /// <summary> Tout les clients va arreter de jouer un son en boucle </summary>
-    [ClientRpc]
-    public void RpcStopSoundEffectsLoop(ESound sound, Vector3 newPosition)
-    {
-        AudioClip clip = m_sounds[(int)sound];
-        foreach (AudioBox audioBox in m_audioBox)
-        {
-            AudioSource audioSource = audioBox.GetComponent<AudioSource>();
-            if (audioBox.transform.position == newPosition && audioSource.clip == clip)
-            {
-                audioBox.m_isPlaying = false;
-                audioSource.Stop();
-            }
-        }
-    }
 
     /// <summary> Pour trouver une audioBox en attente d'action </summary>
     private AudioBox FindAValidAudioBox()

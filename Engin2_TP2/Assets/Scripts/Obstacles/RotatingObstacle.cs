@@ -24,7 +24,6 @@ public class RotatingObstacle : NetworkBehaviour
 	[Command(requiresAuthority = false)]
 	public void CmdRotate()
 	{
-		AudioManager.GetInstance().CmdPlaySoundEffectsLoop(ESound.spinning, gameObject.transform.position);
 		m_staminaCost = m_obstacleManager.m_staminaCost;
 		GmStaminaManager.GetInstance().StartOverTimeCostCommand(m_staminaCost);
 		RcpRotate();
@@ -45,7 +44,6 @@ public class RotatingObstacle : NetworkBehaviour
 	[Command(requiresAuthority = false)]
 	public void CmdStopRotating()
 	{
-		AudioManager.GetInstance().CmdStopSoundEffectsLoop(ESound.spinning, gameObject.transform.position);
 		GmStaminaManager.GetInstance().StopOverTimeCostCommand();
 		RcpStopRotating();
 	}

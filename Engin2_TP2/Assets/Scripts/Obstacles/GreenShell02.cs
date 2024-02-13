@@ -10,6 +10,7 @@ public class GreenShell02 : MonoBehaviour
 
 	void Start()
 	{
+		AudioManager.GetInstance().CmdPlaySoundEffectsOneShotAll(ESound.throwShell, gameObject.transform.position);
 		m_rb = GetComponent<Rigidbody>();
 		m_rb.AddForce(transform.forward * m_speed, ForceMode.Impulse);		
 		Destroy(gameObject, m_timeToDie); // Destroys this game object after timeToDie seconds

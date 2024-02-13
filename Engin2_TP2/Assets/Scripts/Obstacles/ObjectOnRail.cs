@@ -42,7 +42,7 @@ public class ObjectOnRail : NetworkBehaviour
 	[Command(requiresAuthority = false)]
 	public void CmdMove(int dir)
 	{
-		AudioManager.GetInstance().CmdPlaySoundEffectsLoop(ESound.slideMiddle, gameObject.transform.position);
+
 		m_staminaCost = m_obstacleManager.m_staminaCost;
 		GmStaminaManager.GetInstance().StartOverTimeCostCommand(m_staminaCost);
 		RcpMove(dir);
@@ -65,7 +65,6 @@ public class ObjectOnRail : NetworkBehaviour
 	[Command(requiresAuthority = false)]
 	public void CmdStopMove()
 	{
-		AudioManager.GetInstance().CmdStopSoundEffectsLoop(ESound.slideMiddle, gameObject.transform.position);
 		GmStaminaManager.GetInstance().StopOverTimeCostCommand();
 		RcpStopMove();
 

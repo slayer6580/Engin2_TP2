@@ -52,13 +52,11 @@ public class TerrainLever : NetworkBehaviour, IInteractable
 
 	public void FreeToUse()
 	{
-		AudioManager.GetInstance().CmdPlaySoundEffectsLoop(ESound.slideMiddle, gameObject.transform.position);
 		m_isHoldingOn = true;
 	}
 
 	public void ReleaseObstacle()
 	{
-		AudioManager.GetInstance().CmdStopSoundEffectsLoop(ESound.slideMiddle, gameObject.transform.position);
 		m_isHoldingOn = false;
 		GmStaminaManager.GetInstance().StopOverTimeCostCommand();
 	}
