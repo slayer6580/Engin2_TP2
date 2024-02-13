@@ -36,20 +36,20 @@ public class ObjectOnRail : NetworkBehaviour
 	//Called if enough stamina and not already in use by other player
 	public void Move(int dir)
     {
-		MoveCommand(dir);				
+		CmdMove(dir);				
 	}
 
 	[Command(requiresAuthority = false)]
-	public void MoveCommand(int dir)
+	public void CmdMove(int dir)
 	{
 		AudioManager.GetInstance().CmdPlaySoundEffectsLoop(ESound.slideMiddle, gameObject.transform.position);
 		m_staminaCost = m_obstacleManager.m_staminaCost;
 		GmStaminaManager.GetInstance().StartOverTimeCostCommand(m_staminaCost);
-		MoveRPC(dir);
+		RcpMove(dir);
 	}
 	
 	[ClientRpc]
-	public void MoveRPC(int dir)
+	public void RcpMove(int dir)
 	{
 		
 		m_isManual = true;
@@ -59,20 +59,20 @@ public class ObjectOnRail : NetworkBehaviour
 	//Called when there's no more stamina, or on click release
 	public void StopMove()
     {
-		StopMoveCommand();
+		CmdStopMove();
 	}
 
 	[Command(requiresAuthority = false)]
-	public void StopMoveCommand()
+	public void CmdStopMove()
 	{
 		AudioManager.GetInstance().CmdStopSoundEffectsLoop(ESound.slideMiddle, gameObject.transform.position);
 		GmStaminaManager.GetInstance().StopOverTimeCostCommand();
-		StopMoveRPC();
+		RcpStopMove();
 
 	}
 
 	[ClientRpc]
-	public void StopMoveRPC()
+	public void RcpStopMove()
 	{
 		
 		m_isManual = false;
