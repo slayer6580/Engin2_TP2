@@ -65,6 +65,9 @@ public class PlayerStateMachine : MonoBehaviour
 
 	private void CreatePossibleStates()
     {
+        // Code Review:
+        // Rien à dire, sinon que c'est excellent!
+        //
         m_possibleStates = new List<CharacterState>();
         m_possibleStates.Add(new FreeState());
 		m_possibleStates.Add(new BumpedState());
@@ -78,6 +81,11 @@ public class PlayerStateMachine : MonoBehaviour
         PlayerCollider = GetComponent<CapsuleCollider>();
         Animator = GetComponent<Animator>();
         StaminaPlayer = GetComponent<StaminaPlayer>();
+
+        // Code Review:
+        // Ajouter des if (Animator != null) 
+        // Si on a le temps, encore une fois
+        //
     }
 
     void Start()
@@ -110,6 +118,9 @@ public class PlayerStateMachine : MonoBehaviour
     // regarder si notre object floor trigger touche le sol
     public bool IsInContactWithFloor()
     {
+        // Code Review:
+        // Cela empêche le double saut. Attention aussi, comment détecter les collisions avec le sol?
+        //
        return m_floorTrigger.IsOnFloor;
     }
 	
@@ -175,6 +186,7 @@ public class PlayerStateMachine : MonoBehaviour
     }
     public void SetOrientation(Vector3 direction)
     {
+        //Vector3 direction = Vector3.ProjectOnPlane(Camera.transform.right, Vector3.up);
         Model.transform.LookAt(direction + transform.position);
     }
     private void UpdateAnimatorInAirBool()

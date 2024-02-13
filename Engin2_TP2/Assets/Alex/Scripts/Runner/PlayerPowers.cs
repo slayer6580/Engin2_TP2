@@ -44,6 +44,11 @@ public class PlayerPowers : NetworkBehaviour
     [SerializeField] private Material m_yellowMaterial;
     [SerializeField] private Material m_purpleMaterial;
 
+    [Header("Materials for invisible power")]
+    [SerializeField] private Material m_blackEye;
+    [SerializeField] private Material m_whiteEye;
+    [SerializeField] private Material m_completeInvisible;
+
     [Header("Power Text Canvas")]
     [SerializeField] private TextMeshProUGUI m_powerText;
     [SerializeField] private GameObject m_powerCoolDownPanel;

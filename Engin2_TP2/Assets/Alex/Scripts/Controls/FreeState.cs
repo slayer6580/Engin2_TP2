@@ -120,6 +120,7 @@ public class FreeState : CharacterState
 
     private float GetMovement() 
     {
+        //Debug.LogWarning("Velocity: " + m_stateMachine.RB.velocity.magnitude + "   Ratio: " + m_stateMachine.RB.velocity.magnitude / m_stateMachine.MaxVelocityOnGround);
         return m_stateMachine.RB.velocity.magnitude / m_stateMachine.MaxVelocityOnGround;
     }
 

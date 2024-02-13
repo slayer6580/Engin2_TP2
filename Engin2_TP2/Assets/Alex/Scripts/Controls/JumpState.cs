@@ -36,6 +36,7 @@ public class JumpState : CharacterState
             m_stateMachine.StaminaPlayer.JumpCost();
         }
         m_stateMachine.m_JumpLeft--;
+        Debug.LogWarning("Jump Left: " + m_stateMachine.m_JumpLeft);
 
 		// Force du saut
 
@@ -58,6 +59,7 @@ public class JumpState : CharacterState
     public override void OnExit()
     {
         m_currentStateTimer = 0;
+        Debug.LogWarning("Frames: " + frames);
         Debug.Log("Exit state: JumpState\n");
     }
 
@@ -138,6 +140,8 @@ public class JumpState : CharacterState
 			Vector2 newVelocityXZ = new Vector2(velocity.x, velocity.z).normalized * m_stateMachine.MaxVelocityInAir;
 			Vector3 newVelocity = new Vector3(newVelocityXZ.x, velocity.y, newVelocityXZ.y);
 			m_stateMachine.RB.velocity = newVelocity;
+
+			//m_stateMachine.RB.velocity = m_stateMachine.RB.velocity.normalized * m_stateMachine.MaxVelocityInAir;
 		}
 	}
 
