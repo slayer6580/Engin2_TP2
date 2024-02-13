@@ -62,7 +62,6 @@ public class StaminaPlayer : MonoBehaviour
             TakeABreak();
         else if (m_currentState == EStaminaState.exhaustedRecover)
             ExhaustedRecoverStamina();
-
     }
 
     /// <summary> si tu veux courir ou sauter dans PlayerStateMachine et que ca aussi c'est vrai, tu peux rouler la fonction RunCost() ou JumpCost </summary>
@@ -95,6 +94,9 @@ public class StaminaPlayer : MonoBehaviour
         if (m_currentStamina == m_maxStamina)
             return;
 
+        if (m_currentStamina >= m_notExaustedStamina)        
+            m_frontBarStaminaUI.color = Color.green;
+      
         m_currentStamina += m_staminaRecoverOverTime * Time.deltaTime;
         StaminaCheck();
         SetStaminaUI();
@@ -129,7 +131,6 @@ public class StaminaPlayer : MonoBehaviour
 	public void GiveBackStamina()
     {
         m_currentStamina = m_maxStamina;
-
 	}
 
     /// <summary> Un Décompte du coolDown pour récupérer de la stamina apres un épuisement </summary>
@@ -180,6 +181,7 @@ public class StaminaPlayer : MonoBehaviour
     public void ResetStamina()
     {
         m_currentStamina = m_maxStamina;
+        m_frontBarStaminaUI.color = Color.green;
     }
 
     public void SetStaminaMultiplier(float multiplier)
