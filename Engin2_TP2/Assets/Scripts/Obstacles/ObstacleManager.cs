@@ -31,16 +31,16 @@ public class ObstacleManager : NetworkBehaviour
 		m_toCallIfFree = toCallIfFree;
 		m_toReleaseObstacle = toReleaseObstacle;
 
-		IsFreeToUseCommand(m_netId.connectionToClient);
+		CmdIsFreeToUse(m_netId.connectionToClient);
 	}
 
 	[Command(requiresAuthority = false)]
-	public void IsFreeToUseCommand(NetworkConnectionToClient target)
+	public void CmdIsFreeToUse(NetworkConnectionToClient target)
 	{
 		if (m_isBeingUsed == false)
 		{
 			m_usedBy = target;
-			SetIsBeingUsedCommand(true);
+			CmdSetIsBeingUsed(true);
 			TargetWasFreeToUseClient(target);
 		}
 		else 
@@ -66,15 +66,15 @@ public class ObstacleManager : NetworkBehaviour
 	//Called when the player release the mouse button or when there's no more stamina
 	public void ReleaseObstacle()
 	{
-		ReleaseObstacleCommand(m_netId.connectionToClient);
+		CmdReleaseObstacle(m_netId.connectionToClient);
 	}
 
 	[Command(requiresAuthority = false)]
-	public void ReleaseObstacleCommand(NetworkConnectionToClient target)
+	public void CmdReleaseObstacle(NetworkConnectionToClient target)
 	{
 		if(target == m_usedBy)
 		{
-			SetIsBeingUsedCommand(false);
+			CmdSetIsBeingUsed(false);
 			TargetReleaseObstacle(target);
 		}	
 	}
@@ -90,12 +90,12 @@ public class ObstacleManager : NetworkBehaviour
 		m_toReleaseObstacle?.Invoke();
 	}
 
-	//
+	
 	[Command(requiresAuthority = false)]
-	public void SetIsBeingUsedCommand(bool value)
+	public void CmdSetIsBeingUsed(bool value)
 	{
 		m_isBeingUsed = value;
-		ChangeColorRcp(value);
+		RcpChangeColor(value);
 	}
 
 	public bool GetIsBeingMove()
@@ -105,7 +105,7 @@ public class ObstacleManager : NetworkBehaviour
 
 	//Change the color for everyone to notify that the obstacle is in use
 	[ClientRpc]
-	public void ChangeColorRcp(bool value)
+	public void RcpChangeColor(bool value)
 	{
 		if (value)
 		{

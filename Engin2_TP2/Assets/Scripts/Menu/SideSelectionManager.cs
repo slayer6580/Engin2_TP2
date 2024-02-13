@@ -30,8 +30,7 @@ public class SideSelectionManager : NetworkBehaviour
 	private int m_slotSelected = -1;
 	private bool m_canClick = true;		//To avoid clicking on slot after clicking on disconnecting button
 	private NetworkIdentity m_networkIdentity;
-	private bool m_hasOneGameMaster;
-	private bool m_hasOneRunner;
+
 
 	void Awake()
 	{
