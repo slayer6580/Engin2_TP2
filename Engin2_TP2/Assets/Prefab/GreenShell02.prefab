@@ -203,12 +203,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ed0379b3712d514f83a957919eae975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushForce: 13000
-  bumperForceReduction: 2
-  addedUpForce: 0.25
-  bumperObjectMovesOnImpact: 1
-  canBeMovedByGameMaster: 0
-  touchEffect: {fileID: 0}
+  m_pushForce: 1500
+  m_bumperForceReduction: 2
+  m_addedUpForce: 0
+  m_bumperObjectMovesOnImpact: 1
+  m_touchEffect: {fileID: 0}
 --- !u!114 &8347658312735454999
 MonoBehaviour:
   m_ObjectHideFlags: 0
