@@ -9,7 +9,6 @@ using UnityEngine.UI;
 
 public class MenuButton : NetworkBehaviour
 {
-
 	[SerializeField] private InputField m_adress;
 	[SerializeField] private InputField m_port;
 	[SerializeField] private GameObject m_portActive;

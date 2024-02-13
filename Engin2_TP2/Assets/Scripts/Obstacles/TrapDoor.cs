@@ -26,12 +26,12 @@ public class TrapDoor : NetworkBehaviour
 	{
 		if (m_canBeClickedOn)
 		{		
-			ActivateTrapCommand();
+			CmdActivateTrap();
 		}	
 	}
 
 	[Command(requiresAuthority = false)]
-	public void ActivateTrapCommand()
+	public void CmdActivateTrap()
 	{
 		AudioManager.GetInstance().CmdPlaySoundEffectsOneShotAll(ESound.trap, gameObject.transform.position);
 		m_staminaCost = m_obstacleManager.m_staminaCost;
@@ -39,24 +39,24 @@ public class TrapDoor : NetworkBehaviour
 		m_canBeClickedOn = false;
 		m_isOpen = true;
 		m_currentTimer = m_timeOpen;
-		ActivateTrapRPC();
+		RcpActivateTrap();
 	}
 
 	[ClientRpc]
-	public void ActivateTrapRPC()
+	public void RcpActivateTrap()
 	{
 		m_canBeClickedOn = false;
 		m_trapAnimator.SetTrigger("Open");
 	}
 
 	[ClientRpc]
-	public void CloseTrap()
+	public void RcpCloseTrap()
 	{
 		m_trapAnimator.SetTrigger("Close");
 	}
 
 	[ClientRpc]
-	public void ResetTrap()
+	public void RcpResetTrap()
 	{
 		m_trapAnimator.SetTrigger("Reset");
 		m_canBeClickedOn = true;
@@ -73,7 +73,7 @@ public class TrapDoor : NetworkBehaviour
 				m_isOpen = false;			
 				m_currentTimer = m_timeToResetAfterClose;
 				m_isWaitingToReset = true;
-				CloseTrap();
+				RcpCloseTrap();
 			}
 		}
 
@@ -83,7 +83,7 @@ public class TrapDoor : NetworkBehaviour
 			if (m_currentTimer <= 0)
 			{
 				m_isWaitingToReset = false;
-				ResetTrap();
+				RcpResetTrap();
 			}
 		}
 	}

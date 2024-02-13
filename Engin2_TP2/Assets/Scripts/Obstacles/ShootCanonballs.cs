@@ -41,12 +41,12 @@ public class CannonShooter : NetworkBehaviour
 
     public void ShootCannonball()
     {	
-        ShootCannonballCommand();
+        CmdShootCannonball();
 		AudioManager.GetInstance().CmdPlaySoundEffectsOneShotAll(ESound.canon, gameObject.transform.position);
 	}
 
 	[Command(requiresAuthority = false)]
-	public void ShootCannonballCommand()
+	public void CmdShootCannonball()
     {
 		m_staminaCost = m_obstacleManager.m_staminaCost;
 		GmStaminaManager.GetInstance().InstantCostCommand(m_staminaCost);

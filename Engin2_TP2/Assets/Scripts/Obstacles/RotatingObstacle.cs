@@ -18,20 +18,20 @@ public class RotatingObstacle : NetworkBehaviour
 
 	public void Rotate()
     {	
-		RotateCommand();
+		CmdRotate();
 	}
 
 	[Command(requiresAuthority = false)]
-	public void RotateCommand()
+	public void CmdRotate()
 	{
 		AudioManager.GetInstance().CmdPlaySoundEffectsLoop(ESound.spinning, gameObject.transform.position);
 		m_staminaCost = m_obstacleManager.m_staminaCost;
 		GmStaminaManager.GetInstance().StartOverTimeCostCommand(m_staminaCost);
-		RotateRcp();
+		RcpRotate();
 	}
 
 	[ClientRpc]
-	public void RotateRcp()
+	public void RcpRotate()
 	{
 		m_isRotating = true;
 	}
@@ -39,24 +39,23 @@ public class RotatingObstacle : NetworkBehaviour
 
     public void StopRotating()
     {
-		StopRotatingCommand();
+		CmdStopRotating();
 	}
 
 	[Command(requiresAuthority = false)]
-	public void StopRotatingCommand()
+	public void CmdStopRotating()
 	{
 		AudioManager.GetInstance().CmdStopSoundEffectsLoop(ESound.spinning, gameObject.transform.position);
 		GmStaminaManager.GetInstance().StopOverTimeCostCommand();
-		StopRotatingRcp();
+		RcpStopRotating();
 	}
 
 	[ClientRpc]
-	public void StopRotatingRcp()
+	public void RcpStopRotating()
 	{
 		
 		m_isRotating = false;
 	}
-
 
 	public void Update()
 	{
@@ -70,7 +69,6 @@ public class RotatingObstacle : NetworkBehaviour
 			{
 				m_obstacleManager.ReleaseObstacle();
 			}
-
 		}
 	}
 }
