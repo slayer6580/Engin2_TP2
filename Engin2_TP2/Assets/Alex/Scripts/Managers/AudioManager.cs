@@ -17,8 +17,7 @@ public class AudioManager : NetworkBehaviour
         slideMiddle,
         spinning,
         trap,
-        throwShell
-        
+        throwShell    
     }
 
     [Header("Mettre tout les audios ici, regarder le Tooltip pour savoir l'ordre")]
@@ -140,10 +139,8 @@ public class AudioManager : NetworkBehaviour
             {
                 audioBox.m_isPlaying = false;
                 audioSource.Stop();
-               // return;
             }
         }
-        Debug.LogError("Pas d'audio a désactivé, AUDIO MANAGER script");
     }
 
     /// <summary> Pour trouver une audioBox en attente d'action </summary>
@@ -195,7 +192,5 @@ public class AudioManager : NetworkBehaviour
     {
         GetComponent<AudioSource>().Stop();
     }
-
-
 
 }
