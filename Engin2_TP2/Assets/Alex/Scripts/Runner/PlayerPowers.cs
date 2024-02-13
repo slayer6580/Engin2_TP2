@@ -1,3 +1,4 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -5,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(PlayerStateMachine))]
-public class PlayerPowers : MonoBehaviour
+public class PlayerPowers : NetworkBehaviour
 {
     public enum EPowers
     {
@@ -136,8 +137,9 @@ public class PlayerPowers : MonoBehaviour
                 break;
 
             case EPowers.invisibility:
-                SetRunnerColor(m_purpleMaterial);
-                SetRunnerInvisible(true);
+                RpcSetRunnerInvisibleServer(true);
+                TargetSetRunnerInvisibleLocal(false);
+                TargetSetRunnerColorInvisible();
                 StartCoroutine(WaitAndBackToNormal(m_invisibilityPowerDuration));
                 StartCoolDown(m_invisibilityPowerDuration);
                 break;
@@ -189,7 +191,7 @@ public class PlayerPowers : MonoBehaviour
         }
         else if (m_currentPower == EPowers.invisibility)
         {
-            SetRunnerInvisible(false);
+            RpcSetRunnerInvisibleServer(false);
         }
 
         m_currentPower = EPowers.none;
@@ -206,7 +208,26 @@ public class PlayerPowers : MonoBehaviour
         }
     }
 
-    private void SetRunnerInvisible(bool isInvisible) 
+    [TargetRpc]
+    private void TargetSetRunnerColorInvisible()
+    {
+        foreach (SkinnedMeshRenderer bodyPart in m_bodyPartsRenderer)
+        {
+            bodyPart.material = m_purpleMaterial;
+        }
+    }
+
+    [ClientRpc]
+    private void RpcSetRunnerInvisibleServer(bool isInvisible) 
+    {
+        foreach (SkinnedMeshRenderer bodyPart in m_bodyPartsRenderer)
+        {
+            bodyPart.enabled = !isInvisible;
+        }
+    }
+
+    [TargetRpc]
+    private void TargetSetRunnerInvisibleLocal(bool isInvisible)
     {
         foreach (SkinnedMeshRenderer bodyPart in m_bodyPartsRenderer)
         {
