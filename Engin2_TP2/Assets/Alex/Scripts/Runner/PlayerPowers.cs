@@ -34,8 +34,6 @@ public class PlayerPowers : NetworkBehaviour
 
     [Header("Body Parts")]
     [SerializeField] private List<SkinnedMeshRenderer> m_bodyPartsRenderer = new List<SkinnedMeshRenderer>();
-    [SerializeField] private SkinnedMeshRenderer m_bigEyes;
-    [SerializeField] private SkinnedMeshRenderer m_smallEyes;
 
     [Header("Materials")]
     [SerializeField] private Material m_redMaterial;
