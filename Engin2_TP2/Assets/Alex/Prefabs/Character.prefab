@@ -2848,16 +2848,11 @@ MonoBehaviour:
   - {fileID: 3828004903496265287}
   - {fileID: 8523705208844755290}
   - {fileID: 1027066296102302507}
-  m_bigEyes: {fileID: 0}
-  m_smallEyes: {fileID: 0}
   m_redMaterial: {fileID: 2100000, guid: 6ca6fe8ae327e5c4895083c49d0861d9, type: 2}
   m_greenMaterial: {fileID: 2100000, guid: 18846df204f75494caaac322649bba04, type: 2}
   m_blueMaterial: {fileID: 2100000, guid: 0d74c5e10f7ded244ad2ea03a057a5b6, type: 2}
   m_yellowMaterial: {fileID: 2100000, guid: 433633928f090d043a23d512789c969d, type: 2}
   m_purpleMaterial: {fileID: 2100000, guid: 73c73ac2d10261f429a301d768e7cb91, type: 2}
-  m_blackEye: {fileID: 2100000, guid: 8b9ddf7163d262940938b9ff3877a671, type: 2}
-  m_whiteEye: {fileID: 2100000, guid: d243057947e74234c9f9e975cc003f77, type: 2}
-  m_completeInvisible: {fileID: 2100000, guid: b744ab6415208684584d0c35e1e71fac, type: 2}
   m_powerText: {fileID: 2398643783419666657}
   m_powerCoolDownPanel: {fileID: 6591678039814488372}
   m_powerCoolDownFront: {fileID: 6629154661389744813}
@@ -2879,6 +2874,8 @@ MonoBehaviour:
   syncDirection: 1
   syncMode: 0
   syncInterval: 0
+  m_body: {fileID: 8678863901112323493}
+  m_lookAt: {fileID: 2133066540298799390}
 --- !u!114 &6995509101826970643
 MonoBehaviour:
   m_ObjectHideFlags: 0

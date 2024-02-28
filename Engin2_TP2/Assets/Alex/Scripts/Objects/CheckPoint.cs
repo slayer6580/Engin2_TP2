@@ -64,4 +64,6 @@ public class CheckPoint : NetworkBehaviour
         return m_checkpointSpawns[randomIndex];
     }
 
+ 
+
 }
