@@ -143,7 +143,7 @@ namespace Mirror
 					Transform startPos = GetStartPosition();
 					gamePlayer = startPos != null
 						? Instantiate(gameMasterPrefab, startPos.position, startPos.rotation)
-						: Instantiate(gameMasterPrefab, Vector3.zero, Quaternion.identity);
+						: Instantiate(gameMasterPrefab, Vector3.zero, Quaternion.identity);				
 				}
                 else
                 {
@@ -152,17 +152,18 @@ namespace Mirror
 					Transform startPos = GetStartPosition();
 					gamePlayer = startPos != null
 						? Instantiate(playerPrefab, startPos.position, startPos.rotation)
-						: Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+						: Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);					
 				}
-				
-            }
+			}
+
 
             if (!OnRoomServerSceneLoadedForPlayer(conn, roomPlayer, gamePlayer))
                 return;
 
             // replace room player with game player
             NetworkServer.ReplacePlayerForConnection(conn, gamePlayer, true);
-        }
+
+		}
 
         internal void CallOnClientEnterRoom()
         {

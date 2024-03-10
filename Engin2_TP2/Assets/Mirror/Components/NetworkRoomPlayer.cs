@@ -1,4 +1,6 @@
+using Unity.Loading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Mirror
 {
@@ -73,11 +75,22 @@ namespace Mirror
             }
         }
 
-        #endregion
+		#endregion
 
-        #region Commands
+		#region Commands
+		private void Update()
+		{
+			if(SceneManager.GetActiveScene().name == "Arena")
+            {
+                this.gameObject.SetActive(false);
+            }
+		}
+		public void RpcDeactivate()
+		{
+			this.gameObject.SetActive(false);
+		}
 
-        [Command]
+		[Command]
         public void CmdChangeReadyState(bool readyState)
         {
             readyToBegin = readyState;
